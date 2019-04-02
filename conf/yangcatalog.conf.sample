@@ -1,0 +1,214 @@
+# Copyright 2018 Cisco and its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# __author__ = "Miroslav Kovac"
+# __copyright__ = "Copyright 2018 Cisco and its affiliates"
+# __license__ = "Apache License, Version 2.0"
+# __email__ = "miroslav.kovac@pantheon.tech"
+
+#
+# This file MUST be located in /etc/yangcatalog/yangcatalog.conf
+#
+
+[DB-Section]
+
+#for access to local database used by all tools
+host: mariadb
+name-search: yang
+name-users: yang_catalog
+user: yang
+password: @MARIADB_PASS@
+
+#for access to elasticsearch database used by all tools
+es-host: elasticsearch
+es-protocol: http
+es-port: 9200
+
+[Yang-Search-Section]
+# The 'token' used to update the metadata of Yang Search
+update_signature: @SEARCH_UPDATE_SIGNATURE@
+# ?
+django_secret_key: @SEARCH_DJANGO_SECRET_KEY@
+
+[API-Section]
+
+# for debug purposes
+debug: True
+# where this api should run
+ip: yang-catalog
+# path to ssl key
+ssl-key: /etc/letsencrypt/live/yangcatalog.org/privkey.pem
+# path to ssl certificate
+ssl-cert: /etc/letsencrypt/live/yangcatalog.org/fullchain.pem
+# yang-catalog github user token for automatic pushing
+yang-catalog-token: @YANG_CATALOG_TOKEN@
+# yang-catalog admin github user token for automatic pushing
+admin-token: @YANG_CATALOG_ADMIN_TOKEN@
+# path to file where integrity file will be located after api is done
+integrity-file-location: ./
+
+[Receiver-Section]
+
+# where api should run
+api-ip: yang-catalog
+# Secret key for communication
+key: @RECEIVER_KEY@
+# Weather to call indexing or not
+notify-index: True
+
+[Statistics-Section]
+
+# ip address where api is running
+api-ip: yang-catalog
+# path to file where integrity file will be located after api is done
+file-location: /var/www/html/.
+
+[DraftPull-Section]
+
+# Username of repo owner
+username: yang-catalog
+# yang-catalog github user token for automatic pushing
+yang-catalog-token: @YANG_CATALOG_TOKEN@
+
+[DraftPullLocal-Section]
+
+# ip address where api is running
+api-ip: yang-catalog
+# Weather to call indexing or not
+notify-index: True
+
+[Validate-Section]
+
+# password to database
+dbPassword: @MARIADB_PASS@
+# user of the database
+dbUser: yang
+# name of the databse
+dbName: yang_catalog
+# ip address to the database
+dbIp: localhost
+
+[Message-Section]
+# token to spark (Webex Teams)
+access-token: @SPARK_TOKEN@
+
+[General-Section]
+
+# wether we run api under uwsgi
+uwsgi: True
+# ip address where confd is running
+api-port: 8443
+# port where confd is running
+confd-port: 8008
+# ip address where confd is running
+confd-ip: confd
+# protocol where confd runs
+protocol: http
+# protocol where api runs
+protocol-api: https
+# credentials to confd
+credentials: @CONFD_CREDENTIALS@
+# repo config name
+repo-config-name: @REPO_CONFIG_NAME@
+# repo config email
+repo-config-email: @REPO_CONFIG_MAIL@
+# pass for private of yangcatalog (no more used)
+private-secret: @PRIVATE_SECRET@
+# url to forked github repository by yang-catalog user
+yang-models-forked-repo-url: https://api.github.com/repos/yang-catalog/yang
+# suffix url to post request to fork the repository
+yang-models-repo-url_suffix: api.github.com/repos/YangModels/yang/forks
+# url to private ietf draft json file
+ietf-draft-private-url: https://yangcatalog.org/private/IETFDraft.json
+# url to tgz file containing all the ietf rfc files
+ietf-RFC-tar-private-url: https://yangcatalog.org/downloadables/YANG-RFC.tgz
+# url to openconfig repository
+openconfig-models-forked-repo-url: https://api.github.com/repos/yang-catalog/public
+# suffix url to post request to fork the repoistory
+openconfig-models-repo-url_suffix: api.github.com/repos/openconfig/public/forks
+
+[Web-Section]
+# My own URI WEB_URL
+my_uri: https://yangcatalog.org
+# Location of the web server document root WEB
+public_directory: /var/www/html
+# Location of the private (can be password protected) web server directory WEB_PRIVATE
+private_directory: ${public_directory}/private
+# All compilation result files in www directory
+result-html-dir: ${public_directory}/results
+# Downloadable files in www directory
+downloadables_directory: ${public_directory}/downloadables
+# Where the diff files and trees output will be stored
+save-diff-dir: ${public_directory}/compatibility
+
+[Directory-Section]
+# The main yang dynamic data directory
+var: /var/yang
+# Temp files
+temp: ${var}/tmp
+# Log files
+logs: ${var}/logs
+# Back of all page compilation .htm files
+backup: ${var}/backup
+# Create json backup of all yang modules directory
+cache: ${var}/cache
+# Yangsuite directory
+ys_dir: /home/miott/ysuite/yangsuite
+# Users of yangsuite
+ys_users: /var/yang/yangsuite/users
+# Location with repository with all yang files
+yang_models_dir: ${var}/nonietf/yangmodels/yang
+# All modules saved at one place with same name format <name>@revision.yang
+save-file-dir: ${var}/all_modules
+# Save json requests from users with new modules to this directory
+save-requests: ${var}/requests
+# where to save commit sha number
+commit-dir: ${var}/commit_dir/commit_msg
+# where all the new files are saved to be added to database
+changes-cache = ${var}/yang2_repo_cache.dat
+# where all the removed files are saved to be removed from database
+delete-cache = ${var}/yang2_repo_deletes.dat
+# Lock file for update_modules database
+lock = ${temp}/webhook.lock
+# Lock file for update_modules database cronjob
+lock-cron = ${temp}/cronjob.lock
+# pyang json yang trees output files
+json-ytree = ${var}/ytrees
+#
+# Location of modules
+#
+non_ietf_directory: ${var}/nonietf
+# All RFC & drafts
+ietf_directory: ${var}/ietf
+# All modules
+modules_directory: ${var}/yang/modules
+
+[Tool-Section]
+# Location of PYANG tool
+pyang_exec: /usr/local/bin/pyang
+# Location of CONFD installation directory
+confd_dir: /opt/confd
+# Location of the CONFDC tool
+confdc_exec: ${confd_dir}/bin/confdc
+confdc_yangpath_ieee: ${modules_directory}/ieee.draft:${modules_directory}/ieee.published:${modules_directory}/ieee.1588.draft:${modules_directory}/ieee.1588.published:${modules_directory}/ieee.802.11.draft:${m
+odules_directory}/ieee.802.11.published:${modules_directory}/ieee.802.1.draft:${modules_directory}/ieee.802.1.published:${modules_directory}/ieee.802.3.draft:${modules_directory}/ieee.802.3.published:${modules_
+directory}/ieee.802.draft:${modules_directory}/ieee.802.published
+confdc_yangpath: ${modules_directory}/mef:${modules_directory}/open-config-main:${modules_directory}/YANG-rfc:${confdc_yangpath_ieee}
+
+[RabbitMQ-Section]
+
+#for access to local database used by all tools
+host: rabbit
+username: @RABBITMQ_USER@
+password: @RABBITMQ_PASS@

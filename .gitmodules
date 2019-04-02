@@ -1,0 +1,15 @@
+[submodule "web_root"]
+	path = web_root
+	url = https://github.com/YangCatalog/web_root.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/YangCatalog/backend.git
+[submodule "search"]
+	path = search
+	url = https://github.com/YangCatalog/search.git
+[submodule "yangre"]
+	path = yangre
+	url = https://github.com/YangCatalog/yangre.git
+[submodule "doc"]
+	path = doc
+	url = https://github.com/YangCatalog/doc.git
