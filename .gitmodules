@@ -13,3 +13,6 @@
 [submodule "doc"]
 	path = doc
 	url = https://github.com/YangCatalog/doc.git
+[submodule "bottle-yang-extractor-validator"]
+	path = bottle-yang-extractor-validator
+	url = https://github.com/YangCatalog/bottle-yang-extractor-validator.git
