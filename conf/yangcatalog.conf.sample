@@ -40,6 +40,7 @@ es-port: 9200
 update_signature: @SEARCH_UPDATE_SIGNATURE@
 # ?
 django_secret_key: @SEARCH_DJANGO_SECRET_KEY@
+yangvalidator_secret_key: @YANGVALIDATOR_DJANGO_SECRET_KEY@
 
 [API-Section]
 
@@ -105,6 +106,8 @@ access-token: @SPARK_TOKEN@
 
 [General-Section]
 
+# name of the elasticsearch repostiory to save snapshots
+elk-repo-name: yangcatalog_snapshots
 # wether we run api under uwsgi
 uwsgi: True
 # ip address where confd is running
