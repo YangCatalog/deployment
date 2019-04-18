@@ -29,3 +29,5 @@ ENV DJANGO_SETTINGS_MODULE=yang.settings
 
 CMD exec uwsgi -s :8005 --protocol uwsgi -p $UWSGI_PROCS \
   -w yang.wsgi:application --need-app
+
+EXPOSE 8005

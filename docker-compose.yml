@@ -43,6 +43,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
       - /etc/localtime:/etc/localtime:ro
+      - /var/run/yang:/var/run/yang:rw
 
   yangre:
     build:
@@ -92,6 +93,7 @@ services:
       - php
     ports:
       - "8080:8080"
+      - "80:80"
 
   php:
     build:
@@ -117,18 +119,19 @@ services:
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=elasticsearch
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - /var/log/elasticsearch:/var/log/elasticsearch:rw
-      - /var/lib/elasticsearch/backup:/var/lib/elasticsearch/backup:rw
+      - /var/log/elasticsearch:/var/log/elasticsearch
+      - /var/lib/elasticsearch:/var/lib/elasticsearch
     #volumes:
     #  - esdata1:/usr/share/elasticsearch/data
     ports:
-      - 9200:9200
+      - "9200:9200"
 
   rabbit:
     image: "rabbitmq:3-management"
