@@ -16,3 +16,6 @@
 [submodule "bottle-yang-extractor-validator"]
 	path = bottle-yang-extractor-validator
 	url = https://github.com/YangCatalog/bottle-yang-extractor-validator.git
+[submodule "sdo_analysis"]
+	path = sdo_analysis
+	url = https://github.com/YangCatalog/sdo_analysis.git

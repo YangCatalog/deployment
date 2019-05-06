@@ -169,6 +169,14 @@ services:
       MYSQL_USER: yang
       MYSQL_PASSWORD: Y@ng3r123
 
+  sdo-analysis:
+    build:
+      context: sdo_analysis
+      dockerfile: out-of-tree/sdo-analysis/docker/Dockerfile
+    volumes:
+      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - /var/yang:/var/yang:rw
+
 volumes:
   dbdata:
   webroot:
