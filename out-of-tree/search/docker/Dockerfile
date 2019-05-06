@@ -23,7 +23,7 @@ RUN pip install -r requirements.txt \
   && pip install elasticsearch
 
 # Support arbitrary UIDs as per OpenShift guidelines
-USER 1001:0
+USER 1002:0
 
 ENV DJANGO_SETTINGS_MODULE=yang.settings
 

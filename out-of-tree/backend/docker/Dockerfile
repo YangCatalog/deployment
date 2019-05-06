@@ -34,7 +34,7 @@ ENV UWSGI_PROCS=1
 ENV UWSGI_THREADS=20
 
 # Support arbitrary UIDs as per OpenShift guidelines
-USER 1001:0
+USER 1002:0
 
 CMD exec uwsgi -s :3031 --plugins python3 --protocol uwsgi \
   -H $VIRTUAL_ENV \

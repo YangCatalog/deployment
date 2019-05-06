@@ -40,7 +40,7 @@ COPY --from=build /usr/local/bin/yangre /usr/bin/
 COPY --from=build /usr/local/lib/ /usr/local/lib/
 
 # Support arbitrary UIDs as per OpenShift guidelines
-USER 1001:0
+USER 1002:0
 
 WORKDIR $VIRTUAL_ENV
 
