@@ -5,7 +5,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/backend
 
 RUN groupadd -r yang \
-  && useradd --no-log-init -r -g yang -u 1001 -d $VIRTUAL_ENV yang \
+  && useradd --no-log-init -r -g yang -u 1002 -d $VIRTUAL_ENV yang \
   && pip install virtualenv \
   && virtualenv --system-site-packages $VIRTUAL_ENV \
   && mkdir -p \
