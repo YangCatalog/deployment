@@ -11,4 +11,4 @@ RUN apt-get update
 RUN apt-get -y install cron
 
 # Run the command on container startup
-CMD cron
+CMD cron && tail -f /var/yang/logs/cronjob-daily.log
