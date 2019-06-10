@@ -36,6 +36,9 @@ RUN chown yang:yang /etc/cron.d/elastic-cron
 
 USER 1016:0
 
+# Apply cron job
+RUN crontab /etc/cron.d/elastic-cron
+
 ENV DJANGO_SETTINGS_MODULE=yang.settings
 
 CMD exec uwsgi -s :8005 --protocol uwsgi -p $UWSGI_PROCS \

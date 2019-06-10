@@ -45,7 +45,7 @@ RUN chown yang:yang /etc/cron.d/yang-cron
 USER 1016:0
 
 # Apply cron job
-RUN crontab /etc/cron.d/ietf-cron
+RUN crontab /etc/cron.d/yang-cron
 
 
 CMD exec uwsgi -s :3031 --plugins python3 --protocol uwsgi \
