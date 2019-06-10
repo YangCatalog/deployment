@@ -9,6 +9,7 @@ services:
     ports:
       - "8008:8008"
       - "8888:8888"
+    restart: on-failure
 
   backend:
     network_mode: host
@@ -23,10 +24,6 @@ services:
       - /var/yang:/var/yang:rw
       - webroot:/var/www/html
       - /etc/localtime:/etc/localtime:ro
-#    depends_on:
-#      - mariadb
-#      - rabbit
-#      - confd
     restart: on-failure
 
   yang-search:
@@ -36,9 +33,6 @@ services:
       dockerfile: ../out-of-tree/search/docker/Dockerfile
     ports:
       - "8005:8005"
-#   depends_on:
-#     - mariadb
-#     - confd
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
@@ -59,9 +53,6 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
- #   depends_on:
- #     - rabbit
- #     - confd
     restart: on-failure
 
   api-recovery:
@@ -160,7 +151,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql:rw
+      - /a/mysql:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
     environment:
       MYSQL_ROOT_PASSWORD: mysql
