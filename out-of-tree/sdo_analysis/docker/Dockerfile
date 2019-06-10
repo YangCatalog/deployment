@@ -31,8 +31,6 @@ RUN apt-get update
 
 RUN apt-get install -y \
 	libyang \
-	python3.6 \
-	python3-pip \
     openssh-client
 
 RUN pip3 install --upgrade pip
