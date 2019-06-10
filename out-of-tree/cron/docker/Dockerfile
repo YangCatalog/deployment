@@ -2,12 +2,6 @@ FROM python:3
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 
-ENV VIRTUAL_ENV=/backend
-
-#Install Cron
-RUN apt-get update
-RUN apt-get -y install cron \
-  && apt-get autoremove -y
 
 RUN groupadd -r yang \
   && useradd --no-log-init -r -g yang -u 1016 -d $VIRTUAL_ENV yang \
@@ -38,15 +32,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV UWSGI_PROCS=1
 ENV UWSGI_THREADS=20
 
-# Add crontab file in the cron directory
-COPY crontab /etc/cron.d/yang-cron
-
-RUN chown yang:yang /etc/cron.d/yang-cron
+# Support arbitrary UIDs as per OpenShift guidelines
 USER 1016:0
-
-# Apply cron job
-RUN crontab /etc/cron.d/ietf-cron
-
 
 CMD exec uwsgi -s :3031 --plugins python3 --protocol uwsgi \
   -H $VIRTUAL_ENV \

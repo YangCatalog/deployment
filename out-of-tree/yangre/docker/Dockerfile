@@ -18,7 +18,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/yangre
 
 RUN groupadd -r yang \
-  && useradd --no-log-init -r -g yang -u 1002 -d $VIRTUAL_ENV yang
+  && useradd --no-log-init -r -g yang -u 1016 -d $VIRTUAL_ENV yang
 
 RUN apt-get update \
   && apt-get -y install libxml2 \
@@ -40,7 +40,7 @@ COPY --from=build /usr/local/bin/yangre /usr/bin/
 COPY --from=build /usr/local/lib/ /usr/local/lib/
 
 # Support arbitrary UIDs as per OpenShift guidelines
-USER 1002:0
+USER 1016:0
 
 WORKDIR $VIRTUAL_ENV
 

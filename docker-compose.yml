@@ -85,6 +85,7 @@ services:
       - ./yangre/app/static/:/usr/share/nginx/html/yangre/static/
       - ./bottle-yang-extractor-validator/yangvalidator/static/:/usr/share/nginx/html/yangvalidator/static/
       - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /var/log/nginx:/var/log/nginx:rw
     depends_on:
       - backend
       - yang-search
@@ -117,10 +118,7 @@ services:
       context: elasticsearch
       dockerfile: ../out-of-tree/elasticsearch/docker/Dockerfile
     environment:
-      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - cluster.initial_master_nodes=elasticsearch
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ulimits:
       memlock:
         soft: -1
@@ -132,6 +130,7 @@ services:
     #  - esdata1:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+    restart: on-failure
 
   rabbit:
     image: "rabbitmq:3-management"
@@ -178,5 +177,4 @@ services:
       - /var/yang:/var/yang:rw
 
 volumes:
-  dbdata:
-  webroot:
+  - webroot:

@@ -14,13 +14,13 @@
 #
 # Use a descriptive name for your cluster:
 #
-cluster.name: elasticsearch
+cluster.name: yangcatalog
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-#node.name: node-1
+node.name: elasticsearch
 #
 # Add custom attributes to the node:
 #

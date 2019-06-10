@@ -6,8 +6,13 @@ EXPOSE 8005
 
 env VIRTUAL_ENV=/search
 
+#Install Cron
+RUN apt-get update
+RUN apt-get -y install cron \
+  && apt-get autoremove -y
+
 RUN groupadd -r yang \
-  && useradd --no-log-init -r -g yang -u 1002 -d $VIRTUAL_ENV yang \
+  && useradd --no-log-init -r -g yang -u 1016 -d $VIRTUAL_ENV yang \
   && pip install virtualenv \
   && virtualenv --system-site-packages $VIRTUAL_ENV \
   && mkdir /etc/yangcatalog
@@ -20,10 +25,16 @@ ENV UWSGI_PROCS=2
 WORKDIR $VIRTUAL_ENV
 
 RUN pip install -r requirements.txt \
-  && pip install elasticsearch
+  && pip install elasticsearch==6.4.0
 
-# Support arbitrary UIDs as per OpenShift guidelines
-USER 1002:0
+# Add crontab file in the cron directory
+COPY crontab /etc/cron.d/elastic-cron
+
+COPY scripts/pyan/pyang_plugin/*.py search/lib/python3.7/site-packages/pyang/plugins/.
+
+RUN chown yang:yang /etc/cron.d/elastic-cron
+
+USER 1016:0
 
 ENV DJANGO_SETTINGS_MODULE=yang.settings
 

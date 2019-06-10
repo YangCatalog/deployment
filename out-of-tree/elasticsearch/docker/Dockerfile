@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.7.2
 
 ENV VIRTUAL_ENV=/elasticsearch
 
@@ -12,4 +12,3 @@ RUN groupmod -g 1003 elasticsearch
 USER 1003:0
 
 EXPOSE 9200
-EXPOSE 9300
