@@ -177,4 +177,4 @@ services:
       - /var/yang:/var/yang:rw
 
 volumes:
-  - webroot:
+  webroot:
