@@ -4,8 +4,8 @@ services:
 
   confd:
     build:
-      context: confd
-      dockerfile: ../out-of-tree/confd/docker/Dockerfile
+      context: confd 
+      dockerfile: Dockerfile
     ports:
       - "8008:8008"
       - "8888:8888"
@@ -15,7 +15,7 @@ services:
     network_mode: host
     build:
       context: backend
-      dockerfile: ../out-of-tree/backend/docker/Dockerfile
+      dockerfile: Dockerfile
     image: catalog_backend_api:latest
     ports:
       - "3031:3031"
@@ -30,7 +30,7 @@ services:
     network_mode: host
     build:
       context: search
-      dockerfile: ../out-of-tree/search/docker/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8005:8005"
     volumes:
@@ -42,7 +42,7 @@ services:
   yangre:
     build:
       context: yangre
-      dockerfile: ../out-of-tree/yangre/docker/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
 
@@ -69,7 +69,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: out-of-tree/web_root/docker/Dockerfile
+      dockerfile: web_root/Dockerfile
     volumes:
       - webroot:/usr/share/nginx/html
       - ./search/static/:/usr/share/nginx/html/yang-search/static/
@@ -90,7 +90,7 @@ services:
   php:
     build:
       context: web_root
-      dockerfile: ../out-of-tree/web_root/docker/PHP-Dockerfile
+      dockerfile: PHP-Dockerfile
     volumes:
       - ./web_root:/scripts:ro
 
@@ -107,7 +107,7 @@ services:
   elasticsearch:
     build:
       context: elasticsearch
-      dockerfile: ../out-of-tree/elasticsearch/docker/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - bootstrap.memory_lock=true
     ulimits:
@@ -162,7 +162,7 @@ services:
   sdo-analysis:
     build:
       context: sdo_analysis
-      dockerfile: ../out-of-tree/sdo_analysis/docker/Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
