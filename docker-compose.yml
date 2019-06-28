@@ -85,17 +85,9 @@ services:
       - yang-search
       - yangre
       - elasticsearch
-      - php
     ports:
       - "8080:8080"
       - "80:80"
-
-  php:
-    build:
-      context: web_root
-      dockerfile: PHP-Dockerfile
-    volumes:
-      - ./web_root:/scripts:ro
 
   yangvalidator:
     build:
