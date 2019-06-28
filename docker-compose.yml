@@ -24,6 +24,7 @@ services:
       - /var/yang:/var/yang:rw
       - webroot:/var/www/html
       - /etc/localtime:/etc/localtime:ro
+      - /var/run/mysqld:/var/run/mysqld:rw        
     restart: on-failure
 
   yang-search:
@@ -38,6 +39,7 @@ services:
       - /var/yang:/var/yang:rw
       - /etc/localtime:/etc/localtime:ro
       - /var/run/yang:/var/run/yang:rw
+      - /var/run/mysqld:/var/run/mysqld:rw
 
   yangre:
     build:
@@ -77,6 +79,7 @@ services:
       - ./bottle-yang-extractor-validator/yangvalidator/static/:/usr/share/nginx/html/yangvalidator/static/
       - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - /var/log/nginx:/var/log/nginx:rw
+      - /var/run/mysqld:/var/run/mysqld:rw
     depends_on:
       - backend
       - yang-search
@@ -153,6 +156,7 @@ services:
     volumes:
       - /a/mysql:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
+      - /var/run/mysqld:/var/run/mysqld:rw
     environment:
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_DATABASE: yang_catalog
