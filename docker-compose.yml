@@ -123,8 +123,8 @@ services:
     hostname: "rabbit1"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-      RABBITMQ_DEFAULT_USER: "rabbitmq"
-      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
       RABBITMQ_DEFAULT_VHOST: "/"
     ports:
       - "15672:15672"
@@ -150,10 +150,10 @@ services:
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
       - /var/run/mysqld:/var/run/mysqld:rw
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: yang_catalog
-      MYSQL_USER: yang
-      MYSQL_PASSWORD: Y@ng3r123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   sdo-analysis:
     build:
@@ -165,3 +165,4 @@ services:
 
 volumes:
   webroot:
+
