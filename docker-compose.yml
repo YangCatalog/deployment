@@ -146,7 +146,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /a/mysql:/var/lib/mysql:rw
+      - ${MYSQL_VOLUME}:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
       - /var/run/mysqld:/var/run/mysqld:rw
     environment:
@@ -165,4 +165,5 @@ services:
 
 volumes:
   webroot:
+
 
