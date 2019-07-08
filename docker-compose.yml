@@ -22,9 +22,13 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
-      - webroot:/var/www/html
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/mysqld:/var/run/mysqld:rw        
+      - webroot:/srv/www/htdocs
+      - /var/run/mysqld:/var/run/mysqld:rw
+      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
+      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
     restart: on-failure
 
   yang-search:
@@ -37,7 +41,6 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
-      - /etc/localtime:/etc/localtime:ro
       - /var/run/yang:/var/run/yang:rw
       - /var/run/mysqld:/var/run/mysqld:rw
 
@@ -55,6 +58,12 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
+      - webroot:/srv/www/htdocs
+      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
+      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
     restart: on-failure
 
   api-recovery:
@@ -74,12 +83,13 @@ services:
       dockerfile: web_root/Dockerfile
     volumes:
       - webroot:/usr/share/nginx/html
-      - ./search/static/:/usr/share/nginx/html/yang-search/static/
-      - ./yangre/app/static/:/usr/share/nginx/html/yangre/static/
-      - ./bottle-yang-extractor-validator/yangvalidator/static/:/usr/share/nginx/html/yangvalidator/static/
-      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - /var/log/nginx:/var/log/nginx:rw
       - /var/run/mysqld:/var/run/mysqld:rw
+      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
+      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     depends_on:
       - backend
       - yang-search
@@ -162,8 +172,15 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
+      - webroot:/srv/www/htdocs
+      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
+      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
 
 volumes:
   webroot:
+
 
 
