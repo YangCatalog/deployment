@@ -16,6 +16,8 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     image: catalog_backend_api:latest
     ports:
       - "3031:3031"
@@ -36,6 +38,8 @@ services:
     build:
       context: search
       dockerfile: Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     ports:
       - "8005:8005"
     volumes:
@@ -48,6 +52,8 @@ services:
     build:
       context: yangre
       dockerfile: Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     ports:
       - "5000:5000"
 
@@ -81,6 +87,8 @@ services:
     build:
       context: .
       dockerfile: web_root/Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     volumes:
       - webroot:/usr/share/nginx/html
       - /var/log/nginx:/var/log/nginx:rw
@@ -103,6 +111,8 @@ services:
     build:
       context: bottle-yang-extractor-validator
       dockerfile: Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     image: yangvalidator:latest
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
@@ -113,6 +123,8 @@ services:
     build:
       context: elasticsearch
       dockerfile: Dockerfile
+      args:
+        - ELASTICSEARCH_ID_GID=${ELASTICSEARCH_ID_GID}
     environment:
       - bootstrap.memory_lock=true
     ulimits:
@@ -152,7 +164,11 @@ services:
       retries: 5
 
   mariadb:
-    image: mariadb:10-bionic
+    build:
+      context: mysql
+      dockerfile: Dockerfile
+      args:
+        - MYSQL_ID_GID=${MYSQL_ID_GID}
     ports:
       - "3306:3306"
     volumes:
@@ -169,6 +185,8 @@ services:
     build:
       context: sdo_analysis
       dockerfile: Dockerfile
+      args:
+        - YANG_ID_GID=${YANG_ID_GID}
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
