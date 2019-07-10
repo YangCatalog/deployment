@@ -60,7 +60,7 @@ services:
   api-receiver:
     network_mode: host
     image: catalog_backend_api:latest
-    command: bash -c "python api/receiver.py"
+    command: bash -c "source ../bin/activate; python receiver.py"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
@@ -75,7 +75,7 @@ services:
   api-recovery:
     network_mode: host
     image: catalog_backend_api:latest
-    command: bash -c "python recovery/recovery.py --type load --protocol http"
+    command: bash -c "source ../bin/activate; python ../recovery/recovery.py --type load --protocol http"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - /var/yang:/var/yang:rw
