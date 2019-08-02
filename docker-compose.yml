@@ -132,10 +132,8 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /var/log/elasticsearch:/var/log/elasticsearch
-      - /var/lib/elasticsearch:/var/lib/elasticsearch
-    #volumes:
-    #  - esdata1:/usr/share/elasticsearch/data
+      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
     ports:
       - "9200:9200"
     restart: on-failure
