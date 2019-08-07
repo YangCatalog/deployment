@@ -4,8 +4,8 @@ services:
 
   confd:
     build:
-      context: confd 
-      dockerfile: Dockerfile
+      context: . 
+      dockerfile: ./confd/Dockerfile
     ports:
       - "8008:8008"
       - "8888:8888"
@@ -109,8 +109,8 @@ services:
 
   yangvalidator:
     build:
-      context: bottle-yang-extractor-validator
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./bottle-yang-extractor-validator/Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
     image: yangvalidator:latest
@@ -172,7 +172,7 @@ services:
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
-      - /var/run/mysqld:/var/run/mysqld:rw
+      - ${MYSQL_SOCKET_DIR}:/var/run/mysqld:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -181,8 +181,8 @@ services:
 
   sdo-analysis:
     build:
-      context: sdo_analysis
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./sdo_analysis/Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
     volumes:

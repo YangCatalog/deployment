@@ -1,0 +1,114 @@
+module platform-implementation-metadata {
+  namespace "https://yangcatalog.org/ns/yang/platform-implementation-metadata";
+  prefix platform-meta;
+
+  import yang-catalog {
+    prefix yc;
+  }
+
+  import ietf-inet-types {
+      prefix inet;
+  }
+
+  organization
+    "yangcatalog.org";
+  contact
+    "Yang Catalog <info@yangcatalog.org>";
+  description
+    "This module describes the API input needed to upload metadata to the
+     yangcatalog.org catalog.";
+
+  revision 2017-09-27 {
+    description
+      "* Move platforms under a top-level platform container
+
+       * Add a netconf-capabilities leaf-list to track possibly
+         non-extractable platform capabilities.";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+  revision 2017-07-27 {
+    description
+      "* Add implementation leafs from YANG Library
+       
+       * Add a type leaf to the module-list-file in order to support
+         capabilities and YANG Library files";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+  revision 2017-07-07 {
+    description
+      "Initial revision.";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+
+  container platforms {
+    list platform {
+      key "vendor name software-version software-flavor";
+      description
+        "The list of platforms that implement YANG modules.";
+      leaf vendor {
+        type string;
+        description
+          "Organization that implements this module.";
+      }
+      leaf name {
+        type string;
+        description
+          "Platform on which this module is implemented.";
+      }
+      leaf-list netconf-capabilities {
+        type inet:uri;
+        description
+          "Listed name of capabilities that are supported by the specific device,
+           and protocol versions.";
+      }
+      leaf-list product-ids {
+        type string;
+        description
+          "The specific product ID or IDs to which this data applies.";
+      }
+      leaf software-version {
+        type string;
+        description
+          "Name of the version of software.  With respect to most network device appliances,
+           this will be the operating system version.  But for other YANG module
+           implementation, this would be a version of appliance software.  Ultimately,
+           this should correspond to a version string that will be recognizable by
+           the consumers of the platform.";
+      }
+      leaf software-flavor {
+        type string;
+        description
+          "A variation of a specific version where
+           YANG model support may be different.  Depending on the vendor, this could
+           be a license, additional software component, or a feature set.";
+      }
+      uses yc:shared-implementation-leafs;
+      container module-list-file {
+        leaf type {
+          type enumeration {
+            enum "yang-library" {
+              description
+                "The file is an instantiation of the YANG Library data.  This is
+                 the preferred format as it has the most available data.";
+              reference "RFC7895 YANG Module Library";
+            }
+            enum "capabilities" {
+              description
+                "The file is the output of a server's <hello> message including
+                 its capabilities.";
+            }
+          }
+          default "capabilities";
+          description
+            "The type of data to expect in the module-list-file.";
+        }
+        uses yc:online-source-file;
+        description
+          "Networked version control system location of the module file.";
+      }
+    }
+    description
+      "The platforms container is a top-level node that contains the list of
+       relevant platforms.";
+  }
+}

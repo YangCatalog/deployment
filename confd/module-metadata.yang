@@ -1,0 +1,62 @@
+module module-metadata {
+  namespace "https://yangcatalog.org/ns/yang/module-metadata";
+  prefix mod-meta;
+
+  import yang-catalog {
+    prefix yc;
+  }
+
+  organization
+    "yangcatalog.org";
+  contact
+    "Yang Catalog <info@yangcatalog.org>";
+  description
+    "This module describes the API input needed to upload metadata to the
+     yangcatalog.org catalog.";
+
+  revision 2017-07-27 {
+    description
+      "* Fold in the GitHub repository leafs here as they are not required
+         for the catalog.
+       * Update the name of the shared-module-leafs grouping";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+  revision 2017-07-15 {
+    description
+      "Remove conformance data as this can only be determined with an
+       implementation.";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+  revision 2017-07-07 {
+    description
+      "Initial revision.";
+    reference "YANG Catalog <https://yangcatalog.org>";
+  }
+
+  container modules {
+    description
+      "Container for a list of modules for which metadata is being provided.";
+    list module {
+      key "name revision organization";
+      description
+        "List of modules for which metadata is being provided.";
+      uses yc:yang-lib-common-leafs;
+      uses yc:shared-module-leafs;
+      leaf organization {
+        type string;
+        mandatory true;
+        description
+          "This statement defines the party responsible for this
+           module.  The argument is a string that is used to specify a textual
+           description of the organization(s) under whose auspices this module
+           was developed.";
+      }
+      uses yc:organization-specific-metadata;
+      container source-file {
+        uses yc:online-source-file;
+        description
+          "Location of the module file in a revision control system.";
+      }
+    }
+  }
+}
