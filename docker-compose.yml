@@ -6,26 +6,33 @@ services:
     build:
       context: . 
       dockerfile: ./confd/Dockerfile
+    networks:
+      - confd
     ports:
       - "8008:8008"
       - "8888:8888"
     restart: on-failure
 
   backend:
-    network_mode: host
     build:
       context: backend
       dockerfile: Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
     image: catalog_backend_api:latest
+    networks:
+      - confd
+      - mysql
+      - backend
+      - elasticsearch
+      - rabbitmq
+      - frontend
     ports:
       - "3031:3031"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/srv/www/htdocs
-      - ${MYSQL_SOCKET_DIR}:/var/run/mysqld:rw
       - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
       - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
       - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
@@ -34,19 +41,21 @@ services:
     restart: on-failure
 
   yang-search:
-    network_mode: host
     build:
       context: search
       dockerfile: Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
+    networks:
+      - mysql
+      - backend
+      - elasticsearch
+      - frontend
     ports:
       - "8005:8005"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
-      - ${YANG_SOCKET_DIR}:/var/run/yang:rw
-      - ${MYSQL_SOCKET_DIR}:/var/run/mysqld:rw
 
   yangre:
     build:
@@ -54,12 +63,19 @@ services:
       dockerfile: Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
+    networks:
+      - frontend
     ports:
       - "5000:5000"
 
   api-receiver:
-    network_mode: host
     image: catalog_backend_api:latest
+    networks:
+      - confd
+      - mysql
+      - backend
+      - elasticsearch
+      - rabbitmq
     command: bash -c "source ../bin/activate; python receiver.py"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
@@ -73,9 +89,11 @@ services:
     restart: on-failure
 
   api-recovery:
-    network_mode: host
     image: catalog_backend_api:latest
-    command: bash -c "source ../bin/activate; python ../recovery/recovery.py --type load --protocol http"
+    networks:
+      - confd
+      - backend
+    command: bash -c "source ../bin/activate; python ../recovery/recovery.py --type load --protocol http --ip confd"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -89,10 +107,12 @@ services:
       dockerfile: web_root/Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
+    networks:
+      - mysql
+      - frontend
     volumes:
       - webroot:/usr/share/nginx/html
       - ${NGINX_LOG}:/var/log/nginx:rw
-      - ${MYSQL_SOCKET_DIR}:/var/run/mysqld:rw
       - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
       - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
       - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
@@ -113,6 +133,8 @@ services:
       dockerfile: ./bottle-yang-extractor-validator/Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
+    networks:
+      - frontend
     image: yangvalidator:latest
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
@@ -125,6 +147,8 @@ services:
       dockerfile: Dockerfile
       args:
         - ELASTICSEARCH_ID_GID=${ELASTICSEARCH_ID_GID}
+    networks:
+      - elasticsearch
     environment:
       - bootstrap.memory_lock=true
     ulimits:
@@ -140,6 +164,8 @@ services:
 
   rabbit:
     image: "rabbitmq:3-management"
+    networks:
+      - rabbitmq
     hostname: "rabbit1"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
@@ -167,12 +193,13 @@ services:
       dockerfile: Dockerfile
       args:
         - MYSQL_ID_GID=${MYSQL_ID_GID}
+    networks:
+      - mysql
     ports:
       - "3306:3306"
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
-      - ${MYSQL_SOCKET_DIR}:/var/run/mysqld:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -197,3 +224,17 @@ services:
 
 volumes:
   webroot:
+
+networks:
+  mysql:
+    driver: bridge
+  confd:
+    driver: bridge
+  backend:
+    driver: bridge
+  elasticsearch:
+    driver: bridge
+  rabbitmq:
+    driver: bridge
+  frontend:
+    driver: bridge
