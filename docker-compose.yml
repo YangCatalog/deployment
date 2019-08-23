@@ -105,8 +105,6 @@ services:
     build:
       context: .
       dockerfile: web_root/Dockerfile
-      args:
-        - YANG_ID_GID=${YANG_ID_GID}
     networks:
       - mysql
       - frontend
@@ -166,7 +164,7 @@ services:
     image: "rabbitmq:3-management"
     networks:
       - rabbitmq
-    hostname: "rabbit1"
+#   hostname: "rabbit1"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
