@@ -27,8 +27,6 @@ services:
       - elasticsearch
       - rabbitmq
       - frontend
-    ports:
-      - "3031:3031"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -51,8 +49,6 @@ services:
       - backend
       - elasticsearch
       - frontend
-    ports:
-      - "8005:8005"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -65,8 +61,6 @@ services:
         - YANG_ID_GID=${YANG_ID_GID}
     networks:
       - frontend
-    ports:
-      - "5000:5000"
 
   api-receiver:
     image: catalog_backend_api:latest
@@ -121,9 +115,6 @@ services:
       - yang-search
       - yangre
       - elasticsearch
-    ports:
-      - "8080:8080"
-      - "80:80"
 
   yangvalidator:
     build:
@@ -136,8 +127,6 @@ services:
     image: yangvalidator:latest
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-    ports:
-      - "8090:8090"
 
   elasticsearch:
     build:
@@ -156,23 +145,17 @@ services:
     volumes:
       - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-    ports:
-      - "9200:9200"
     restart: on-failure
 
   rabbit:
     image: "rabbitmq:3-management"
     networks:
       - rabbitmq
-#   hostname: "rabbit1"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
       RABBITMQ_DEFAULT_VHOST: "/"
-    ports:
-      - "15672:15672"
-      - "5672:5672"
     labels:
       NAME: "rabbitmq1"
     volumes: []
@@ -193,8 +176,6 @@ services:
         - MYSQL_ID_GID=${MYSQL_ID_GID}
     networks:
       - mysql
-    ports:
-      - "3306:3306"
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
