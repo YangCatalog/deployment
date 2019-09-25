@@ -31,11 +31,6 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
-      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
-      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     restart: on-failure
 
   yang-search:
@@ -75,11 +70,6 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
-      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
-      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     restart: on-failure
 
   api-recovery:
@@ -102,14 +92,12 @@ services:
     networks:
       - mysql
       - frontend
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
       - webroot:/usr/share/nginx/html
       - ${NGINX_LOG}:/var/log/nginx:rw
-      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
-      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     depends_on:
       - backend
       - yang-search
@@ -195,11 +183,6 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
-      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
-      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
 
 volumes:
   webroot:

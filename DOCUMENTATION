@@ -3,15 +3,15 @@
 2, Update .env file in the root directory. The passwords needs to be equivalent to the ones in yangcatalog.conf file. The ids and paths can and should be changed according to your directory tree.
 
 3, Copy following files from ietf server:
-/home/miroslav/confd/confd-6.7.linux.x86_64.installer.bin into deployment/resources.
+/home/miroslav/confd/confd-6.7.linux.x86_64.installer.bin into deployment/resources/.
 /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID_GID> to what you are using in host)
 /var/lib/elasticsearch into <ELASTICSEARCH_DATA> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID_GID> to what you are using in host)
 /var/log/elasticsearch into <ELASTICSEARCH_LOG> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID_GID> to what you are using in host)
-/srv/www/htdocs/private into <PUBLIC_DATA>/private
-/srv/www/htdocs/results into <PUBLIC_DATA>/results
-/srv/www/htdocs/YANG-modules into <PUBLIC_DATA>/YANG-modules
-/srv/www/htdocs/statistics.html into <PUBLIC_DATA>/statistics.html
-/srv/www/htdocs/compatibility into <PUBLIC_DATA>/compatibility
+/srv/www/htdocs/private into deployment/resources/private
+/srv/www/htdocs/results into deployment/resources/results
+/srv/www/htdocs/YANG-modules into deployment/resources/YANG-modules
+/srv/www/htdocs/statistics.html into deployment/resources/statistics.html
+/srv/www/htdocs/compatibility into deployment/resources/compatibility
 download yumapro-client ubuntu latest version from https://www.yumaworks.com/support/download-yumapro-client/ and copy the .deb file into deployment/resources.
 
 4, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
@@ -42,9 +42,14 @@ to get to the container use
 
 Resource directory contains following files:
 miroslav@ip-172-31-35-181:~/test/deployment/resources$ ll
-total 21660
-drwxrwxr-x  2 miroslav miroslav     4096 Aug 22 19:18 ./
-drwxrwxr-x 15 miroslav miroslav     4096 Sep 13 08:06 ../
+total 22152
+drwxrwxr-x  6 miroslav miroslav     4096 Sep 25 13:58 ./
+drwxrwxr-x 15 miroslav miroslav     4096 Sep 25 14:00 ../
 -rw-rw-r--  1 miroslav miroslav       12 Aug 22 19:15 .gitignore
+drwxrwxr-x  2 miroslav miroslav    20480 Sep 25 13:57 YANG-modules/
+drwxrwxr-x  2 miroslav miroslav     4096 Sep 25 13:57 compatibility/
 -rwxr-x---  1 miroslav miroslav 20526118 Aug 22 19:18 confd-6.7.linux.x86_64.installer.bin*
+drwxrwxr-x  4 miroslav miroslav    12288 Sep 25 13:58 private/
+drwxrwxr-x  2 miroslav miroslav   421888 Sep 25 13:58 results/
+-rw-r--r--  1 miroslav miroslav    44490 Sep 25 13:58 statistics.html
 -rw-rw-r--  1 miroslav miroslav  1634696 Aug 22 19:18 yumapro-client-18.10-9.u1804.amd64.deb
