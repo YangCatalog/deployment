@@ -24,14 +24,14 @@
 [DB-Section]
 
 #for access to local database used by all tools
-host: mariadb
+host: yc_mariadb_1
 name-search: yang
 name-users: yang_catalog
 user: yang
 password: @MARIADB_PASS@
 
 #for access to elasticsearch database used by all tools
-es-host: elasticsearch
+es-host: yc_elasticsearch_1
 es-protocol: http
 es-port: 9200
 
@@ -47,7 +47,7 @@ yangvalidator_secret_key: @YANGVALIDATOR_DJANGO_SECRET_KEY@
 # for debug purposes
 debug: True
 # where this api should run
-ip: yang-catalog
+ip: yc_backend_1
 # path to ssl key
 ssl-key: /etc/letsencrypt/live/yangcatalog.org/privkey.pem
 # path to ssl certificate
@@ -62,7 +62,7 @@ integrity-file-location: ./
 [Receiver-Section]
 
 # where api should run
-api-ip: yang-catalog
+api-ip: yc_backend_1
 # Secret key for communication
 key: @RECEIVER_KEY@
 # Weather to call indexing or not
@@ -71,9 +71,9 @@ notify-index: True
 [Statistics-Section]
 
 # ip address where api is running
-api-ip: yang-catalog
+api-ip: yc_backend_1
 # path to file where integrity file will be located after api is done
-file-location: /var/www/html/.
+file-location: /usr/share/nginx/html/.
 
 [DraftPull-Section]
 
@@ -85,7 +85,7 @@ yang-catalog-token: @YANG_CATALOG_TOKEN@
 [DraftPullLocal-Section]
 
 # ip address where api is running
-api-ip: yang-catalog
+api-ip: yc_backend_1
 # Weather to call indexing or not
 notify-index: True
 
@@ -98,7 +98,7 @@ dbUser: yang
 # name of the databse
 dbName: yang_catalog
 # ip address to the database
-dbIp: localhost
+dbIp: yc_mariadb_1
 
 [Message-Section]
 # token to spark (Webex Teams)
@@ -115,7 +115,7 @@ api-port: 8443
 # port where confd is running
 confd-port: 8008
 # ip address where confd is running
-confd-ip: confd
+confd-ip: yc_confd_1
 # protocol where confd runs
 protocol: http
 # protocol where api runs
@@ -140,12 +140,14 @@ ietf-RFC-tar-private-url: https://yangcatalog.org/downloadables/YANG-RFC.tgz
 openconfig-models-forked-repo-url: https://api.github.com/repos/yang-catalog/public
 # suffix url to post request to fork the repoistory
 openconfig-models-repo-url_suffix: api.github.com/repos/openconfig/public/forks
+# thread-count for build yindex
+threads: 7
 
 [Web-Section]
 # My own URI WEB_URL
 my_uri: https://yangcatalog.org
 # Location of the web server document root WEB
-public_directory: /var/www/html
+public_directory: /usr/share/nginx/html
 # Location of the private (can be password protected) web server directory WEB_PRIVATE
 private_directory: ${public_directory}/private
 # All compilation result files in www directory
@@ -158,6 +160,8 @@ save-diff-dir: ${public_directory}/compatibility
 [Directory-Section]
 # The main yang dynamic data directory
 var: /var/yang
+# ietf RFC exception for new files messaging
+exceptions: ${var}/ietf-exceptions/exceptions.dat
 # Temp files
 temp: ${var}/tmp
 # Log files
@@ -199,19 +203,18 @@ modules_directory: ${var}/yang/modules
 
 [Tool-Section]
 # Location of PYANG tool
-pyang_exec: /usr/local/bin/pyang
+pyang_exec: /usr/bin/pyang
 # Location of CONFD installation directory
 confd_dir: /opt/confd
 # Location of the CONFDC tool
 confdc_exec: ${confd_dir}/bin/confdc
-confdc_yangpath_ieee: ${modules_directory}/ieee.draft:${modules_directory}/ieee.published:${modules_directory}/ieee.1588.draft:${modules_directory}/ieee.1588.published:${modules_directory}/ieee.802.11.draft:${m
-odules_directory}/ieee.802.11.published:${modules_directory}/ieee.802.1.draft:${modules_directory}/ieee.802.1.published:${modules_directory}/ieee.802.3.draft:${modules_directory}/ieee.802.3.published:${modules_
-directory}/ieee.802.draft:${modules_directory}/ieee.802.published
-confdc_yangpath: ${modules_directory}/mef:${modules_directory}/open-config-main:${modules_directory}/YANG-rfc:${confdc_yangpath_ieee}
+# Complete list of all YANG modules location to be passed to confdc
+confdc_yangpath_ieee: ${Directory-Section:modules_directory}/ieee.draft:${Directory-Section:modules_directory}/ieee.published:${Directory-Section:modules_directory}/ieee.draft.1588:${Directory-Section:modules_directory}/ieee.published.1588:${Directory-Section:modules_directory}/ieee.draft.802.11:${Directory-Section:modules_directory}/ieee.published.802.11:${Directory-Section:modules_directory}/ieee.draft.802.1:${Directory-Section:modules_directory}/ieee.published.802.1:${Directory-Section:modules_directory}/ieee.draft.802.3:${Directory-Section:modules_directory}/ieee.published.802.3:${Directory-Section:modules_directory}/ieee.draft.802:${Directory-Section:modules_directory}/ieee.published.802
+confdc_yangpath: ${Directory-Section:modules_directory}/mef:${Directory-Section:modules_directory}/open-config-main:${Directory-Section:modules_directory}/YANG-rfc:${confdc_yangpath_ieee}
 
 [RabbitMQ-Section]
 
 #for access to local database used by all tools
-host: rabbit
+host: yc_rabbit_1
 username: @RABBITMQ_USER@
 password: @RABBITMQ_PASS@
