@@ -30,12 +30,12 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/srv/www/htdocs
-      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
-      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
+      - webroot:/usr/share/nginx/html
+      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
+      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     restart: on-failure
 
   yang-search:
@@ -74,12 +74,12 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/srv/www/htdocs
-      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
-      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
+      - webroot:/usr/share/nginx/html
+      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
+      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
     restart: on-failure
 
   api-recovery:
@@ -194,12 +194,12 @@ services:
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/srv/www/htdocs
-      - ${PUBLIC_DATA}/private:/srv/www/htdocs/private:rw
-      - ${PUBLIC_DATA}/results:/srv/www/htdocs/results:rw
-      - ${PUBLIC_DATA}/YANG-modules:/srv/www/htdocs/YANG-modules:rw
-      - ${PUBLIC_DATA}/statistics.html:/srv/www/htdocs/statistics.html:rw
-      - ${PUBLIC_DATA}/compatibility:/srv/www/htdocs/compatibility:rw
+      - webroot:/usr/share/nginx/html
+      - ${PUBLIC_DATA}/private:/usr/share/nginx/html/private:rw
+      - ${PUBLIC_DATA}/results:/usr/share/nginx/html/results:rw
+      - ${PUBLIC_DATA}/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${PUBLIC_DATA}/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${PUBLIC_DATA}/compatibility:/usr/share/nginx/html/compatibility:rw
 
 volumes:
   webroot:
