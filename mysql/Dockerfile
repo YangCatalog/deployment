@@ -6,7 +6,7 @@ ARG MYSQL_ID_GID
 ENV MYSQL_ID_GID "$MYSQL_ID_GID"
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -r mysql && useradd -u ${MYSQL_ID_GID} -r -g mysql mysql
+RUN groupadd -g ${MYSQL_ID_GID} -r mysql && useradd -u ${MYSQL_ID_GID} -r -g mysql mysql
 
 # https://bugs.debian.org/830696 (apt uses gpgv by default in newer releases, rather than gpg)
 RUN set -ex; \
