@@ -47,7 +47,7 @@ yangvalidator_secret_key: @YANGVALIDATOR_DJANGO_SECRET_KEY@
 # for debug purposes
 debug: True
 # where this api should run
-ip: yc_backend_1
+ip: yc_frontend_1
 # path to ssl key
 ssl-key: /etc/letsencrypt/live/yangcatalog.org/privkey.pem
 # path to ssl certificate
@@ -62,7 +62,7 @@ integrity-file-location: ./
 [Receiver-Section]
 
 # where api should run
-api-ip: yc_backend_1
+api-ip: yc_frontend_1
 # Secret key for communication
 key: @RECEIVER_KEY@
 # Weather to call indexing or not
@@ -71,7 +71,7 @@ notify-index: True
 [Statistics-Section]
 
 # ip address where api is running
-api-ip: yc_backend_1
+api-ip: yc_frontend_1
 # path to file where integrity file will be located after api is done
 file-location: /usr/share/nginx/html/.
 
@@ -85,7 +85,7 @@ yang-catalog-token: @YANG_CATALOG_TOKEN@
 [DraftPullLocal-Section]
 
 # ip address where api is running
-api-ip: yc_backend_1
+api-ip: yc_frontend_1
 # Weather to call indexing or not
 notify-index: True
 
