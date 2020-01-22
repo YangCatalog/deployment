@@ -31,6 +31,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
+      - run:/var/run/yang
     restart: on-failure
 
   yang-search:
@@ -69,7 +70,7 @@ services:
       - backend
       - elasticsearch
       - rabbitmq
-    command: bash -c "source ../bin/activate; python receiver.py"
+    command: bash -c "source bin/activate; python api/receiver.py"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -81,7 +82,7 @@ services:
     networks:
       - confd
       - backend
-    command: bash -c "source ../bin/activate; python ../recovery/recovery.py --type load --protocol http --ip confd"
+    command: bash -c "source bin/activate; python recovery/recovery.py --type load --protocol http --ip confd"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
