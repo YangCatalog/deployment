@@ -1,2 +1,5 @@
 *.bin
 *.deb
+*.html
+private
+YANG-modules
