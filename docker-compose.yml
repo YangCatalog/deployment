@@ -188,6 +188,8 @@ services:
       dockerfile: ./sdo_analysis/Dockerfile
       args:
         - YANG_ID_GID=${YANG_ID_GID}
+    networks:
+      - frontend
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
