@@ -1,7 +1,7 @@
 # Pull base image.
 FROM debian:jessie
 
-ENV CONFD_VER 6.7
+ENV CONFD_VER 7.3.1
 
 # Install Java.
 RUN \

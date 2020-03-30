@@ -191,6 +191,7 @@ services:
     networks:
       - frontend
     volumes:
+      - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
@@ -200,6 +201,8 @@ volumes:
   run:
 
 networks:
+  frontend:
+    driver: bridge
   mysql:
     driver: bridge
   confd:
@@ -210,5 +213,4 @@ networks:
     driver: bridge
   rabbitmq:
     driver: bridge
-  frontend:
-    driver: bridge
+
