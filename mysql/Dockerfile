@@ -1,10 +1,6 @@
 # vim:set ft=dockerfile:
 FROM ubuntu:bionic
 
-ARG MYSQL_ID_GID
-
-ENV MYSQL_ID_GID "$MYSQL_ID_GID"
-
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -g ${MYSQL_ID_GID} -r mysql && useradd -u ${MYSQL_ID_GID} -r -g mysql mysql
 
@@ -54,11 +50,13 @@ RUN mkdir /docker-entrypoint-initdb.d
 
 # install "pwgen" for randomizing passwords
 # install "tzdata" for /usr/share/zoneinfo/
+# install "xz-utils" for .sql.xz docker-entrypoint-initdb.d files
 RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		pwgen \
 		tzdata \
+		xz-utils \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
