@@ -39,6 +39,16 @@ and import it to mysql
 to get to the container use
         $ docker exec -it <container-name-or-id> bash
 
+10, update logrotate so we don t have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
+    using vim or other prefered editor write following configuration to the created file:
+    /var/lib/docker/containers/*/*.log {
+      rotate 7
+      daily
+      compress
+      missingok
+      delaycompress
+      copytruncate
+    }
 
 Resource directory contains following files:
 miroslav@ip-172-31-35-181:~/test/deployment/resources$ ll
