@@ -34,7 +34,7 @@ While loading all the applications some of them might fail and restart couple of
 9, restore data. Copy alldb.sql to mariadb docker container. and run following command inside of the container.
 	$ docker cp alldb.sql  <container-id>:/home/.
 and import it to mysql
-	$ mysql -p -u yang < /home/alldb.sql
+	$ mysql -p -u root < /home/alldb.sql
 	# use the same password as above in number 7
 to get to the container use
         $ docker exec -it <container-name-or-id> bash
@@ -53,3 +53,12 @@ drwxrwxr-x  4 miroslav miroslav    12288 Sep 25 13:58 private/
 drwxrwxr-x  2 miroslav miroslav   421888 Sep 25 13:58 results/
 -rw-r--r--  1 miroslav miroslav    44490 Sep 25 13:58 statistics.html
 -rw-rw-r--  1 miroslav miroslav  1634696 Aug 22 19:18 yumapro-client-19.10-6.u1804.amd64.deb
+
+if new clean docker container with images want to be created first we need to get rid of old files
+
+1. to stop all the running  containers use - $ docker stop $(docker ps -a -q)
+2. to remove all the stoped containers use - $ docker rm $(docker ps -a -q)
+3. to remove all the created volumes use - $ docker volume prune
+4. to remove all the images use - $ docker rmi $(docker images -a -q) -f
+5. if you want to clean either mysql data or elasticsearch data remove everything from <MYSQL_VOLUME>, <ELASTICSEARCH_DATA> and <ELASTICSEARCH_LOG> folder
+6. now we can build and run our docker-compose again.
