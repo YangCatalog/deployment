@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 FROM ubuntu:bionic
 
-ARG MYSQL_ID_GID
+ARG MYSQL_ID
 ARG MYSQL_GID
 ENV MYSQL_ID "$MYSQL_ID"
 ENV MYSQL_GID "$MYSQL_GID"
