@@ -188,7 +188,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      SOCKET: /var/run/yang
+      SOCKET: /var/run/yang/mysql.sock
 
   sdo-analysis:
     build:
