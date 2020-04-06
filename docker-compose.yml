@@ -33,6 +33,7 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
+      - mysql:var/run/mysql
     restart: on-failure
 
   yang-search:
@@ -108,6 +109,7 @@ services:
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
+      - mysql:var/run/mysql
     depends_on:
       - backend
       - yang-search
@@ -182,13 +184,12 @@ services:
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql:rw
       - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
-      - run:/var/run/yang
+      - mysql:var/run/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      SOCKET: /var/run/yang/mysql.sock
 
   sdo-analysis:
     build:
@@ -208,6 +209,7 @@ services:
 volumes:
   webroot:
   run:
+  mysql:
 
 networks:
   frontend:
