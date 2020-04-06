@@ -116,8 +116,8 @@ RUN set -ex; \
 # purge and re-create /var/lib/mysql with appropriate ownership
 	rm -rf /var/lib/mysql; \
 	mkdir -p /var/lib/mysql /var/run/yang; \
-	chown -R mysql:mysql /var/lib/mysql /var/run/mysqld; \
-# ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
+	chown -R mysql:mysql /var/lib/mysql /var/run/yang; \
+# ensure that /var/run/yang (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	chmod 777 /var/run/yang; \
 # comment out a few problematic configuration values
 	find /etc/mysql/ -name '*.cnf' -print0 \
