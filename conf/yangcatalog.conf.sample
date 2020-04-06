@@ -103,6 +103,10 @@ dbIp: yc_mariadb_1
 [Message-Section]
 # token to spark (Webex Teams)
 access-token: @SPARK_TOKEN@
+# from who an email is sent
+email-from: no-reply@yangcatalog.org
+# who are we sending email to
+email-to: bclaise@cisco.com einarnn@cisco.com jclarke@cisco.com miroslav.kovac@pantheon.tech evyncke@cisco.com
 
 [General-Section]
 
