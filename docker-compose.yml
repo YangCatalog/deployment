@@ -18,7 +18,8 @@ services:
       context: backend
       dockerfile: Dockerfile
       args:
-        - YANG_ID_GID=${YANG_ID_GID}
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     image: catalog_backend_api:latest
     networks:
       - confd
@@ -39,7 +40,8 @@ services:
       context: search
       dockerfile: Dockerfile
       args:
-        - YANG_ID_GID=${YANG_ID_GID}
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     networks:
       - mysql
       - backend
@@ -55,7 +57,8 @@ services:
       context: yangre
       dockerfile: Dockerfile
       args:
-        - YANG_ID_GID=${YANG_ID_GID}
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     networks:
       - frontend
     volumes:
@@ -116,7 +119,8 @@ services:
       context: .
       dockerfile: ./bottle-yang-extractor-validator/Dockerfile
       args:
-        - YANG_ID_GID=${YANG_ID_GID}
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     networks:
       - frontend
     image: yangvalidator:latest
@@ -130,7 +134,8 @@ services:
       context: elasticsearch
       dockerfile: Dockerfile
       args:
-        - ELASTICSEARCH_ID_GID=${ELASTICSEARCH_ID_GID}
+        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
     networks:
       - elasticsearch
     environment:
@@ -170,7 +175,8 @@ services:
       context: mysql
       dockerfile: Dockerfile
       args:
-        - MYSQL_ID_GID=${MYSQL_ID_GID}
+        - MYSQL_ID=${MYSQL_ID}
+        - MYSQL_GID=${MYSQL_GID}
     networks:
       - mysql
     volumes:
@@ -187,7 +193,8 @@ services:
       context: .
       dockerfile: ./sdo_analysis/Dockerfile
       args:
-        - YANG_ID_GID=${YANG_ID_GID}
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     networks:
       - frontend
     volumes:

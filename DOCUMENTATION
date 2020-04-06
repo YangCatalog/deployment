@@ -4,9 +4,9 @@
 
 3, Copy following files from ietf server:
 /home/miroslav/confd/confd-7.3.1.linux.x86_64.installer.bin into deployment/resources/.
-/var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID_GID> to what you are using in host)
-/var/lib/elasticsearch into <ELASTICSEARCH_DATA> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID_GID> to what you are using in host)
-/var/log/elasticsearch into <ELASTICSEARCH_LOG> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID_GID> to what you are using in host)
+/var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
+/var/lib/elasticsearch into <ELASTICSEARCH_DATA> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID> <ELASTICSEARCH_GID> to what you are using in host)
+/var/log/elasticsearch into <ELASTICSEARCH_LOG> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID> <ELASTICSEARCH_GID> to what you are using in host)
 /srv/www/htdocs/private into deployment/resources/private
 /srv/www/htdocs/results into deployment/resources/results
 /srv/www/htdocs/YANG-modules into deployment/resources/YANG-modules
@@ -18,7 +18,7 @@ download yumapro-client ubuntu latest version from https://www.yumaworks.com/sup
 	$ docker-compose build
 
 5, create directory for mysql ( for example I have this -> /a/mysql) and give it permission with user id and group as specified in .env file.
-	$ chown -R <MYSQL_ID_GID>:<MYSQL_ID_GID> <MYSQL_VOLUME>
+	$ chown -R <MYSQL_ID>:<MYSQL_GID> <MYSQL_VOLUME>
 
 6, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
 	$ sysctl -w vm.max_map_count=262144
