@@ -99,6 +99,9 @@ services:
     build:
       context: .
       dockerfile: web_root/Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
     networks:
       - mysql
       - frontend
