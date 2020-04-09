@@ -28,6 +28,8 @@ services:
       - elasticsearch
       - rabbitmq
       - frontend
+    ports:
+      - "25:25"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -108,6 +110,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "25:25"
     volumes:
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
