@@ -203,6 +203,7 @@ services:
         - YANG_GID=${YANG_GID}
     networks:
       - frontend
+      - confd
     volumes:
       - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
