@@ -11,7 +11,7 @@ services:
     ports:
       - "8008:8008"
       - "8888:8888"
-    restart: on-failure
+    restart: always
 
   backend:
     build:
@@ -29,12 +29,12 @@ services:
       - rabbitmq
       - frontend
     volumes:
-      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
       - mysql:/var/run/mysqld
-    restart: on-failure
+    restart: always
 
   yang-search:
     build:
@@ -52,6 +52,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - run:/var/run/yang
+    restart: always
 
   yangre:
     build:
@@ -65,6 +66,7 @@ services:
     volumes:
       - run:/var/run/yang
       - ${YANG_RESOURCES}:/var/yang:rw
+    restart: always
 
   api-receiver:
     image: catalog_backend_api:latest
@@ -79,7 +81,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
-    restart: on-failure
+    restart: always
 
   api-recovery:
     image: catalog_backend_api:latest
@@ -93,7 +95,6 @@ services:
       - run:/var/run/yang
     depends_on:
       - confd
-    restart: on-failure
 
   frontend:
     build:
@@ -118,6 +119,7 @@ services:
       - yang-search
       - yangre
       - elasticsearch
+    restart: always
 
   yangvalidator:
     build:
@@ -133,6 +135,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - run:/var/run/yang
+    restart: always
 
   elasticsearch:
     build:
@@ -152,7 +155,7 @@ services:
     volumes:
       - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-    restart: on-failure
+    restart: always
 
   rabbit:
     image: "rabbitmq:3-management"
@@ -174,6 +177,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
   mariadb:
     build:
@@ -193,6 +197,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always
 
   sdo-analysis:
     build:
@@ -209,6 +214,7 @@ services:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
+    restart: always
 
 volumes:
   webroot:
