@@ -29,7 +29,7 @@ services:
       - rabbitmq
       - frontend
     volumes:
-      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
