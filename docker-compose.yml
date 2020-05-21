@@ -30,6 +30,7 @@ services:
       - frontend
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
+      - ./resources/main.cf:/etc/postfix/main.cf:rw
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang

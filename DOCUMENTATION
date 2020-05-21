@@ -23,8 +23,9 @@ download yumapro-client ubuntu latest version from https://www.yumaworks.com/sup
 6, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
 	$ sysctl -w vm.max_map_count=262144
 
-7, dump mysql database from the running server
-	$ mysqldump -u root -p --all-databases > alldb.sql
+7, dump mysql tables only from the running server
+	$ mysqldump -u root -p yang_catalog users > table_users.sql
+	$ mysqldump -u root -p yang_catalog users_temp > table_users_temp.sql
 	# password is in /etc/yangcatalog/yangcatalog.conf under "DB-Section" and key "password"
 
 8, run the yangcatalog:
@@ -32,9 +33,11 @@ download yumapro-client ubuntu latest version from https://www.yumaworks.com/sup
 While loading all the applications some of them might fail and restart couple of time - this is due to some of them being dependent on another ones. Just let it load for couple of minutes it should start everything without problems. Backend will start once the deployment_api-recovery will exit with code 0. You can see the status code using "docker ps -a"
 
 9, restore data. Copy alldb.sql to mariadb docker container. and run following command inside of the container.
-	$ docker cp alldb.sql  <container-id>:/home/.
+	$ docker cp table_users.sql <container-id>:/home/.
+	$ docker cp table_users_temp.sql <container-id>:/home/.
 and import it to mysql
-	$ mysql -p -u root < /home/alldb.sql
+	$ mysql -u root -p yang_catalog < /home/table_users.sql
+	$ mysql -u root -p yang_catalog < /home/table_users_temp.sql
 	# use the same password as above in number 7
 to get to the container use
         $ docker exec -it <container-name-or-id> bash
