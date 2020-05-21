@@ -116,6 +116,7 @@ services:
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
       - mysql:/var/run/mysqld
+      - ${YANG_RESOURCES}:/var/yang:rw
     depends_on:
       - backend
       - yang-search
