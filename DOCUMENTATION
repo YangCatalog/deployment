@@ -50,6 +50,9 @@ to get to the container use
       copytruncate
     }
 
+11, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
+    groups pick the group under which your instance is running, ad new inbound rule and add the custom port to it.
+
 Resource directory contains following files:
 miroslav@ip-172-31-35-181:~/test/deployment/resources$ ll
 total 22152

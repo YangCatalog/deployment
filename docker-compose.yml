@@ -109,6 +109,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "10873:873"
     volumes:
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
