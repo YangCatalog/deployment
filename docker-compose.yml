@@ -12,6 +12,9 @@ services:
       - "8008:8008"
       - "8888:8888"
     restart: always
+    volumes:
+      - ${KEY_FILE}:/a/system/yangcatalog.org.key
+      - ${CERT_FILE}:/a/system/yangcatalog.org.crt
 
   backend:
     build:
@@ -104,6 +107,7 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
+        - NGINX_FILES=${NGINX_FILES}
     networks:
       - mysql
       - frontend
