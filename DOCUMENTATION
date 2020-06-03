@@ -14,25 +14,27 @@
 /srv/www/htdocs/compatibility into deployment/resources/compatibility
 download yumapro-client ubuntu latest version from https://www.yumaworks.com/support/download-yumapro-client/ and copy the .deb file into deployment/resources.
 
-4, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
+4, If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. If not use nginx-testing.conf
+
+5, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
 	$ docker-compose build
 
-5, create directory for mysql ( for example I have this -> /a/mysql) and give it permission with user id and group as specified in .env file.
+6, create directory for mysql ( for example I have this -> /a/mysql) and give it permission with user id and group as specified in .env file.
 	$ chown -R <MYSQL_ID>:<MYSQL_GID> <MYSQL_VOLUME>
 
-6, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
+7, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
 	$ sysctl -w vm.max_map_count=262144
 
-7, dump mysql tables only from the running server
+8, dump mysql tables only from the running server
 	$ mysqldump -u root -p yang_catalog users > table_users.sql
 	$ mysqldump -u root -p yang_catalog users_temp > table_users_temp.sql
 	# password is in /etc/yangcatalog/yangcatalog.conf under "DB-Section" and key "password"
 
-8, run the yangcatalog:
+9, run the yangcatalog:
 	$ docker-compose up
 While loading all the applications some of them might fail and restart couple of time - this is due to some of them being dependent on another ones. Just let it load for couple of minutes it should start everything without problems. Backend will start once the deployment_api-recovery will exit with code 0. You can see the status code using "docker ps -a"
 
-9, restore data. Copy alldb.sql to mariadb docker container. and run following command inside of the container.
+10, restore data. Copy alldb.sql to mariadb docker container. and run following command inside of the container.
 	$ docker cp table_users.sql <container-id>:/home/.
 	$ docker cp table_users_temp.sql <container-id>:/home/.
 and import it to mysql
@@ -42,7 +44,7 @@ and import it to mysql
 to get to the container use
         $ docker exec -it <container-name-or-id> bash
 
-10, update logrotate so we don t have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
+11, update logrotate so we don t have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
     using vim or other prefered editor write following configuration to the created file:
     /var/lib/docker/containers/*/*.log {
       rotate 7
@@ -53,7 +55,7 @@ to get to the container use
       copytruncate
     }
 
-11, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
+12, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
     groups pick the group under which your instance is running, ad new inbound rule and add the custom port to it.
 
 Resource directory contains following files:
