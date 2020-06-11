@@ -1,5 +1,5 @@
 # Pull base image.
-FROM debian:jessie
+FROM ubuntu:18.04
 
 ENV CONFD_VER 7.3.1
 
@@ -7,9 +7,11 @@ ENV CONFD_VER 7.3.1
 RUN \
   apt-get update && \
 #  apt-get install -y libffi libssl1.0 libcrypto.so.6 openjdk-7-jdk openssh-client build-essential ant && \
-  apt-get install -y openssh-client build-essential libssl-dev libssl1.0.0 && \
+  apt-get install -y openssh-client build-essential libssl-dev libssl1.0.0 python3.6 python3-pip  && \
   rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install --upgrade pip
+RUN pip3 install pyang==2.1.1
 # Define commonly used JAVA_HOME variable
 #ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 ENV CONFD_DIR /tmp/confd-${CONFD_VER}
