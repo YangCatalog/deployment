@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ARG MYSQL_ID
 ARG MYSQL_GID
@@ -75,13 +75,13 @@ RUN set -ex; \
 	apt-key list
 
 # bashbrew-architectures: amd64 arm64v8 ppc64le
-ENV MARIADB_MAJOR 10.2
-ENV MARIADB_VERSION 1:10.2.32+maria~bionic
-# release-status:Stable
+ENV MARIADB_MAJOR 10.5
+ENV MARIADB_VERSION 1:10.5.3+maria~focal
+# release-status:RC
 # (https://downloads.mariadb.org/mariadb/+releases/)
 
 RUN set -e;\
-	echo "deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/ubuntu bionic main" > /etc/apt/sources.list.d/mariadb.list; \
+	echo "deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/ubuntu focal main" > /etc/apt/sources.list.d/mariadb.list; \
 	{ \
 		echo 'Package: *'; \
 		echo 'Pin: release o=MariaDB'; \
@@ -101,7 +101,7 @@ RUN set -ex; \
 	apt-get install -y \
 		"mariadb-server=$MARIADB_VERSION" \
 # mariadb-backup is installed at the same time so that `mysql-common` is only installed once from just mariadb repos
-		mariadb-backup-10.2 \
+		mariadb-backup \
 		socat \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
