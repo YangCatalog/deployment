@@ -188,6 +188,8 @@ save-requests: ${var}/requests
 commit-dir: ${var}/commit_dir/commit_msg
 # where all the new files are saved to be added to database
 changes-cache = ${var}/yang2_repo_cache.dat
+# where all the new files that failed are saved to be added to database
+changes-cache-failed = ${var}/yang2_repo_cache.dat.failed
 # where all the removed files are saved to be removed from database
 delete-cache = ${var}/yang2_repo_deletes.dat
 # Lock file for update_modules database
