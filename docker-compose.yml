@@ -80,7 +80,7 @@ services:
       - backend
       - elasticsearch
       - rabbitmq
-    command: bash -c "source bin/activate; python api/receiver.py"
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; python api/receiver.py"
     volumes:
       - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
