@@ -116,6 +116,7 @@ services:
       - "443:443"
       - "10873:873"
     volumes:
+      - ./conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
