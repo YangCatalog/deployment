@@ -133,8 +133,8 @@ services:
 
   admin-ui:
     build:
-      context: .
-      dockerfile: web_root/Dockerfile
+      context: admin_ui
+      dockerfile: Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
@@ -149,7 +149,6 @@ services:
     depends_on:
       - frontend
       - backend
-    restart: always
 
   yangvalidator:
     build:
