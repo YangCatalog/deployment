@@ -131,6 +131,26 @@ services:
       - elasticsearch
     restart: always
 
+  admin-ui:
+    build:
+      context: .
+      dockerfile: web_root/Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
+        - NGINX_FILES=${NGINX_FILES}
+    networks:
+      - mysql
+      - frontend
+    volumes:
+      - webroot:/usr/share/nginx/html
+      - ${NGINX_LOG}:/var/log/nginx:rw
+      - ${YANG_RESOURCES}:/var/yang:rw
+    depends_on:
+      - frontend
+      - backend
+    restart: always
+
   yangvalidator:
     build:
       context: .

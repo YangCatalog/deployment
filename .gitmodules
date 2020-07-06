@@ -19,3 +19,6 @@
 [submodule "sdo_analysis"]
 	path = sdo_analysis
 	url = https://github.com/YangCatalog/sdo_analysis.git
+[submodule "admin_ui"]
+	path = admin_ui
+	url = https://github.com/YangCatalog/admin_ui.git
