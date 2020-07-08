@@ -11,7 +11,7 @@ RUN \
   rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
-RUN pip3 install pyang==2.1.1
+RUN pip3 install pyang==2.2.1
 # Define commonly used JAVA_HOME variable
 #ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 ENV CONFD_DIR /tmp/confd-${CONFD_VER}
