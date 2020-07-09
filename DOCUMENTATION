@@ -1,4 +1,4 @@
-1, Go to conf directory and rename yangcatalog.conf.sample to yangcatalog.conf file and replace all the tokens, passwords, usernames and email adresses to what you are using.
+1, Go to conf directory and rename yangcatalog.conf.sample to yangcatalog.conf file move it to <YANG_RESOURCES>/conf directory and replace all the tokens, passwords, usernames and email adresses to what you are using.
 
 2, Update .env file in the root directory. The passwords needs to be equivalent to the ones in yangcatalog.conf file. The ids and paths can and should be changed according to your directory tree.
 
@@ -7,11 +7,11 @@
 /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
 /var/lib/elasticsearch into <ELASTICSEARCH_DATA> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID> <ELASTICSEARCH_GID> to what you are using in host)
 /var/log/elasticsearch into <ELASTICSEARCH_LOG> (change permissions ID and GID in .env folder <ELASTICSEARCH_ID> <ELASTICSEARCH_GID> to what you are using in host)
-/srv/www/htdocs/private into deployment/resources/private
-/srv/www/htdocs/results into deployment/resources/results
-/srv/www/htdocs/YANG-modules into deployment/resources/YANG-modules
-/srv/www/htdocs/statistics.html into deployment/resources/statistics.html
-/srv/www/htdocs/compatibility into deployment/resources/compatibility
+/srv/www/htdocs/private into <YANG_RESOURCES>/nginx/private
+/srv/www/htdocs/results into <YANG_RESOURCES>/nginx/results
+/srv/www/htdocs/YANG-modules into <YANG_RESOURCES>/nginx/YANG-modules
+/srv/www/htdocs/statistics.html into <YANG_RESOURCES>/nginx/statistics.html
+/srv/www/htdocs/compatibility into <YANG_RESOURCES>/nginx/compatibility
 download yumapro-client ubuntu latest version from https://www.yumaworks.com/support/download-yumapro-client/ and copy the .deb file into deployment/resources.
 
 4, If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. If not use nginx-testing.conf
