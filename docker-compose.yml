@@ -127,7 +127,7 @@ services:
       - "10873:873"
     volumes:
       - ${YANG_RESOURCES}/nginx/YANG-modules /usr/share/nginx/html/YANG-modules
-      - ${YANG_RESOURCES}/nginx//compatibility /usr/share/nginx/html/compatibility
+      - ${YANG_RESOURCES}/nginx/compatibility /usr/share/nginx/html/compatibility
       - ${YANG_RESOURCES}/nginx/private /usr/share/nginx/html/private
       - ${YANG_RESOURCES}/nginx/results /usr/share/nginx/html/results
       - ${YANG_RESOURCES}/nginx/statistics.html /usr/share/nginx/html/statistics.html/rw
