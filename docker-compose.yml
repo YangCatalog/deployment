@@ -6,36 +6,34 @@ services:
     build:
       context: . 
       dockerfile: ./confd/Dockerfile
-    networks:
-      - confd
     ports:
       - "8008:8008"
       - "8888:8888"
-    restart: always
     volumes:
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
+    networks:
+      - confd
     healthcheck:
       test: ["CMD", "curl", "-f", "curl 'http://localhost:8008/restconf", "-u", "\"admin\":\"Y@ng_adm1n->(paSS)\"", "-i"]
       interval: 30s
       timeout: 10s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 5G
+    restart: always
 
   backend:
+    image: catalog_backend_api:latest
     build:
       context: backend
       dockerfile: Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
-    image: catalog_backend_api:latest
-    networks:
-      - confd
-      - mysql
-      - backend
-      - elasticsearch
-      - rabbitmq
-      - frontend
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
       - ./resources/main.cf:/etc/postfix/main.cf:rw
@@ -43,11 +41,23 @@ services:
       - webroot:/usr/share/nginx/html
       - run:/var/run/yang
       - mysql:/var/run/mysqld
+    networks:
+      - confd
+      - mysql
+      - backend
+      - elasticsearch
+      - rabbitmq
+      - frontend
     healthcheck:
       test: ["CMD", "curl", "-f", "curl 'http://localhost:8008/api/healthcheck"]
       interval: 30s
       timeout: 10s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 4G
     restart: always
 
   yang-search:
@@ -57,15 +67,20 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
+    volumes:
+      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ${YANG_RESOURCES}:/var/yang:rw
+      - run:/var/run/yang
     networks:
       - mysql
       - backend
       - elasticsearch
       - frontend
-    volumes:
-      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - ${YANG_RESOURCES}:/var/yang:rw
-      - run:/var/run/yang
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 2G
     restart: always
 
   yangre:
@@ -75,40 +90,55 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
-    networks:
-      - frontend
     volumes:
       - run:/var/run/yang
       - ${YANG_RESOURCES}:/var/yang:rw
+    networks:
+      - frontend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 1G
     restart: always
 
   api-receiver:
     image: catalog_backend_api:latest
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"
+    volumes:
+      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ${YANG_RESOURCES}:/var/yang:rw
+      - webroot:/usr/share/nginx/html
     networks:
       - confd
       - mysql
       - backend
       - elasticsearch
       - rabbitmq
-    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"
-    volumes:
-      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/usr/share/nginx/html
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: 4G
     restart: always
 
   api-recovery:
     image: catalog_backend_api:latest
-    networks:
-      - confd
-      - backend
     command: bash -c "source bin/activate; python recovery/recovery.py --type load --protocol http --ip confd"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - run:/var/run/yang
+    networks:
+      - confd
+      - backend
     depends_on:
       - confd
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 5G
 
   frontend:
     build:
@@ -118,9 +148,6 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
         - NGINX_FILES=${NGINX_FILES}
-    networks:
-      - mysql
-      - frontend
     ports:
       - "80:80"
       - "443:443"
@@ -139,11 +166,19 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
+    networks:
+      - mysql
+      - frontend
     depends_on:
       - backend
       - yang-search
       - yangre
       - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 2G
     restart: always
 
   admin-ui:
@@ -153,30 +188,40 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
-    networks:
-      - mysql
-      - frontend
     volumes:
       - webroot:/usr/share/nginx/html
       - ${YANG_RESOURCES}:/var/yang:rw
+    networks:
+      - mysql
+      - frontend
     depends_on:
       - frontend
       - backend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 1G
 
   yangvalidator:
+    image: yangvalidator:latest
     build:
       context: .
       dockerfile: ./bottle-yang-extractor-validator/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
-    networks:
-      - frontend
-    image: yangvalidator:latest
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - run:/var/run/yang
+    networks:
+      - frontend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 2G
     restart: always
 
   elasticsearch:
@@ -186,8 +231,6 @@ services:
       args:
         - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
         - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
-    networks:
-      - elasticsearch
     environment:
       - bootstrap.memory_lock=true
     ulimits:
@@ -197,12 +240,17 @@ services:
     volumes:
       - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+    networks:
+      - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 10G
     restart: always
 
   rabbit:
     image: "rabbitmq:3-management"
-    networks:
-      - rabbitmq
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
@@ -214,11 +262,18 @@ services:
       #- "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
       #- "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
       #- "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
+    networks:
+      - rabbitmq
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
       interval: 30s
       timeout: 10s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 500M
     restart: always
 
   mariadb:
@@ -228,17 +283,22 @@ services:
       args:
         - MYSQL_ID=${MYSQL_ID}
         - MYSQL_GID=${MYSQL_GID}
-    networks:
-      - mysql
-    volumes:
-      - ${MYSQL_VOLUME}:/var/lib/mysql:rw
-      - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
-      - mysql:/var/run/mysqld
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ${MYSQL_VOLUME}:/var/lib/mysql:rw
+      - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
+      - mysql:/var/run/mysqld
+    networks:
+      - mysql
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 500M
     restart: always
 
   sdo-analysis:
@@ -248,14 +308,19 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
-    networks:
-      - frontend
-      - confd
     volumes:
       - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - webroot:/usr/share/nginx/html
+    networks:
+      - frontend
+      - confd
+    deploy:
+      resources:
+        limits:
+          cpus: '0.85'
+          memory: 5G
     restart: always
 
 volumes:
