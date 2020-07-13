@@ -38,7 +38,6 @@ services:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
       - ./resources/main.cf:/etc/postfix/main.cf:rw
       - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/usr/share/nginx/html
       - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
@@ -118,7 +117,6 @@ services:
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
-      - webroot:/usr/share/nginx/html
     networks:
       - confd
       - mysql
@@ -169,7 +167,7 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - webroot:/usr/share/nginx/html
+      - webroot:/usr/share/nginx/html/admin
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
       - mysql:/var/run/mysqld
@@ -199,7 +197,7 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
     volumes:
-      - webroot:/usr/share/nginx/html
+      - webroot:/usr/share/nginx/html/admin
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - mysql
@@ -322,7 +320,6 @@ services:
       - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
-      - webroot:/usr/share/nginx/html
       - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
