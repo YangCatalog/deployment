@@ -60,6 +60,8 @@ yang-catalog-token=@YANG_CATALOG_TOKEN@
 admin-token=@YANG_CATALOG_ADMIN_TOKEN@
 ; path to file where integrity file will be located after api is done
 integrity-file-location=./
+; path to nginx configurations
+nginx-conf=/etc/nginx
 
 [Receiver-Section]
 
