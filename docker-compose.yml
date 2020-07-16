@@ -42,7 +42,8 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
-      - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:rw
+      - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
       - mysql:/var/run/mysqld
       - nginx-conf:/etc/nginx:rw
@@ -117,7 +118,6 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
-      - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
     networks:
       - confd
       - mysql
@@ -166,9 +166,10 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
-      - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
+      - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - webroot:/usr/share/nginx/html/admin
+      - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
       - mysql:/var/run/mysqld
@@ -326,7 +327,6 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
-      - ${YANG_RESOURCES}/nginx/statistics.html:/usr/share/nginx/html/statistics.html:rw
     networks:
       - frontend
       - confd
@@ -342,6 +342,7 @@ volumes:
   run:
   mysql:
   nginx-conf:
+  docs:
 
 networks:
   frontend:
