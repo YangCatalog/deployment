@@ -19,11 +19,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 5G
     restart: always
 
   backend:
@@ -59,11 +54,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.8'
-          memory: 4G
     restart: always
 
   yang-search:
@@ -82,11 +72,6 @@ services:
       - backend
       - elasticsearch
       - frontend
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 2G
     restart: always
 
   yangre:
@@ -101,11 +86,6 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - frontend
-    deploy:
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 1G
     restart: always
 
   api-receiver:
@@ -124,11 +104,6 @@ services:
       - backend
       - elasticsearch
       - rabbitmq
-    deploy:
-      resources:
-        limits:
-          cpus: '0.80'
-          memory: 4G
     restart: always
 
   api-recovery:
@@ -143,11 +118,6 @@ services:
       - backend
     depends_on:
       - confd
-    deploy:
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 5G
 
   frontend:
     build:
@@ -185,11 +155,6 @@ services:
       - yang-search
       - yangre
       - elasticsearch
-    deploy:
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 2G
     restart: always
 
   admin-ui:
@@ -208,11 +173,6 @@ services:
     depends_on:
       - frontend
       - backend
-    deploy:
-      resources:
-        limits:
-          cpus: '0.2'
-          memory: 1G
 
   yangvalidator:
     image: yangvalidator:latest
@@ -228,11 +188,6 @@ services:
       - run:/var/run/yang
     networks:
       - frontend
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 2G
     restart: always
 
   elasticsearch:
@@ -253,11 +208,6 @@ services:
       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
     networks:
       - elasticsearch
-    deploy:
-      resources:
-        limits:
-          cpus: '0.8'
-          memory: 10G
     restart: always
 
   rabbit:
@@ -280,11 +230,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 500M
     restart: always
 
   mariadb:
@@ -305,11 +250,6 @@ services:
       - mysql:/var/run/mysqld
     networks:
       - mysql
-    deploy:
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 500M
     restart: always
 
   sdo-analysis:
@@ -330,11 +270,6 @@ services:
     networks:
       - frontend
       - confd
-    deploy:
-      resources:
-        limits:
-          cpus: '0.85'
-          memory: 5G
     restart: always
 
 volumes:
