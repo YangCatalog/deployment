@@ -114,6 +114,8 @@ email-to=bclaise@cisco.com einarnn@cisco.com jclarke@cisco.com miroslav.kovac@pa
 
 [General-Section]
 
+; number of subprocesses to use when populating elasticsearch
+yProcesses:2
 ; name of the elasticsearch repostiory to save snapshots
 elk-repo-name=yangcatalog_snapshots
 ; wether we run api under uwsgi
@@ -137,7 +139,7 @@ repo-config-email=@REPO_CONFIG_MAIL@
 ; pass for private of yangcatalog (no more used)
 private-secret=@PRIVATE_SECRET@
 ; url to forked github repository by yang-catalog user
-yang-models-forked-repo-url=https://api.github.com/repos/yang-catalog/yang
+yang-models-forked-repo-url=https://api.github.com/repos/yang-catalog/
 ; suffix url to post request to fork the repository
 yang-models-repo-url_suffix=api.github.com/repos/YangModels/yang/forks
 ; url to private ietf draft json file
@@ -145,7 +147,7 @@ ietf-draft-private-url=https://yangcatalog.org/private/IETFDraft.json
 ; url to tgz file containing all the ietf rfc files
 ietf-RFC-tar-private-url=https://yangcatalog.org/downloadables/YANG-RFC.tgz
 ; url to openconfig repository
-openconfig-models-forked-repo-url=https://api.github.com/repos/yang-catalog/public
+openconfig-models-forked-repo-url=https://api.github.com/repos/yang-catalog/
 ; suffix url to post request to fork the repoistory
 openconfig-models-repo-url_suffix=api.github.com/repos/openconfig/public/forks
 ; thread-count for build yindex
