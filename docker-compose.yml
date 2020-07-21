@@ -42,6 +42,7 @@ services:
       - run:/var/run/yang
       - mysql:/var/run/mysqld
       - nginx-conf:/etc/nginx:rw
+      - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - confd
       - mysql
@@ -98,6 +99,7 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
+      - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - confd
       - mysql
@@ -139,6 +141,7 @@ services:
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - webroot:/usr/share/nginx/html/admin
+      - downloadables:/usr/share/nginx/html/downloadables
       - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
@@ -267,6 +270,7 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
+      - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - frontend
       - confd
@@ -278,6 +282,7 @@ volumes:
   mysql:
   nginx-conf:
   docs:
+  downloadables:
 
 networks:
   frontend:
