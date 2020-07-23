@@ -47,8 +47,6 @@ flask-secret-key=@FLASK_KEY@
 yang-catalog-token=@YANG_CATALOG_TOKEN@
 ; yang-catalog admin github user token for automatic pushing
 admin-token=@YANG_CATALOG_ADMIN_TOKEN@
-; yang-catalog github user token for automatic pushing
-yang-catalog-token=8979620f936de656852c06fc9c0d2cb2a4a5d0bd
 ; mysql password
 mysql-password=@MARIADB_PASS@
 ; token to spark (Webex Teams)
