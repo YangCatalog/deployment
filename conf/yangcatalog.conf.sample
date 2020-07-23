@@ -109,13 +109,13 @@ my-uri=http://${ip}
 ; Location of the web server document root WEB
 public-directory=/usr/share/nginx/html
 ; Location of the private (can be password protected) web server directory WEB_PRIVATE
-private-directory=${public_directory}/private
+private-directory=${public-directory}/private
 ; All compilation result files in www directory
-result-html-dir=${public_directory}/results
+result-html-dir=${public-directory}/results
 ; Downloadable files in www directory
-downloadables-directory=${public_directory}/downloadables
+downloadables-directory=${public-directory}/downloadables
 ; Where the diff files and trees output will be stored
-save-diff-dir=${public_directory}/compatibility
+save-diff-dir=${public-directory}/compatibility
 ; url to forked github repository by yang-catalog user
 yang-models-forked-repo-url=https://api.github.com/repos/yang-catalog/
 ; suffix url to post request to fork the repository
@@ -184,10 +184,10 @@ pyang-exec=/usr/bin/pyang
 ; Location of CONFD installation directory
 confd-dir=/opt/confd
 ; Location of the CONFDC tool
-confdc-exec=${confd_dir}/bin/confdc
+confdc-exec=${confd-dir}/bin/confdc
 ; Complete list of all YANG modules location to be passed to confdc
-confdc-yangpath-ieee=${Directory-Section:modules_directory}/ieee.draft:${Directory-Section:modules_directory}/ieee.published:${Directory-Section:modules_directory}/ieee.draft.1588:${Directory-Section:modules_directory}/ieee.published.1588:${Directory-Section:modules_directory}/ieee.draft.802.11:${Directory-Section:modules_directory}/ieee.published.802.11:${Directory-Section:modules_directory}/ieee.draft.802.1:${Directory-Section:modules_directory}/ieee.published.802.1:${Directory-Section:modules_directory}/ieee.draft.802.3:${Directory-Section:modules_directory}/ieee.published.802.3:${Directory-Section:modules_directory}/ieee.draft.802:${Directory-Section:modules_directory}/ieee.published.802
-confdc-yangpath=${Directory-Section:modules_directory}/mef:${Directory-Section:modules_directory}/open-config-main:${Directory-Section:modules_directory}/YANG-rfc:${confdc_yangpath_ieee}
+confdc-yangpath-ieee=${Directory-Section:modules-directory}/ieee.draft:${Directory-Section:modules_directory}/ieee.published:${Directory-Section:modules_directory}/ieee.draft.1588:${Directory-Section:modules-directory}/ieee.published.1588:${Directory-Section:modules-directory}/ieee.draft.802.11:${Directory-Section:modules-directory}/ieee.published.802.11:${Directory-Section:modules-directory}/ieee.draft.802.1:${Directory-Section:modules-directory}/ieee.published.802.1:${Directory-Section:modules-directory}/ieee.draft.802.3:${Directory-Section:modules-directory}/ieee.published.802.3:${Directory-Section:modules-directory}/ieee.draft.802:${Directory-Section:modules-directory}/ieee.published.802
+confdc-yangpath=${Directory-Section:modules_directory}/mef:${Directory-Section:modules_directory}/open-config-main:${Directory-Section:modules_directory}/YANG-rfc:${confdc-yangpath-ieee}
 
 [RabbitMQ-Section]
 
