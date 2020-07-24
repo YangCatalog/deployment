@@ -35,6 +35,7 @@ es-protocol=http
 es-port=9200
 
 [Secrets-Section]
+
 ; The 'token' used to update the metadata of Yang Search
 update-signature=@SEARCH_UPDATE_SIGNATURE@
 ; django secret key
@@ -59,6 +60,7 @@ confd-credentials=@CONFD_CREDENTIALS@
 private-secret=@PRIVATE_SECRET@
 
 [General-Section]
+
 ; number of subprocesses to use when populating elasticsearch
 yProcesses=2
 ; for debug purposes
@@ -96,6 +98,7 @@ email-from=no-reply@yangcatalog.org
 email-to=bclaise@cisco.com einarnn@cisco.com jclarke@cisco.com miroslav.kovac@pantheon.tech evyncke@cisco.com slavomir.mazur@pantheon.tech
 
 [Web-Section]
+
 ; ip address where confd is running
 api-port=8443
 ; port where confd is running
@@ -124,13 +127,11 @@ yang-models-repo-url-suffix=api.github.com/repos/YangModels/yang/forks
 ietf-draft-private-url=http://${ip}/private/IETFDraft.json
 ; url to tgz file containing all the ietf rfc files
 ietf-RFC-tar-private-url=http://${ip}/downloadables/YANG-RFC.tgz
-; url to openconfig repository
-openconfig-models-forked-repo-url=https://api.github.com/repos/yang-catalog/
-; suffix url to post request to fork the repoistory
-openconfig-models-repo-url-suffix=api.github.com/repos/openconfig/public/forks
-
+; suffix url to openconfig repository
+openconfig-models-repo-url=https://github.com/openconfig/public.git
 
 [Directory-Section]
+
 ; path to nginx configurations
 nginx-conf=/etc/nginx
 ; The main yang dynamic data directory
@@ -179,6 +180,7 @@ ietf-directory=${var}/ietf
 modules-directory=${var}/yang/modules
 
 [Tool-Section]
+
 ; Location of PYANG tool
 pyang-exec=/usr/bin/pyang
 ; Location of CONFD installation directory
