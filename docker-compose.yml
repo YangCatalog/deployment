@@ -140,6 +140,7 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ${YANG_RESOURCES}/nginx/backup:/usr/share/nginx/html/backup:rw
       - webroot:/usr/share/nginx/html/admin
       - downloadables:/usr/share/nginx/html/downloadables
       - docs:/usr/share/nginx/html/slate
@@ -270,6 +271,7 @@ services:
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
+      - ${YANG_RESOURCES}/nginx/backup:/usr/share/nginx/html/backup:rw
       - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - frontend
