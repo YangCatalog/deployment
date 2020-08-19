@@ -59,7 +59,11 @@ confd-credentials=@CONFD_CREDENTIALS@
 ; pass for private of yangcatalog
 private-secret=@PRIVATE_SECRET@
 ; pass for elasticsearch
-elk-secret="yang +*^q:Bs?9V\GWU!R"
+elk-secret="@ELK_SECRET"
+;oidc client secret
+client-id=@CLIENT_ID@
+;oidc client secret
+client-secret=@CLIENT_SECRET@
 
 [General-Section]
 
@@ -131,6 +135,10 @@ ietf-draft-private-url=http://${ip}/private/IETFDraft.json
 ietf-RFC-tar-private-url=http://${ip}/downloadables/YANG-RFC.tgz
 ; suffix url to openconfig repository
 openconfig-models-repo-url=https://github.com/openconfig/public.git
+; oidc redirect uris
+redirect-oidc=http://18.224.127.129/admin/healthcheck https://18.224.127.129/admin/healthcheck https://yangcatalog.org/admin/healthcheck
+;oidc issuer
+issuer=https://sandbox.ietf.org/api/openid
 
 [Directory-Section]
 
