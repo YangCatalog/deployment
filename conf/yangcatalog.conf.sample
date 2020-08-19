@@ -31,8 +31,8 @@ user=yang
 
 ;for access to elasticsearch database used by all tools
 es-host=yc_elasticsearch_1
-es-protocol=http
 es-port=9200
+es-aws=True
 
 [Secrets-Section]
 
@@ -58,6 +58,8 @@ rabbitMq-password=@RABBITMQ_SECRET@
 confd-credentials=@CONFD_CREDENTIALS@
 ; pass for private of yangcatalog
 private-secret=@PRIVATE_SECRET@
+; pass for elasticsearch
+elk-secret="yang +*^q:Bs?9V\GWU!R"
 
 [General-Section]
 
