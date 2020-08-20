@@ -25,9 +25,3 @@ CREATE TABLE IF NOT EXISTS yang_catalog.users_temp (
   `AccessRightsVendor` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 );
-CREATE TABLE IF NOT EXISTS yang_catalog.admin_users (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Username` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  PRIMARY KEY (`Id`)
-);
