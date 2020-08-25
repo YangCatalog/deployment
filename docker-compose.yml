@@ -47,7 +47,6 @@ services:
       - confd
       - mysql
       - backend
-      - elasticsearch
       - rabbitmq
       - frontend
     healthcheck:
@@ -71,7 +70,6 @@ services:
     networks:
       - mysql
       - backend
-      - elasticsearch
       - frontend
     restart: always
 
@@ -104,7 +102,6 @@ services:
       - confd
       - mysql
       - backend
-      - elasticsearch
       - rabbitmq
     restart: always
 
@@ -157,7 +154,6 @@ services:
       - backend
       - yang-search
       - yangre
-      - elasticsearch
     restart: always
 
   admin-ui:
@@ -191,26 +187,6 @@ services:
       - run:/var/run/yang
     networks:
       - frontend
-    restart: always
-
-  elasticsearch:
-    build:
-      context: elasticsearch
-      dockerfile: Dockerfile
-      args:
-        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
-        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
-    environment:
-      - bootstrap.memory_lock=true
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
-      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-    networks:
-      - elasticsearch
     restart: always
 
   rabbit:
@@ -292,8 +268,6 @@ networks:
   confd:
     driver: bridge
   backend:
-    driver: bridge
-  elasticsearch:
     driver: bridge
   rabbitmq:
     driver: bridge
