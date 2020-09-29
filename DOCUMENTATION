@@ -70,7 +70,7 @@ drwxrwxr-x  2 miroslav miroslav     4096 Sep 25 13:57 compatibility/
 drwxrwxr-x  4 miroslav miroslav    12288 Sep 25 13:58 private/
 drwxrwxr-x  2 miroslav miroslav   421888 Sep 25 13:58 results/
 -rw-r--r--  1 miroslav miroslav    44490 Sep 25 13:58 statistics.html
--rw-rw-r--  1 miroslav miroslav  1634696 Aug 22 19:18 yumapro-client-19.10-6.u1804.amd64.deb
+-rw-r--r--  1 miroslav miroslav  1695992 Sep 29 11:49 yumapro-client-19.10-12.u1804.amd64.deb
 
 if new clean docker container with images want to be created first we need to get rid of old files
 
