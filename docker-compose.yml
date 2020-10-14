@@ -4,7 +4,7 @@ services:
 
   confd:
     build:
-      context: . 
+      context: .
       dockerfile: ./confd/Dockerfile
     ports:
       - "8008:8008"
@@ -47,8 +47,10 @@ services:
       - confd
       - mysql
       - backend
+      - elasticsearch
       - rabbitmq
       - frontend
+      - redis
     healthcheck:
       test: ["CMD", "curl", "-f", "curl 'http://localhost:8008/api/healthcheck"]
       interval: 30s
@@ -70,6 +72,7 @@ services:
     networks:
       - mysql
       - backend
+      - elasticsearch
       - frontend
     restart: always
 
@@ -102,6 +105,7 @@ services:
       - confd
       - mysql
       - backend
+#      - elasticsearch
       - rabbitmq
     restart: always
 
@@ -154,6 +158,7 @@ services:
       - backend
       - yang-search
       - yangre
+ #     - elasticsearch
     restart: always
 
   admin-ui:
@@ -188,6 +193,26 @@ services:
     networks:
       - frontend
     restart: always
+
+#  elasticsearch:
+#    build:
+#      context: elasticsearch
+#      dockerfile: Dockerfile
+#      args:
+#        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+#        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+#    environment:
+#      - bootstrap.memory_lock=true
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+#      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+#    networks:
+#      - elasticsearch
+#    restart: always
 
   rabbit:
     image: "rabbitmq:3-management"
@@ -252,6 +277,19 @@ services:
       - confd
     restart: always
 
+  redis:
+      image: "redis:alpine"
+      command: redis-server #--requirepass sOmE_sEcUrE_pAsS
+     # ports:
+     #  - "6379:6379"
+      #volumes:
+      # - $PWD/redis-data:/var/lib/redis
+      #  - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+      environment:
+       - REDIS_REPLICATION_MODE=master
+      networks:
+        - redis
+
 volumes:
   webroot:
   run:
@@ -269,6 +307,9 @@ networks:
     driver: bridge
   backend:
     driver: bridge
+#  elasticsearch:
+#    driver: bridge
   rabbitmq:
     driver: bridge
-
+  redis:
+    driver: bridge
