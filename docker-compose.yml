@@ -47,7 +47,7 @@ services:
       - confd
       - mysql
       - backend
-      - elasticsearch
+ #     - elasticsearch
       - rabbitmq
       - frontend
       - redis
@@ -72,7 +72,7 @@ services:
     networks:
       - mysql
       - backend
-      - elasticsearch
+ #     - elasticsearch
       - frontend
     restart: always
 
