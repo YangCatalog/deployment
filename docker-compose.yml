@@ -119,6 +119,7 @@ services:
     networks:
       - confd
       - backend
+      - redis
     depends_on:
       - confd
 
