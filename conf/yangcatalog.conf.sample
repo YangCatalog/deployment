@@ -34,6 +34,10 @@ es-host=yc_elasticsearch_1
 es-port=9200
 es-aws=True
 
+;for access to redis database used by all tools
+redis-host=yc_redis_1
+redis-port=6379
+
 [Secrets-Section]
 
 ; The 'token' used to update the metadata of Yang Search
