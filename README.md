@@ -10,9 +10,13 @@ Main repository to start up all the pieces of yang-catalog
 
 * Docker, including docker-compose
 * IPv4 Internet connectivity (Docker Hub doesn't do IPv6 yet)
-* Sufficient space for container images
+* Sufficient space for container images (approx 10 GB)
 * Sufficient space for all the modules data
-* At least 24 GB of RAM
+  - approx 45 GB for local development
+  - up to 250 GB for production
+* Sufficient RAM
+  - approx 8 GB for local development
+  - up to 24 GB for production
 
 ### External requirements
 
@@ -69,16 +73,16 @@ the other instance that is running yangcatalog.org
 
 All the logging is done to different files that should be located in
 one directory which is specified in yangcatalog.conf config file.
-Normally you would find this in /var/yang/logs. This directory is 
+Normally you would find this in /var/yang/logs. This directory is
 a volume shared with host system. All the logs can be checked and
-filtered using yangcatalog admin UI if you have access to that. 
+filtered using yangcatalog admin UI if you have access to that.
 
 ### ConfD
 
 The Yang Catalog requires ConfD, which is not open source and cannot
 be included here in the same way as the other components. In order
 for yangcatalog to be working you need to acquire confd since this
-is a beating heart of yangcatalog and contains all the metadata 
+is a beating heart of yangcatalog and contains all the metadata
 about each module. Confd binary is copied to resources and each
 docker service that will need this will install it in its own
 container.

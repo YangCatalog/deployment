@@ -3,7 +3,7 @@
 2, Create copy of .env-dist file and name it .env in the root directory. The passwords needs to be equivalent to the ones in yangcatalog.conf file.The IDs and paths can and should be changed according to your directory tree.
 
 3, Copy following files from ietf server:
-/home/miroslav/confd/confd-7.3.1.linux.x86_64.installer.bin into deployment/resources/.
+/home/miroslav/confd/confd-7.5.linux.x86_64.installer.bin into deployment/resources/.
 /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
 download yumapro-client ubuntu latest version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ and copy the .deb file into deployment/resources.
 
@@ -58,7 +58,7 @@ total 17112
 drwxrwxr-x  2 yang yang     4096 Jan 13 09:05 ./
 drwxrwxr-x 16 yang yang     4096 Jan  4 08:16 ../
 -rw-rw-r--  1 yang yang       40 Jul 27 12:48 .gitignore
--rwxr-xr-x  1 yang yang 15783639 Jul 28 10:37 confd-7.3.1.linux.x86_64.installer.bin*
+-rwxr-xr-x  1 yang yang 16182048 Jan 25 07:47 confd-7.5.linux.x86_64.installer.bin*
 -rw-r--r--  1 yang yang     3513 Dec 18 08:54 fullchain.pem
 -rw-rw-r--  1 yang yang     1470 Jul 27 12:48 main.cf
 -rw-------  1 yang yang     1704 Dec 18 08:55 privkey.pem
