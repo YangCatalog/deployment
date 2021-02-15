@@ -89,10 +89,7 @@ container.
 
 ### Kubernetes support
 
-It would be nice to code a deployment specification to a Kubernetes
-cluster for more production-grade installations.  This will provide
-opportunities of making the system more robust and scalable by
-replicating components where appropriate.
+It is possible to deploy YANGCATALOG on Kubernetes by following this [guide](./k8s/README.md).
 
 ### OpenShift support
 
