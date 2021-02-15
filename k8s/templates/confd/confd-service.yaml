@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: confd
+  name: confd
+spec:
+  ports:
+  - name: "8008"
+    port: 8008
+    targetPort: 8008
+  - name: "8888"
+    port: 8888
+    targetPort: 8888
+  selector:
+    io.kompose.service: confd

@@ -1,0 +1,18 @@
+K8S_FILESYSTEM_NODE: ubuntu
+YANG_VOLUMES: /var/yang/volumes
+DEPLOYMENT_SRC: /home/<user>/projects/yc/deployment
+ELASTICSEARCH_ENDPOINT_IP: 172.21.0.2
+MYSQL_ROOT_PASSWORD: <ROOT PASSWORD>
+MYSQL_DATABASE: yang_catalog
+MYSQL_USER: yang
+MYSQL_PASSWORD: <MYSQL PASSWORD>
+MYSQL_VOLUME: /a/mysql
+RABBITMQ_USER: <RABBITMQ_USER>
+RABBITMQ_PASSWORD: <RABBITMQ PASSWORD>
+NGINX_LOG: /var/log/nginx
+KEY_FILE: /home/yang/deployment/resources/yangcatalog.org.key
+CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
+CA_CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
+YANG_RESOURCES: /var/yang
+YANG_ID: 1016
+YANG_GID: 1016

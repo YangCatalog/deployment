@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: sdo-analysis
+  name: sdo-analysis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sdo-analysis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/confd: "true"
+        io.kompose.network/frontend: "true"
+        io.kompose.service: sdo-analysis
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_sdo-analysis:latest
+        name: sdo-analysis
+        volumeMounts:
+        - mountPath: /etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt
+          name: sdo-analysis-pv
+          readOnly: true
+        - mountPath: /etc/yangcatalog/yangcatalog.conf
+          name: yangcatalog-conf-pv
+          readOnly: true
+        - mountPath: /var/yang
+          name: yang-resources-pv
+        - mountPath: /usr/share/nginx/html/YANG-modules
+          name: nginx-yang-modules-pv
+        - mountPath: /usr/share/nginx/html/compatibility
+          name: nginx-compatibility-pv
+        - mountPath: /usr/share/nginx/html/private
+          name: nginx-private-pv
+        - mountPath: /usr/share/nginx/html/results
+          name: nginx-results-pv
+        - mountPath: /usr/share/nginx/html/downloadables
+          name: downloadables-pv
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+      volumes:
+      - name: sdo-analysis-pv
+        hostPath:
+          path: {{ .Values.DEPLOYMENT_SRC }}/sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt
+      - name: yangcatalog-conf-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}
+      - name: nginx-yang-modules-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/YANG-modules
+      - name: nginx-compatibility-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/compatibility
+      - name: nginx-private-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/private
+      - name: nginx-results-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/results
+      - name: downloadables-pv
+        persistentVolumeClaim:
+          claimName: downloadables-pvc

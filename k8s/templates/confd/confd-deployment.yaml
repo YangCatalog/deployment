@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: confd
+  name: confd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: confd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/confd: "true"
+        io.kompose.service: confd
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_confd:latest
+        name: confd
+        ports:
+        - containerPort: 8008
+        - containerPort: 8888
+        volumeMounts:
+        - mountPath: /a/system/yangcatalog.org.key
+          name: key-file-pv
+        - mountPath: /a/system/yangcatalog.org.crt
+          name: cert-file-pv
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+      volumes:
+      - name: key-file-pv
+        hostPath:
+          path: {{ .Values.KEY_FILE }}
+      - name: cert-file-pv
+        hostPath:
+          path: {{ .Values.CERT_FILE }}

@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/frontend: "true"
+        io.kompose.network/mysql: "true"
+        io.kompose.service: frontend
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_frontend:latest
+        name: frontend
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 873
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/YANG-modules
+          name: nginx-yang-modules-pv
+        - mountPath: /usr/share/nginx/html/compatibility
+          name: nginx-compatibility-pv
+        - mountPath: /usr/share/nginx/html/private
+          name: nginx-private-pv
+        - mountPath: /usr/share/nginx/html/results
+          name: nginx-results-pv
+        - mountPath: /usr/share/nginx/html/stats
+          name: nginx-stats-pv
+          readOnly: true
+        - mountPath: /etc/yangcatalog/yangcatalog.conf
+          name: yangcatalog-conf-pv
+          readOnly: true
+        - mountPath: /usr/share/nginx/html/admin
+          name: webroot-pv
+        - mountPath: /usr/share/nginx/html/downloadables
+          name: downloadables-pv
+        - mountPath: /usr/share/nginx/html/slate
+          name: docs-pv
+        - mountPath: /var/run/yang
+          name: run-pv
+        - mountPath: /var/log/nginx
+          name: nginx-log-pv
+        - mountPath: /var/run/mysqld
+          name: mysql-pv
+        - mountPath: /var/yang
+          name: yang-resources-pv
+        - mountPath: /a/system/yangcatalog.org.key
+          name: key-file-pv
+        - mountPath: /a/system/yangcatalog.org.crt
+          name: cert-file-pv
+        - mountPath: /etc/nginx
+          name: nginx-conf-pv
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+      volumes:
+      - name: nginx-yang-modules-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/YANG-modules
+      - name: nginx-compatibility-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/compatibility
+      - name: nginx-private-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/private
+      - name: nginx-results-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/results
+      - name: nginx-stats-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/stats
+      - name: yangcatalog-conf-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf
+      - name: webroot-pv
+        persistentVolumeClaim:
+          claimName: webroot-pvc
+      - name: downloadables-pv
+        persistentVolumeClaim:
+          claimName: downloadables-pvc
+      - name: docs-pv
+        persistentVolumeClaim:
+          claimName: docs-pvc
+      - name: run-pv
+        persistentVolumeClaim:
+          claimName: run-pvc
+      - name: nginx-log-pv
+        hostPath:
+          path: {{ .Values.NGINX_LOG }}
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}
+      - name: key-file-pv
+        hostPath:
+          path: {{ .Values.KEY_FILE }}
+      - name: cert-file-pv
+        hostPath:
+          path: {{ .Values.CERT_FILE }}
+      - name: nginx-conf-pv
+        persistentVolumeClaim:
+          claimName: nginx-conf-pvc

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/redis: "true"
+        io.kompose.service: redis
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - args:
+        - redis-server
+        env:
+        - name: REDIS_REPLICATION_MODE
+          value: master
+        image: redis:alpine
+        name: redis
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
