@@ -3,11 +3,14 @@ kind: NetworkPolicy
 metadata:
   name: redis
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/redis: "true"
   podSelector:
     matchLabels:
       io.kompose.network/redis: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/redis: "true"
+  egress: []

@@ -3,11 +3,14 @@ kind: NetworkPolicy
 metadata:
   name: rabbitmq
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/rabbitmq: "true"
   podSelector:
     matchLabels:
       io.kompose.network/rabbitmq: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/rabbitmq: "true"
+  egress: []

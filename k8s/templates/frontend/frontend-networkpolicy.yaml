@@ -3,11 +3,21 @@ kind: NetworkPolicy
 metadata:
   name: frontend
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/frontend: "true"
   podSelector:
     matchLabels:
       io.kompose.network/frontend: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/frontend: "true"
+    - from:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
+        - port: 80
+        - port: 873
+  egress: []

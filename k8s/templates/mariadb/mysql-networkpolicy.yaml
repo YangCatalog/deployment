@@ -3,11 +3,14 @@ kind: NetworkPolicy
 metadata:
   name: mysql
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/mysql: "true"
   podSelector:
     matchLabels:
       io.kompose.network/mysql: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/mysql: "true"
+  egress: []

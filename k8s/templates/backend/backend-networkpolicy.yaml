@@ -3,11 +3,14 @@ kind: NetworkPolicy
 metadata:
   name: backend
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/backend: "true"
   podSelector:
     matchLabels:
       io.kompose.network/backend: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/backend: "true"
+  egress: []

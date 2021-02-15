@@ -10,6 +10,10 @@
 
 `microk8s.enable helm3`
 
+## Enable DNS
+
+`microk8s enable dns`
+
 ## Get AWS ECR token (login is valid for 12 hours)
 
 `aws ecr get-login-password --region <region>`
@@ -64,10 +68,6 @@
 `curl -X PUT 'http://localhost:9200/_settings' -H 'Content-Type: application/json' -d '{ "index": { "blocks": { "read_only_allow_delete": "false" } } }'`
 
 `exit`
-
-## Enable port-forwarding to localhost
-
-`microk8s kubectl port-forward <frontned_container_name> 80`
 
 ## How to update images in ECR
 
