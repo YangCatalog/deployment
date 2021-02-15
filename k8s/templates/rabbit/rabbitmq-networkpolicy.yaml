@@ -13,4 +13,8 @@ spec:
         - podSelector:
             matchLabels:
               io.kompose.network/rabbitmq: "true"
-  egress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/rabbitmq: "true"

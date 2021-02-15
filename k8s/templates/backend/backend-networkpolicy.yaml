@@ -13,4 +13,8 @@ spec:
         - podSelector:
             matchLabels:
               io.kompose.network/backend: "true"
-  egress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/backend: "true"

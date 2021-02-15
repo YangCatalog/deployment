@@ -13,4 +13,8 @@ spec:
         - podSelector:
             matchLabels:
               io.kompose.network/redis: "true"
-  egress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/redis: "true"

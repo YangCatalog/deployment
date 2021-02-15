@@ -20,4 +20,8 @@ spec:
         - port: 443
         - port: 80
         - port: 873
-  egress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/frontend: "true"

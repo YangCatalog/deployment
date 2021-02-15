@@ -3,11 +3,18 @@ kind: NetworkPolicy
 metadata:
   name: confd
 spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          io.kompose.network/confd: "true"
   podSelector:
     matchLabels:
       io.kompose.network/confd: "true"
+  policyTypes:
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/confd: "true"
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/confd: "true"
