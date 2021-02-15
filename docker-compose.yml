@@ -3,6 +3,7 @@ version: '3'
 services:
 
   confd:
+    container_name: yc-confd
     build:
       context: .
       dockerfile: ./confd/Dockerfile
@@ -22,6 +23,7 @@ services:
     restart: always
 
   backend:
+    container_name: yc-backend
     image: catalog_backend_api:latest
     build:
       context: backend
@@ -59,6 +61,7 @@ services:
     restart: always
 
   yang-search:
+    container_name: yc-yang-search
     build:
       context: search
       dockerfile: Dockerfile
@@ -77,6 +80,7 @@ services:
     restart: always
 
   yangre:
+    container_name: yc-yangre
     build:
       context: yangre
       dockerfile: Dockerfile
@@ -91,6 +95,7 @@ services:
     restart: always
 
   api-receiver:
+    container_name: yc-api-receiver
     image: catalog_backend_api:latest
     command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"
     volumes:
@@ -110,6 +115,7 @@ services:
     restart: always
 
   api-recovery:
+    container_name: yc-api-recovery
     image: catalog_backend_api:latest
     command: bash -c "source bin/activate; python recovery/recovery.py --type load --protocol http --ip confd"
     volumes:
@@ -124,6 +130,7 @@ services:
       - confd
 
   frontend:
+    container_name: yc-frontend
     build:
       context: .
       dockerfile: web_root/Dockerfile
@@ -163,6 +170,7 @@ services:
     restart: always
 
   admin-ui:
+    container_name: yc-admin-ui
     build:
       context: admin_ui
       dockerfile: Dockerfile
@@ -180,6 +188,7 @@ services:
       - backend
 
   yangvalidator:
+    container_name: yc-yangvalidator
     image: yangvalidator:latest
     build:
       context: .
@@ -196,6 +205,7 @@ services:
     restart: always
 
 #  elasticsearch:
+#    container_name: yc-elasticsearch
 #    build:
 #      context: elasticsearch
 #      dockerfile: Dockerfile
@@ -216,6 +226,7 @@ services:
 #    restart: always
 
   rabbit:
+    container_name: yc-rabbit
     image: "rabbitmq:3-management"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
@@ -238,6 +249,7 @@ services:
     restart: always
 
   mariadb:
+    container_name: yc-mariadb
     build:
       context: mysql
       dockerfile: Dockerfile
@@ -258,6 +270,7 @@ services:
     restart: always
 
   sdo-analysis:
+    container_name: yc-sdo-analysis
     build:
       context: .
       dockerfile: ./sdo_analysis/Dockerfile
@@ -279,6 +292,7 @@ services:
     restart: always
 
   redis:
+      container_name: yc-redis
       image: "redis:alpine"
       command: redis-server #--requirepass sOmE_sEcUrE_pAsS
      # ports:

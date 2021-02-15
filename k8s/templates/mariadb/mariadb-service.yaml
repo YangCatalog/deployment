@@ -5,12 +5,12 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: mariadb
-  name: mariadb
+    io.kompose.service: yc-mariadb
+  name: yc-mariadb
 spec:
   ports:
   - name: "3306"
     port: 3306
     targetPort: 3306
   selector:
-    io.kompose.service: mariadb
+    io.kompose.service: yc-mariadb

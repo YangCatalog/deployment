@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: redis
+    io.kompose.service: yc-redis
   name: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: redis
+      io.kompose.service: yc-redis
   template:
     metadata:
       annotations:
@@ -19,7 +19,7 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/redis: "true"
-        io.kompose.service: redis
+        io.kompose.service: yc-redis
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}

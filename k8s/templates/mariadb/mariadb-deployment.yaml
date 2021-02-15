@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: mariadb
+    io.kompose.service: yc-mariadb
   name: mariadb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: mariadb
+      io.kompose.service: yc-mariadb
   strategy:
     type: Recreate
   template:
@@ -21,7 +21,7 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/mysql: "true"
-        io.kompose.service: mariadb
+        io.kompose.service: yc-mariadb
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}

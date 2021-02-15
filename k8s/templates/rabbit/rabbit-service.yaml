@@ -5,12 +5,12 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: rabbit
-  name: rabbit
+    io.kompose.service: yc-rabbit
+  name: yc-rabbit
 spec:
   ports:
   - name: "5672"
     port: 5672
     targetPort: 5672
   selector:
-    io.kompose.service: rabbit
+    io.kompose.service: yc-rabbit

@@ -5,8 +5,8 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: confd
-  name: confd
+    io.kompose.service: yc-confd
+  name: yc-confd
 spec:
   ports:
   - name: "8008"
@@ -16,4 +16,4 @@ spec:
     port: 8888
     targetPort: 8888
   selector:
-    io.kompose.service: confd
+    io.kompose.service: yc-confd

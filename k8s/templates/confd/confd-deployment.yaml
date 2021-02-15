@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: confd
+    io.kompose.service: yc-confd
   name: confd
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: confd
+      io.kompose.service: yc-confd
   strategy:
     type: Recreate
   template:
@@ -21,7 +21,7 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/confd: "true"
-        io.kompose.service: confd
+        io.kompose.service: yc-confd
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}

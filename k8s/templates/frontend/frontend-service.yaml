@@ -5,8 +5,8 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: frontend
-  name: frontend
+    io.kompose.service: yc-frontend
+  name: yc-frontend
 spec:
   ports:
   - name: "80"
@@ -19,4 +19,4 @@ spec:
     port: 10873
     targetPort: 873
   selector:
-    io.kompose.service: frontend
+    io.kompose.service: yc-frontend
