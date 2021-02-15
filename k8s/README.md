@@ -1,4 +1,5 @@
-# How to run yangacatalog on microk8s cluster
+How to run YANGCATALOG on microk8s cluster
+===
 
 * Some parts of this chart were created with help of Kompose (https://kompose.io/).
 
@@ -36,6 +37,7 @@
 
 ## Run Helm Chart
 
+`cd deployment/k8s`
 `microk8s helm3 install -f ./values.yaml . --generate-name`
 
 ## View deployment progress
@@ -47,7 +49,6 @@
 ## Setup MariaDB (on localhost only)
 
 `microk8s kubectl cp 'table_users.sql' <mariadb_container_name>:/home/.`
-
 
 `microk8s kubectl cp 'table_users_temp.sql' <mariadb_container_name>:/home/.`
 
