@@ -142,7 +142,8 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - webroot:/usr/share/nginx/html/admin
+      - webroot1:/usr/share/nginx/html/yangcatalog-ui
+      - webroot2:/usr/share/nginx/html/admin      
       - downloadables:/usr/share/nginx/html/downloadables
       - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
@@ -170,7 +171,7 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
     volumes:
-      - webroot:/usr/share/nginx/html/admin
+      - webroot2:/usr/share/nginx/html/admin
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - mysql
@@ -179,6 +180,23 @@ services:
       - frontend
       - backend
 
+  yangcatalog-ui:
+    build:
+      context: yangcatalog-ui
+      dockerfile: Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
+    volumes:
+      - webroot1:/usr/share/nginx/html/yangcatalog-ui
+      - ${YANG_RESOURCES}:/var/yang:rw
+    networks:
+      - mysql
+      - frontend
+    depends_on:
+      - frontend
+      - backend
+    
   yangvalidator:
     image: yangvalidator:latest
     build:
@@ -292,7 +310,8 @@ services:
         - redis
 
 volumes:
-  webroot:
+  webroot1:
+  webroot2:
   run:
   mysql:
   nginx-conf:
