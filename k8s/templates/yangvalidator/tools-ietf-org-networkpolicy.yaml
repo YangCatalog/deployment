@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: yangvalidator
+spec:
+  podSelector:
+    matchLabels:
+      io.kompose.network/yangvalidator: "true"
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 64.170.98.42/32
+      ports:
+        - port: 443
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 64.170.98.42/32
+      ports:
+        - port: 443

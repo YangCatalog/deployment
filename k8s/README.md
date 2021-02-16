@@ -7,13 +7,17 @@ How to run YANGCATALOG on microk8s cluster
 
 `sudo snap install microk8s --classic`
 
-## Enable Helm
-
-`microk8s.enable helm3`
-
 ## Enable DNS
 
 `microk8s enable dns`
+
+## Enable ingress
+
+`microk8s enable ingress`
+
+## Enable Helm
+
+`microk8s.enable helm3`
 
 ## Get AWS ECR token (login is valid for 12 hours)
 
