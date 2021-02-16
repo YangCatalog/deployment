@@ -106,6 +106,8 @@ ssl-cert=/etc/letsencrypt/live/yangcatalog.org/fullchain.pem
 email-from=no-reply@yangcatalog.org
 ; who are we sending email to
 email-to=bclaise@cisco.com einarnn@cisco.com jclarke@cisco.com miroslav.kovac@pantheon.tech evyncke@cisco.com slavomir.mazur@pantheon.tech
+; who are we sending email to (development only)
+developers-email=slavomir.mazur@pantheon.tech
 
 [Web-Section]
 
