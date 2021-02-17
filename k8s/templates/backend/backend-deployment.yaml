@@ -27,6 +27,7 @@ spec:
         io.kompose.network/rabbitmq: "true"
         io.kompose.network/redis: "true"
         io.kompose.network/elasticsearch: "true"
+        io.kompose.network/crontab: "true"
         io.kompose.service: backend
     spec:
       securityContext:

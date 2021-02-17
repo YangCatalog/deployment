@@ -24,6 +24,7 @@ spec:
         io.kompose.network/confd: "true"
         io.kompose.network/mysql: "true"
         io.kompose.network/rabbitmq: "true"
+        io.kompose.network/elasticsearch: "true"
         io.kompose.service: api-receiver
     spec:
       securityContext:

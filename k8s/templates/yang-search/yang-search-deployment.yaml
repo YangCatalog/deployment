@@ -24,6 +24,7 @@ spec:
         io.kompose.network/frontend: "true"
         io.kompose.network/mysql: "true"
         io.kompose.network/elasticsearch: "true"
+        io.kompose.network/crontab: "true"
         io.kompose.service: yang-search
     spec:
       securityContext:

@@ -22,6 +22,7 @@ spec:
       labels:
         io.kompose.network/frontend: "true"
         io.kompose.network/mysql: "true"
+        io.kompose.network/elasticsearch: "true"
         io.kompose.service: yc-frontend
     spec:
       securityContext:

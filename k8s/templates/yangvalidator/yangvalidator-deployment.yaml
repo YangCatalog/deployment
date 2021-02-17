@@ -20,7 +20,8 @@ spec:
         kompose.cmd: kompose convert -c
         kompose.version: 1.21.0 (992df58d8)
       labels:
-        io.kompose.network/yangvalidator: "true"
+        io.kompose.network/tools-ieft-org: "true"
+        io.kompose.network/rsync: "true"
         io.kompose.network/frontend: "true"
         io.kompose.service: yangvalidator
     spec:
