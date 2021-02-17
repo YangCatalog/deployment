@@ -31,6 +31,4 @@ spec:
           value: master
         image: redis:alpine
         name: redis
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always

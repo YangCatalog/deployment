@@ -44,7 +44,7 @@ spec:
             secretKeyRef:
               name: yangcatalog-secret
               key: MYSQL_USER
-        image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_mariadb:latest
+        image: localhost:32000/yc_mariadb:registry
         name: mariadb
         volumeMounts:
         - mountPath: /var/lib/mysql
@@ -54,8 +54,6 @@ spec:
           readOnly: true
         - mountPath: /var/run/mysqld
           name: mysql-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: mysql-volume-pv

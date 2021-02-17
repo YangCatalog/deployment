@@ -26,15 +26,13 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_yangre:latest
+      - image: localhost:32000/yc_yangre:registry
         name: yangre
         volumeMounts:
         - mountPath: /var/run/yang
           name: run-pv
         - mountPath: /var/yang
           name: yang-resources-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: run-pv

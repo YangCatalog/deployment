@@ -44,6 +44,4 @@ spec:
           value: SWQOKODSQALRPCLNMEQG
         image: rabbitmq:3-management
         name: rabbit
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always

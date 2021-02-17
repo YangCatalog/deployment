@@ -27,7 +27,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yangvalidator:latest
+      - image: localhost:32000/yangvalidator:registry
         name: yangvalidator
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
@@ -37,8 +37,6 @@ spec:
           name: yang-resources-pv
         - mountPath: /var/run/yang
           name: run-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: yangcatalog-conf-pv

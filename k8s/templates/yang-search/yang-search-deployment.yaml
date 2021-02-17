@@ -29,7 +29,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_yang-search:latest
+      - image: localhost:32000/yc_yang-search:registry
         name: yang-search
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
@@ -39,8 +39,6 @@ spec:
           name: yang-resources-pv
         - mountPath: /var/run/yang
           name: run-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: yangcatalog-conf-pv

@@ -26,7 +26,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_confd:latest
+      - image: localhost:32000/yc_confd:registry
         name: confd
         ports:
         - containerPort: 8008
@@ -36,8 +36,6 @@ spec:
           name: key-file-pv
         - mountPath: /a/system/yangcatalog.org.crt
           name: cert-file-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: key-file-pv

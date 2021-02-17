@@ -27,7 +27,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_frontend:latest
+      - image: localhost:32000/yc_frontend:registry
         name: frontend
         ports:
         - containerPort: 80
@@ -68,8 +68,6 @@ spec:
           name: cert-file-pv
         - mountPath: /etc/nginx
           name: nginx-conf-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: nginx-yang-modules-pv

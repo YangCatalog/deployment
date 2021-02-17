@@ -27,7 +27,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_sdo-analysis:latest
+      - image: localhost:32000/yc_sdo-analysis:registry
         name: sdo-analysis
         volumeMounts:
         - mountPath: /etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt
@@ -48,8 +48,6 @@ spec:
           name: nginx-results-pv
         - mountPath: /usr/share/nginx/html/downloadables
           name: downloadables-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: sdo-analysis-pv

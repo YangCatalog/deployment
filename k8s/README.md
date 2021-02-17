@@ -1,37 +1,35 @@
-How to run YANGCATALOG on microk8s cluster
+How to run YANGCATALOG on MicroK8s cluster
 ===
 
 * Some parts of this chart were created with help of Kompose (https://kompose.io/).
 
-## Install microk8s
+## 1. Install MicroK8s
 
 `sudo snap install microk8s --classic`
 
-## Enable DNS
+## 2. Enable DNS
 
 `microk8s enable dns`
 
-## Enable ingress
+## 3. Enable local image registry
+
+`microk8s enable registry`
+
+## 4. SetUp docker to use local image registry
+
+`echo { \"insecure-registries\" : [\"localhost:32000\"] } | sudo tee /etc/docker/daemon.json`
+
+`sudo systemctl restart docker`
+
+## 5. Enable ingress
 
 `microk8s enable ingress`
 
-## Enable Helm
+## 6. Enable Helm
 
 `microk8s.enable helm3`
 
-## Get AWS ECR token (login is valid for 12 hours)
-
-`aws ecr get-login-password --region <region>`
-
-## LogIn with docker to AWS (copy&paste token from previous step)
-
-`docker login –u AWS <aws_account_id>.dkr.ecr.<region>.amazonaws.com`
-
-## LogIn with microk8s to AWS
-
-`microk8s kubectl create secret generic regcred --from-file=.dockerconfigjson=~/.docker/config.json --type=kubernetes.io/dockerconfigjson`
-
-## Edit parameters of deployment
+## 7. Edit parameters of deployment
 
 `cp values-dist.yaml values.yaml`
 
@@ -39,12 +37,12 @@ How to run YANGCATALOG on microk8s cluster
 
 * Please create all volume directories (docs, downloadables, mysql, nginx-conf, run, webroot) under YANG_VOLUMES manually.
 
-## Run Helm Chart
+## 8. Run Helm Chart
 
 `cd deployment/k8s`
 `microk8s helm3 install -f ./values.yaml . --generate-name`
 
-## View deployment progress
+## 9. View deployment progress
 
 `microk8s kubectl get pods`
 
@@ -74,10 +72,10 @@ How to run YANGCATALOG on microk8s cluster
 
 `exit`
 
-## How to update images in ECR
+## How to update images in local image registry
 
 `docker-compose build`
 
-`docker tag <image_name>:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<image_name>:latest`
+`docker tag <image_name>:latest localhost:32000/<image_name>:registry`
 
-`docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<image_name>:latest`
+`docker push localhost:32000/<image_name>:registry`

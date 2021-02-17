@@ -22,15 +22,13 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/yc_admin-ui:latest
+      - image: localhost:32000/yc_admin-ui:registry
         name: admin-ui
         volumeMounts:
         - mountPath: /usr/share/nginx/html/admin
           name: webroot-pv
         - mountPath: /var/yang
           name: yang-resources-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: OnFailure
       volumes:
       - name: webroot-pv

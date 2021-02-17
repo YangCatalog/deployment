@@ -29,7 +29,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: 378723218809.dkr.ecr.eu-central-1.amazonaws.com/catalog_backend_api:latest
+      - image: localhost:32000/catalog_backend_api:registry
         name: api-receiver
         command: ["/bin/bash"]
         args: ["-c", "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"]
@@ -49,8 +49,6 @@ spec:
           name: nginx-results-pv
         - mountPath: /usr/share/nginx/html/downloadables
           name: downloadables-pv
-      imagePullSecrets:
-      - name: regcred
       restartPolicy: Always
       volumes:
       - name: yangcatalog-conf-pv
