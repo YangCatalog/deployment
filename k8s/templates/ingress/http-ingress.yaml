@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: http-ingress
 spec:
+  tls:
+    - secretName: tls-key-secret
   rules:
     - http:
         paths:

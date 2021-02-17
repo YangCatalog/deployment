@@ -37,12 +37,16 @@ How to run YANGCATALOG on MicroK8s cluster
 
 * Please create all volume directories (docs, downloadables, mysql, nginx-conf, run, webroot) under YANG_VOLUMES manually.
 
-## 8. Run Helm Chart
+## 8. Create secret from key file and certificate file to enable HTTPS
+
+`microk8s kubectl create secret generic tls-key-secret --from-file=ssh-privatekey=/home/yang/deployment/resources/yangcatalog.org.key --from-file=ssh-publickey=/home/yang/deployment/resources/yangcatalog.org.crt`
+
+## 9. Run Helm Chart
 
 `cd deployment/k8s`
 `microk8s helm3 install -f ./values.yaml . --generate-name`
 
-## 9. View deployment progress
+## 10. View deployment progress
 
 `microk8s kubectl get pods`
 
