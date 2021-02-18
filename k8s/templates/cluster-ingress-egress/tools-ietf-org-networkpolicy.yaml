@@ -7,17 +7,11 @@ spec:
     matchLabels:
       io.kompose.network/tools-ieft-org: "true"
   policyTypes:
-    - Ingress
     - Egress
-  ingress:
-    - from:
-        - ipBlock:
-            cidr: 64.170.98.42/32
-      ports:
-        - port: 443
   egress:
     - to:
         - ipBlock:
             cidr: 64.170.98.42/32
       ports:
+        - port: 80
         - port: 443

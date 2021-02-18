@@ -8,7 +8,6 @@ spec:
       io.kompose.network/crontab: "true"
   policyTypes:
     - Egress
-  ingress:
   egress:
     - to:
         - ipBlock:
