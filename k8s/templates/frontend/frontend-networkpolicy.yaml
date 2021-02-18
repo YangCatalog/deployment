@@ -20,7 +20,6 @@ spec:
       ports:
         - port: 443
         - port: 80
-        - port: 873
   egress:
     - to:
         - podSelector:
