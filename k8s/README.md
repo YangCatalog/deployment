@@ -3,33 +3,43 @@ How to run YANGCATALOG on MicroK8s cluster
 
 * Some parts of this chart were created with help of Kompose (https://kompose.io/).
 
+# MicroK8s setup
+
 ## 1. Install MicroK8s
 
 `sudo snap install microk8s --classic`
 
-## 2. Enable DNS
+## 2. Configure service node port range
+
+`microk8s stop`
+
+`echo --service-node-port-range=80-10873 | tee -a /var/snap/microk8s/current/args/kube-apiserver`
+
+`microk8s start`
+
+## 3. Enable DNS
 
 `microk8s enable dns`
 
-## 3. Enable local image registry
+## 4. Enable local image registry
 
 `microk8s enable registry`
 
-## 4. SetUp docker to use local image registry
+## 5. SetUp docker to use local image registry
 
 `echo { \"insecure-registries\" : [\"localhost:32000\"] } | sudo tee /etc/docker/daemon.json`
 
 `sudo systemctl restart docker`
 
-## 5. Enable ingress
-
-`microk8s enable ingress`
-
 ## 6. Enable Helm
 
 `microk8s.enable helm3`
 
-## 7. Edit parameters of deployment
+# Deployment
+
+## 1. Edit parameters of deployment
+
+`cd deployment/k8s`
 
 `cp values-dist.yaml values.yaml`
 
@@ -37,22 +47,17 @@ How to run YANGCATALOG on MicroK8s cluster
 
 * Please create all volume directories (docs, downloadables, mysql, nginx-conf, run, webroot) under YANG_VOLUMES manually.
 
-## 8. Create secret from key file and certificate file to enable HTTPS
+## 2. Run Helm Chart
 
-`microk8s kubectl create secret generic tls-key-secret --from-file=ssh-privatekey=/home/yang/deployment/resources/yangcatalog.org.key --from-file=ssh-publickey=/home/yang/deployment/resources/yangcatalog.org.crt`
-
-## 9. Run Helm Chart
-
-`cd deployment/k8s`
 `microk8s helm3 install -f ./values.yaml . --generate-name`
 
-## 10. View deployment progress
+## 3. View deployment progress
 
 `microk8s kubectl get pods`
 
 `microk8s kubectl get jobs`
 
-## Setup MariaDB (on localhost only)
+## 4. Setup MariaDB
 
 `microk8s kubectl cp 'table_users.sql' <mariadb_container_name>:/home/.`
 
@@ -70,7 +75,7 @@ How to run YANGCATALOG on MicroK8s cluster
 
 `sudo sysctl -w vm.max_map_count=262144`
 
-`microk8s kubectl exec -it <elasticsearch_container_name> -- sh`
+`docker exec -it <elasticsearch_container_name> sh`
 
 `curl -X PUT 'http://localhost:9200/_settings' -H 'Content-Type: application/json' -d '{ "index": { "blocks": { "read_only_allow_delete": "false" } } }'`
 
