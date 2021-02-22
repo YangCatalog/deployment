@@ -9,27 +9,27 @@ How to run YANGCATALOG on MicroK8s cluster
 
 `sudo snap install microk8s --classic`
 
-## 2. Configure service node port range
+## 2. Enable DNS
+
+`microk8s enable dns`
+
+## 3. Enable local image registry
+
+`microk8s enable registry`
+
+## 4. SetUp docker to use local image registry
+
+`echo { \"insecure-registries\" : [\"localhost:32000\"] } | sudo tee /etc/docker/daemon.json`
+
+`sudo systemctl restart docker`
+
+## 5. Configure service node port range
 
 `microk8s stop`
 
 `echo --service-node-port-range=80-10873 | tee -a /var/snap/microk8s/current/args/kube-apiserver`
 
 `microk8s start`
-
-## 3. Enable DNS
-
-`microk8s enable dns`
-
-## 4. Enable local image registry
-
-`microk8s enable registry`
-
-## 5. SetUp docker to use local image registry
-
-`echo { \"insecure-registries\" : [\"localhost:32000\"] } | sudo tee /etc/docker/daemon.json`
-
-`sudo systemctl restart docker`
 
 ## 6. Enable Helm
 
@@ -85,6 +85,6 @@ How to run YANGCATALOG on MicroK8s cluster
 
 `docker-compose build`
 
-`docker tag <image_name>:latest localhost:32000/<image_name>:registry`
+`docker tag <image_name>:latest localhost:32000/<image_name>:latest`
 
-`docker push localhost:32000/<image_name>:registry`
+`docker push localhost:32000/<image_name>:latest`

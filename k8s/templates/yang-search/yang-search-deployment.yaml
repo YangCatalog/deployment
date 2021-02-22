@@ -30,7 +30,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_yang-search:registry
+      - image: localhost:32000/yc_yang-search:latest
         name: yang-search
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf

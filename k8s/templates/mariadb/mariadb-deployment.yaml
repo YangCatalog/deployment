@@ -44,7 +44,7 @@ spec:
             secretKeyRef:
               name: yangcatalog-secret
               key: MYSQL_USER
-        image: localhost:32000/yc_mariadb:registry
+        image: localhost:32000/yc_mariadb:latest
         name: mariadb
         volumeMounts:
         - mountPath: /var/lib/mysql

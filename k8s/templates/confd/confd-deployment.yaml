@@ -26,7 +26,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_confd:registry
+      - image: localhost:32000/yc_confd:latest
         name: confd
         ports:
         - containerPort: 8008

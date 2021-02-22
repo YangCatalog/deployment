@@ -28,7 +28,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_frontend:registry
+      - image: localhost:32000/yc_frontend:latest
         name: frontend
         ports:
         - containerPort: 80

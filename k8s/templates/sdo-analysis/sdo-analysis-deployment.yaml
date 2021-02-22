@@ -30,7 +30,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_sdo-analysis:registry
+      - image: localhost:32000/yc_sdo-analysis:latest
         name: sdo-analysis
         volumeMounts:
         - mountPath: /etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt

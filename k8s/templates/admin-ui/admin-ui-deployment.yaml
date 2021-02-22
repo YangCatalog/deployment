@@ -22,7 +22,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_admin-ui:registry
+      - image: localhost:32000/yc_admin-ui:latest
         name: admin-ui
         volumeMounts:
         - mountPath: /usr/share/nginx/html/admin

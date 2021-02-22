@@ -28,7 +28,7 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yangvalidator:registry
+      - image: localhost:32000/yangvalidator:latest
         name: yangvalidator
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
