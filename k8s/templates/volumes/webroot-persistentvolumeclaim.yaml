@@ -5,6 +5,8 @@ metadata:
     io.kompose.service: webroot-pvc
   name: webroot-pvc
 spec:
+  storageClassName: "local-storage"
+  volumeName: webroot-pv
   accessModes:
   - ReadWriteMany
   resources:

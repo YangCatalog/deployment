@@ -5,6 +5,8 @@ metadata:
     io.kompose.service: nginx-conf-pvc
   name: nginx-conf-pvc
 spec:
+  storageClassName: "local-storage"
+  volumeName: nginx-conf-pv
   accessModes:
   - ReadWriteMany
   resources:

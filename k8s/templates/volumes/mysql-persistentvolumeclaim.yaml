@@ -5,6 +5,8 @@ metadata:
     io.kompose.service: mysql-pvc
   name: mysql-pvc
 spec:
+  storageClassName: "local-storage"
+  volumeName: mysql-pv
   accessModes:
   - ReadWriteMany
   resources:

@@ -5,6 +5,8 @@ metadata:
     io.kompose.service: downloadables-pvc
   name: downloadables-pvc
 spec:
+  storageClassName: "local-storage"
+  volumeName: downloadables-pv
   accessModes:
   - ReadWriteMany
   resources:

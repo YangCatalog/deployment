@@ -5,6 +5,8 @@ metadata:
     io.kompose.service: run-pvc
   name: run-pvc
 spec:
+  storageClassName: "local-storage"
+  volumeName: run-pv
   accessModes:
   - ReadWriteMany
   resources:
