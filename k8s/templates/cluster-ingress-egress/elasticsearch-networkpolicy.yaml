@@ -12,12 +12,12 @@ spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: {{ .Values.ELASTICSEARCH_ENDPOINT_IP }}/32
+            cidr: 0.0.0.0/0
       ports:
         - port: 9200
   egress:
     - to:
         - ipBlock:
-            cidr: {{ .Values.ELASTICSEARCH_ENDPOINT_IP }}/32
+            cidr: 0.0.0.0/0
       ports:
         - port: 9200

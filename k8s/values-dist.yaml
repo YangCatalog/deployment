@@ -1,7 +1,6 @@
 K8S_FILESYSTEM_NODE: ubuntu
 YANG_VOLUMES: /var/yang/volumes
 DEPLOYMENT_SRC: /home/<user>/projects/yc/deployment
-ELASTICSEARCH_ENDPOINT_IP: 172.21.0.2
 MYSQL_ROOT_PASSWORD: <ROOT PASSWORD>
 MYSQL_DATABASE: yang_catalog
 MYSQL_USER: yang

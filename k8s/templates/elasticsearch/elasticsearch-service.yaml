@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: yc-elasticsearch
-spec:
-  ports:
-    - protocol: TCP
-      port: 9200
-      targetPort: 9200

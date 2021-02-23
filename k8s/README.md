@@ -46,6 +46,7 @@ How to run YANGCATALOG on MicroK8s cluster
 `vim values.yaml`
 
 * Please create all volume directories (docs, downloadables, mysql, nginx-conf, run, webroot) under YANG_VOLUMES manually.
+* Please check if `/var/yang/conf/yangcatalog.conf` file points to correct elasticsearch IP
 
 ## 2. Run Helm Chart
 
