@@ -9,6 +9,14 @@ How to run YANGCATALOG on MicroK8s cluster
 
 `sudo snap install microk8s --classic`
 
+* You can join the microk8s group with:
+
+`sudo usermod -a -G microk8s $USER`
+
+`sudo chown -f -R $USER ~/.kube`
+
+`su - $USER`
+
 ## 2. Enable DNS
 
 `microk8s enable dns`
