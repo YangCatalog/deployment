@@ -16,3 +16,5 @@ spec:
         - port: 25
         - port: 465
         - port: 587
+        - port: 80
+        - port: 443
