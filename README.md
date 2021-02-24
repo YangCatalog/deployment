@@ -62,7 +62,8 @@ instance is used instead
 Elasticsearch instance can be started in two different ways. Locally
 you can set "es-aws" in your yangcatalog.conf file to `False` and start
 the elasticsearch manually using `docker run` command. Also es-host
-has to be set to elasticsearch instance IP and port to `9200`. In production
+has to be set to elasticsearch instance IP (k8s setup) or
+`yc-elasticsearch` (docker-compose setup) and port to `9200`. In production
 we use AWS elasticsearch service. This instance runs on different server
 and are connected to yangcatalog server. For this the "es-aws" needs to be
 set to `True` and es-host set to whatever URL AWS provides for elasticsearch.

@@ -30,7 +30,7 @@ name-users=yang_catalog
 user=yang
 
 ;for access to elasticsearch database used by all tools
-es-host=127.0.0.1
+es-host=yc-elasticsearch
 es-port=9200
 es-aws=True
 
@@ -116,7 +116,7 @@ confd-port=8008
 ; ip address where confd is running
 confd-ip=yc-confd
 ; ip address where yangcatalog is running
-ip=35.158.116.10
+ip=yc-frontend
 ; My own URI WEB_URL
 my-uri=http://${ip}
 ; Location of the web server document root WEB
