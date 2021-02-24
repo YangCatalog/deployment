@@ -116,7 +116,7 @@ confd-port=8008
 ; ip address where confd is running
 confd-ip=yc-confd
 ; ip address where yangcatalog is running
-ip=yc-frontend
+ip=35.158.116.10
 ; My own URI WEB_URL
 my-uri=http://${ip}
 ; Location of the web server document root WEB
