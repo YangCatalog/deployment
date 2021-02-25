@@ -66,6 +66,11 @@ drwxrwxr-x 16 yang yang     4096 Jan  4 08:16 ../
 -rw-rw-r--  1 yang yang      361 Jul 27 12:48 rsyncd.conf
 -rw-r--r--  1 yang yang  1703764 Dec 21 13:54 yumapro-client-20.10-3.u1804.amd64.deb
 
+14, In following crontab files set mailto variable - insert one or more mail addresses (separated by comma) to send mail as a result of running job:
+deployment/backend/crontab
+deployment/sdo_analysis/crontab
+deployment/search/crontab
+
 If new clean docker container with images want to be created first we need to get rid of old files:
 1. to stop all the running  containers use - $ docker stop $(docker ps -a -q)
 2. to remove all the stoped containers use - $ docker rm $(docker ps -a -q)
