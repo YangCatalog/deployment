@@ -2,6 +2,11 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v3.0.1 - 2021-02-26
+
+* Bump mariaDB version to 1:10.5.9
+* rsyslog and systemd added to all Dockerfiles [#48](https://github.com/YangCatalog/deployment/issues/48)
+
 * ##### v3.0.0 - 2021-02-10
 
   * ConfD update [deployment #34](https://github.com/YangCatalog/deployment/issues/34)
