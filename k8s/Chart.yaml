@@ -1,0 +1,9 @@
+name: Yang Catalog
+description: A YANG model catalog and registry that allows users to find models relevant to their use cases from the large and growing number of YANG modules being published
+version: 0.0.1
+apiVersion: v1
+keywords:
+  - yangcatalog
+sources:
+  - https://github.com/YangCatalog/deployment
+home: https://yangcatalog.org/

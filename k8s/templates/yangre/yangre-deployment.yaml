@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: yangre
+  name: yangre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: yangre
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/frontend: "true"
+        io.kompose.service: yangre
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: localhost:32000/yc_yangre:latest
+        name: yangre
+        volumeMounts:
+        - mountPath: /var/run/yang
+          name: run-pv
+        - mountPath: /var/yang
+          name: yang-resources-pv
+      restartPolicy: Always
+      volumes:
+      - name: run-pv
+        persistentVolumeClaim:
+          claimName: run-pvc
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: docs-pvc
+  name: docs-pvc
+spec:
+  storageClassName: "local-storage"
+  volumeName: docs-pv
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

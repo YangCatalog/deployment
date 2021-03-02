@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: crontab
+spec:
+  podSelector:
+    matchLabels:
+      io.kompose.network/crontab: "true"
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 25
+        - port: 465
+        - port: 587
+        - port: 80
+        - port: 443

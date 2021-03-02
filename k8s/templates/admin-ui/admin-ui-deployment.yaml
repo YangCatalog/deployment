@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: admin-ui
+  name: admin-ui
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/frontend: "true"
+        io.kompose.network/mysql: "true"
+        io.kompose.service: admin-ui
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: localhost:32000/yc_admin-ui:latest
+        name: admin-ui
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/admin
+          name: webroot-pv
+        - mountPath: /var/yang
+          name: yang-resources-pv
+      restartPolicy: OnFailure
+      volumes:
+      - name: webroot-pv
+        persistentVolumeClaim:
+          claimName: webroot-pvc
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}

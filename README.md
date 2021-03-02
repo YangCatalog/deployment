@@ -62,7 +62,8 @@ instance is used instead
 Elasticsearch instance can be started in two different ways. Locally
 you can set "es-aws" in your yangcatalog.conf file to `False` and start
 the elasticsearch manually using `docker run` command. Also es-host
-has to be set to `yc_elasticsearch_1` and port to `9200`. In production
+has to be set to elasticsearch instance IP (k8s setup) or
+`yc-elasticsearch` (docker-compose setup) and port to `9200`. In production
 we use AWS elasticsearch service. This instance runs on different server
 and are connected to yangcatalog server. For this the "es-aws" needs to be
 set to `True` and es-host set to whatever URL AWS provides for elasticsearch.
@@ -89,10 +90,7 @@ container.
 
 ### Kubernetes support
 
-It would be nice to code a deployment specification to a Kubernetes
-cluster for more production-grade installations.  This will provide
-opportunities of making the system more robust and scalable by
-replicating components where appropriate.
+It is possible to deploy YANGCATALOG on Kubernetes by following this [guide](./k8s/README.md).
 
 ### OpenShift support
 

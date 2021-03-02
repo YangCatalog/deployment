@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: yc-mariadb
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: yc-mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/mysql: "true"
+        io.kompose.service: yc-mariadb
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: {{ .Values.MYSQL_DATABASE }}
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yangcatalog-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yangcatalog-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: yangcatalog-secret
+              key: MYSQL_USER
+        image: localhost:32000/yc_mariadb:latest
+        name: mariadb
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-volume-pv
+        - mountPath: /docker-entrypoint-initdb.d
+          name: mariadb-pv
+          readOnly: true
+        - mountPath: /var/run/mysqld
+          name: mysql-pv
+      restartPolicy: Always
+      volumes:
+      - name: mysql-volume-pv
+        hostPath:
+          path: {{ .Values.MYSQL_VOLUME }}
+      - name: mariadb-pv
+        hostPath:
+          path: {{ .Values.DEPLOYMENT_SRC }}/conf/mariadb
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: mysql-pvc
