@@ -1,7 +1,7 @@
 # Pull base image.
 FROM ubuntu:18.04
 
-ENV CONFD_VER 7.5
+ENV CONFD_VER 7.3.1
 
 # Install Java.
 RUN \

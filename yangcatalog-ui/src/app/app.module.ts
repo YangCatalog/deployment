@@ -10,6 +10,8 @@ import { YangSearchModule } from './yang-search/yang-search.module';
 import { YangImpactAnalysisModule } from './yang-impact-analysis/yang-impact-analysis.module';
 import { YangModuleDetailViewerModule } from './yang-module-detail-viewer/yang-module-detail-viewer.module';
 import { YangRegexValidatorModule } from './yang-regex-validator/yang-regex-validator.module';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { YangRegexValidatorModule } from './yang-regex-validator/yang-regex-vali
     BrowserModule,
     RouterModule,
     AppRoutingModule,
+    NgbTabsetModule,
     StaticContentModule,
     YangValidatorModule,
     YangSearchModule,
     YangImpactAnalysisModule,
     YangModuleDetailViewerModule,
-    YangRegexValidatorModule
+    YangRegexValidatorModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

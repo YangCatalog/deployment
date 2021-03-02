@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <title>YANG CATALOG</title>
-<base href="/yangcatalog-ui/">
+<base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -28,60 +28,60 @@
 <body>
 
 
-<div class="yc-top yc-center">
-  <div class="yc-bar yc-card yc-relative" id="myNavbar">
-    <h1><a href="/yangcatalog-ui/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">
-      <img src="/yangcatalog-ui/assets/img/ietf-logo.svg" class="yc-hide-small yc-hide-medium" style="height: 80px;" alt="">
-      <img src="/yangcatalog-ui/assets/img/ietf-logo.svg" class="yc-hide-large " style="height: 40px;" alt="">
-      <span>YANG CATALOG</span>
-    </a></h1>
-    <div class="yc-right yc-main-menu yc-hide-small">
-      <a href="/yangcatalog-ui/home.html" class="yc-bar-item ">Home</a> <span class="yc-bar-item">|</span>
-      <a href="/yangcatalog-ui/about.html" class="yc-bar-item "> About</a><span class="yc-bar-item">|</span>
-      <a href="/yangcatalog-ui/blog.html" class="yc-bar-item "> Blog</a><span class="yc-bar-item">|</span>
-      <a href="/yangcatalog-ui/contribute.html" class="yc-bar-item ">Contribute</a>
+  <div class="yc-top yc-center">
+    <div class="yc-bar yc-card yc-relative" id="myNavbar">
+      <h1><a href="/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">
+        <img src="/assets/img/ietf-logo.svg" class="yc-hide-small yc-hide-medium" style="height: 80px;" alt="">
+        <img src="/assets/img/ietf-logo.svg" class="yc-hide-large " style="height: 40px;" alt="">
+        <span>YANG CATALOG</span>
+      </a></h1>
+      <div class="yc-right yc-main-menu yc-hide-small">
+        <a href="/home.html" class="yc-bar-item ">Home</a> <span class="yc-bar-item">|</span>
+        <a href="/about.html" class="yc-bar-item "> About</a><span class="yc-bar-item">|</span>
+        <a href="/blog.html" class="yc-bar-item "> Blog</a><span class="yc-bar-item">|</span>
+        <a href="/contribute.html" class="yc-bar-item ">Contribute</a>
+      </div>
+
+      <div class="yc-right yc-second-menu yc-hide-small">
+        <a href="/yangvalidator/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Validator</a> <span
+        class="yc-bar-item">|</span>
+        <a href="/yang-search/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Search</a> <span
+        class="yc-bar-item">|</span>
+        <a href="/yang-search/impact_analysis/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Impact
+          Analysis</a> <span
+        class="yc-bar-item">|</span>
+        <a href="/yang-search/module_details/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Module Detail
+          Viewer</a> <span
+        class="yc-bar-item">|</span>
+        <a href="/yangre" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Regex Validator</a>
+      </div>
+
+      <a href="javascript:void(0)" class="yc-bar-item yc-right yc-hide-large yc-hide-medium" onclick="w3_open()">
+        <i class="fa fa-bars"></i>
+      </a>
     </div>
 
-    <div class="yc-right yc-second-menu yc-hide-small">
-      <a href="/yangvalidator/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Validator</a> <span
-      class="yc-bar-item">|</span>
-      <a href="/yang-search/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Search</a> <span
-      class="yc-bar-item">|</span>
-      <a href="/yang-search/impact_analysis/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Impact
-        Analysis</a> <span
-      class="yc-bar-item">|</span>
-      <a href="/yang-search/module_details/" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Module Detail
-        Viewer</a> <span
-      class="yc-bar-item">|</span>
-      <a href="/yangre" class="yc-bar-item "><span class="yc-hide-medium">YANG</span> Regex Validator</a>
+  </div>
+
+  <nav class="yc-sidebar yc-bar-block yc-black yc-card yc-animate-left yc-hide-medium yc-hide-large" style="display:none"
+       id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="yc-bar-item yc-button yc-large yc-padding-16">Close ×</a>
+    <a href="/yangcatalog-ui/home.html" onclick="w3_close()" class="yc-bar-item yc-button">HOME</a>
+    <a href="/yangcatalog-ui/about.html" onclick="w3_close()" class="yc-bar-item yc-button">ABOUT</a>
+    <a href="/yangcatalog-ui/blog.html" onclick="w3_close()" class="yc-bar-item yc-button">BLOG</a>
+    <a href="/yangcatalog-ui/contribute.html" onclick="w3_close()" class="yc-bar-item yc-button">CONTRIBUTE</a>
+
+    <hr>
+    <div class="yc-second-menu">
+      <a href="/yangvalidator/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Validator</a>
+      <a href="/yang-search/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Search</a>
+      <a href="/yang-search/impact_analysis/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Impact Analysis</a>
+      <a href="/yang-search/module_details/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Module Detail Viewer</a>
+      <a href="/yangre" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Regex Validator</a>
     </div>
+  </nav>
 
-    <a href="javascript:void(0)" class="yc-bar-item yc-right yc-hide-large yc-hide-medium" onclick="w3_open()">
-      <i class="fa fa-bars"></i>
-    </a>
-  </div>
-
-</div>
-
-<nav class="yc-sidebar yc-bar-block yc-black yc-card yc-animate-left yc-hide-medium yc-hide-large" style="display:none"
-     id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="yc-bar-item yc-button yc-large yc-padding-16">Close ×</a>
-  <a href="/yangcatalog-ui/home.html" onclick="w3_close()" class="yc-bar-item yc-button">HOME</a>
-  <a href="/yangcatalog-ui/about.html" onclick="w3_close()" class="yc-bar-item yc-button">ABOUT</a>
-  <a href="/yangcatalog-ui/blog.html" onclick="w3_close()" class="yc-bar-item yc-button">BLOG</a>
-  <a href="/yangcatalog-ui/contribute.html" onclick="w3_close()" class="yc-bar-item yc-button">CONTRIBUTE</a>
-
-  <hr>
-  <div class="yc-second-menu">
-    <a href="/yangvalidator/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Validator</a>
-    <a href="/yang-search/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Search</a>
-    <a href="/yang-search/impact_analysis/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Impact Analysis</a>
-    <a href="/yang-search/module_details/" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Module Detail Viewer</a>
-    <a href="/yangre" class="yc-bar-item yc-button "><span class="yc-hide-medium">YANG</span> Regex Validator</a>
-  </div>
-</nav>
-
-<yc-root></yc-root>
+  <yc-root></yc-root>
 
 
 <!-- Footer -->
