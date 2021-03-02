@@ -23,7 +23,7 @@ spec:
       - image: localhost:32000/catalog_backend_api:latest
         name: api-recovery
         command: ["/bin/bash"]
-        args: ["-c", "source bin/activate; python recovery/recovery.py --type load --protocol http --ip confd"]
+        args: ["-c", "source bin/activate; python recovery/recovery.py --type load --protocol http --ip yc-confd"]
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv
