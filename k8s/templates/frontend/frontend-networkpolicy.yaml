@@ -23,7 +23,7 @@ spec:
         - port: 873
     - from:
         - ipBlock:
-            cidr: ::0/0
+            cidr: ::/0
       ports:
         - port: 443
         - port: 80

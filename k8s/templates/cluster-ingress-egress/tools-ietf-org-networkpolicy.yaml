@@ -17,7 +17,7 @@ spec:
         - port: 443
     - to:
         - ipBlock:
-            cidr: ::0/0
+            cidr: ::/0
       ports:
         - port: 80
         - port: 443

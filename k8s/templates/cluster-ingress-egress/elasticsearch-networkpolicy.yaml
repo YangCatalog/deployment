@@ -28,6 +28,6 @@ spec:
         - port: 9200
     - to:
         - ipBlock:
-            cidr: ::0/0
+            cidr: ::/0
       ports:
         - port: 9200

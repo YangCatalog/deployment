@@ -31,7 +31,7 @@ spec:
         - port: 873
     - to:
         - ipBlock:
-            cidr: ::0/0
+            cidr: ::/0
       ports:
         - port: 10873
         - port: 873
