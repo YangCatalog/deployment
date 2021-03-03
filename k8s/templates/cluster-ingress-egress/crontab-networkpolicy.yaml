@@ -18,3 +18,12 @@ spec:
         - port: 587
         - port: 80
         - port: 443
+    - to:
+        - ipBlock:
+            cidr: ::0/0
+      ports:
+        - port: 25
+        - port: 465
+        - port: 587
+        - port: 80
+        - port: 443

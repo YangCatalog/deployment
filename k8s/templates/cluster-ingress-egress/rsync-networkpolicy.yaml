@@ -16,10 +16,22 @@ spec:
       ports:
         - port: 10873
         - port: 873
+    - from:
+        - ipBlock:
+            cidr: ::0/0
+      ports:
+        - port: 10873
+        - port: 873
   egress:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+      ports:
+        - port: 10873
+        - port: 873
+    - to:
+        - ipBlock:
+            cidr: ::0/0
       ports:
         - port: 10873
         - port: 873

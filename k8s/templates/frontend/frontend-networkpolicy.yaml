@@ -21,6 +21,13 @@ spec:
         - port: 443
         - port: 80
         - port: 873
+    - from:
+        - ipBlock:
+            cidr: ::0/0
+      ports:
+        - port: 443
+        - port: 80
+        - port: 873
   egress:
     - to:
         - podSelector:

@@ -15,9 +15,19 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - port: 9200
+    - from:
+        - ipBlock:
+            cidr: ::0/0
+      ports:
+        - port: 9200
   egress:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+      ports:
+        - port: 9200
+    - to:
+        - ipBlock:
+            cidr: ::0/0
       ports:
         - port: 9200
