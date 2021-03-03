@@ -28,6 +28,7 @@ spec:
         io.kompose.network/redis: "true"
         io.kompose.network/elasticsearch: "true"
         io.kompose.network/crontab: "true"
+        io.kompose.network/tools-ieft-org: "true"
         io.kompose.service: backend
     spec:
       securityContext:
