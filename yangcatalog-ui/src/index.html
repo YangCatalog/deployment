@@ -4,7 +4,7 @@
 <base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="assets/styles.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -17,6 +17,12 @@
     line-height: 1.8;
   }
 
+  .yc-top {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+  }
 
   .w3-bar .w3-button {
     padding: 16px;
@@ -28,11 +34,12 @@
 
   <div class="yc-top yc-center">
     <div class="yc-bar yc-card yc-relative" id="myNavbar">
-      <h1><a href="/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">
-        <img src="/assets/img/ietf-logo.svg" class="yc-hide-small yc-hide-medium" style="height: 80px;" alt="">
-        <img src="/assets/img/ietf-logo.svg" class="yc-hide-large " style="height: 40px;" alt="">
-        <span>YANG CATALOG</span>
-      </a></h1>
+      <h1>
+        <a href="/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">
+          <img src="/assets/img/ietf-logo.svg" class="" style="max-height: 80px;" alt="">
+          <span>YANG CATALOG</span>
+        </a>
+      </h1>
       <div class="yc-right yc-main-menu yc-hide-small">
         <a href="/home.html" class="yc-bar-item ">Home</a> <span class="yc-bar-item">|</span>
         <a href="/about.html" class="yc-bar-item "> About</a><span class="yc-bar-item">|</span>
