@@ -12,6 +12,7 @@
       "element",
       "yc",
       "kebab-case"
-    ]
+    ],
+    "no-string-literal": false
   }
 }

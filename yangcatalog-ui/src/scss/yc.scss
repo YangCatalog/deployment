@@ -1,4 +1,5 @@
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 @keyframes "w3-spin" {
   0% {
@@ -2605,4 +2606,39 @@ header {
 
 p {
   padding-top: 25px;
+}
+
+.has-error {
+  .control-label {
+    color: red;
+  }
+
+}
+
+button {
+  .spinner-border {
+    width: 14px;
+    height: 14px;
+    vertical-align: baseline;
+    margin-right: 10px;
+  }
+
+}
+
+label.radio {
+  span {
+    padding-left: 10px;
+  }
+}
+
+.px-ml-5 {
+  margin-left: 5px;
+}
+
+button i.bi {
+  padding-right: 7px;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
 }

@@ -1,10 +1,15 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as _ from 'lodash';
-import { DataServiceService } from '../core/data-service.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { YangValidatorService } from './yang-validator.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { finalize, mergeMap, takeUntil } from 'rxjs/operators';
+import { merge, Subject } from 'rxjs';
+import { ValidationOutput } from './models/validation-output';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MissingModulesSelectionComponent } from './missing-modules-confirmation/missing-modules-selection.component';
+import { ChosenMissingRevsInput } from './models/chosen-missing-revs-input';
+import { FileUploadFormComponent } from '../shared/file-upload-form/file-upload-form.component';
+import { YcValidationsService } from '../core/yc-validations.service';
+import { ErrorMessage } from 'ng-bootstrap-form-validation';
 
 
 @Component({
@@ -13,32 +18,45 @@ import { Subject } from 'rxjs';
   styleUrls: ['./yang-validator.component.scss']
 })
 export class YangValidatorComponent implements OnInit, OnDestroy {
-
-  @ViewChild('attachmentFileInput', {static: true}) attachmentFileInput: ElementRef;
-
+  @ViewChild('filesForm') filesForm: FileUploadFormComponent;
+  @ViewChild('draftFileForm') draftFileForm: FileUploadFormComponent;
 
   rfcNumberForm: FormGroup;
+  draftNameForm: FormGroup;
   rfcNameForm: FormGroup;
-  rfcFilesForm: FormGroup;
 
-  displayTooManyFilesErrorMsg: boolean;
-  displayNotValidFileSize: boolean;
-  displayNotValidFileType: boolean;
-
-  attachments = [];
-
-
-  allowedFileTypesString = [
-    '.txt', '.zip', '.jpg'
-  ];
   rfcNumberValidation = false;
-  validadtingRfcNumberProgress = false;
+  draftNameValidation = false;
+  filesValidation = false;
+  draftFileValidation = false;
+  apiOverview = false;
+
+  validatingRfcNumberProgress = false;
+  validatingDraftNameProgress = false;
+  validatingFilesProgress = false;
+  validatingDraftFileProgress = false;
+
+  validationOutput: ValidationOutput;
+  error: any;
+
+  customErrorMessages: ErrorMessage[] = [
+    {
+      error: 'notNumber',
+      format: (label, error) => `${label} has to be a number`
+    }
+  ];
+
+
+
   private componentDestroyed: Subject<void> = new Subject<void>();
+  private formTypeChanged: Subject<void> = new Subject<void>();
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private dataService: YangValidatorService
+    private dataService: YangValidatorService,
+    private modalService: NgbModal,
+    private ycValidations: YcValidationsService
   ) {
   }
 
@@ -47,221 +65,306 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   }
 
 
-
   ngOnInit() {
-    this.rfcNumberForm = this.formBuilder.group({
-      rfcNumber: ['', Validators.required]
-    });
+    this.initRfcNumberForm();
+
+    this.initDraftNameForm();
 
     this.rfcNameForm = this.formBuilder.group({
       rfcName: ['', Validators.required]
     });
 
-    this.rfcFilesForm = this.formBuilder.group({
-      attachments: this.formBuilder.array([]),
+  }
+
+
+  private initDraftNameForm() {
+    this.draftNameForm = this.formBuilder.group({
+      draftName: ['', Validators.required]
     });
-    this.rfcFilesForm.get('attachments').valueChanges.subscribe(() => this.attachmentFormArrayChanged());
   }
 
-  openAttachFileDialog() {
-    this.attachmentFileInput.nativeElement.click();
-
-  }
-
-  onFileChangeHandler($event: Event) {
-    this.onFileInputChange($event);
-    this.attachmentFileInput.nativeElement.value = '';
-  }
-
-  public formatFileSize(sizeInBytes: string, decimals?: number) {
-    const size: number = parseInt(sizeInBytes, 10);
-    if (size === 0) {
-      return '0 Bytes';
-    }
-    const k = 1024;
-    const dm = decimals <= 0 ? 0 : decimals || 2;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(size) / Math.log(k));
-    return parseFloat((size / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-  }
-
-
-  public covertFileListToAttachmentVM(files: FileList): any[] {
-    const result = [];
-
-    if (files.length > 0) {
-      Object.keys(files).forEach(i => {
-        const currentFile: File = files[i];
-        const displayFileSize = this.formatFileSize(currentFile.size.toString());
-        result.push(
-          {
-            name: currentFile.name,
-            type: currentFile.type,
-            size: currentFile.size.toString(),
-            displayFileSize
-          }
-        );
-      });
-    }
-
-    return result;
-  }
-
-
-  private attachmentFormArrayChanged() {
-    const files = this.rfcFilesForm.get('attachments').value.map(val => val.file);
-    this.attachments = this.covertFileListToAttachmentVM(files);
-
-    // displaying error message for max amount of filess
-    this.displayTooManyFilesErrorMsg = !this.validateFilesCount(this.attachments.length, 10);
-    // displaying error message for one or more files exceeded 2MB
-    this.displayNotValidFileSize = !this.validateFilesSize(this.attachments, 2097152);
-    // displaying error message for one or more files type is not allowed
-    this.displayNotValidFileType = !this.validateFilesType(this.attachments, this.allowedFileTypesString);
-  }
-
-  public validateFileType(fileName: string, allowedFileTypes: string[]): boolean {
-    const suffixIndex = fileName.lastIndexOf('.');
-    const fileSuffix = fileName.slice(suffixIndex);
-    return suffixIndex > 0 && allowedFileTypes.indexOf(fileSuffix) > -1;
-  }
-
-
-  public removeAttachmentFromFormArray(attachmentToRemove: any, attachmentFormArray: FormArray) {
-    const indexToRemove: number[] = [];
-    attachmentFormArray.controls.forEach((attach, index) => {
-      if (
-        attach.value.file.name === attachmentToRemove.name &&
-        attach.value.file.size === parseInt(attachmentToRemove.fileSize, 10)
-      ) {
-        indexToRemove.push(index);
-      }
+  private initRfcNumberForm() {
+    this.rfcNumberForm = this.formBuilder.group({
+      rfcNumber: ['', [Validators.required, this.ycValidations.getNumberValidation()]]
     });
-    indexToRemove.forEach(i => attachmentFormArray.removeAt(i));
   }
-
-
-  onDeleteAttachment(attachmentsToRemove: any) {
-    this.removeAttachmentFromFormArray(attachmentsToRemove, this.rfcFilesForm.get('attachments') as FormArray);
-  }
-
-
-  public validateFilesType(attachments: any[], allowedFileTypes: string[]) {
-    let isValid = true;
-    attachments.forEach(attachment => {
-      if (!this.validateFileType(attachment.name, allowedFileTypes)) {
-        isValid = false;
-        return;
-      }
-    });
-    return isValid;
-  }
-
-
-  public validateFilesCount(totalAttachmentsCount: number, maxFilesToUpload: number) {
-    return totalAttachmentsCount <= maxFilesToUpload;
-  }
-
-  public validateFileSize(size: string, maxBytesToUpload: number): boolean {
-    // 2MB = 2097152 Bytes
-    if (parseInt(size, 10) > maxBytesToUpload) {
-      return false;
-    }
-    return true;
-  }
-
-
-  public validateFilesSize(attachments: any[], maxBytesToUpload: number) {
-    let isValid = true;
-    attachments.forEach(attachment => {
-      if (!this.validateFileSize(attachment.fileSize, maxBytesToUpload)) {
-        isValid = false;
-        return;
-      }
-    });
-    return isValid;
-  }
-
-
-
-  private onFileInputChange(event: Event) {
-    this.handleFileInputChangeWithFileContent(event, this.rfcFilesForm, 'attachments');
-
-  }
-
-  public handleFileInputChangeWithFileContent(event: any, form: any, attachmentControlName: any) {
-    const filesList: FileList = event.target.files;
-    const filesCount = filesList.length;
-
-
-
-    if (filesCount > 0) {
-      Object.keys(filesList).forEach(i => {
-        const reader = new FileReader();
-        const currentFile = filesList[i];
-        reader.readAsDataURL(currentFile);
-
-
-
-        reader.onload = () => {
-          const fileContent = (reader.result as string).split(',')[1];
-          this.addFileAndContentToForm(currentFile, fileContent, form, attachmentControlName);
-        };
-      });
-    }
-  }
-
-  private addFileAndContentToForm(fileValue: any, fileContent: any, form: any, attachmentControlName: any) {
-
-    const attachmentsFormArray: FormArray = form.get(attachmentControlName) as FormArray;
-    const fileIndex = _.findIndex(attachmentsFormArray.controls, attachmentControl => {
-      return (
-        attachmentControl.value.file.name === fileValue.name &&
-        attachmentControl.value.file.size === fileValue.size
-      );
-    });
-    // add to file group only new files
-
-
-    if (fileIndex === -1) {
-      // fileValue['uuid'] = UUID.UUID();
-      fileValue.content = fileContent;
-      const fileFormGroup = this.formBuilder.group({
-        file: fileValue
-      });
-
-      attachmentsFormArray.push(fileFormGroup);
-      attachmentsFormArray.markAsTouched();
-      console.log('attachmentsFormArray', attachmentsFormArray);
-    }
-  }
-
 
   showRfcNumberForm() {
+    this.error = null;
+    this.formTypeChanged.next();
     this.rfcNumberValidation = true;
+    this.initRfcNumberForm();
+  }
+
+  showFilesForm() {
+    this.error = null;
+    this.formTypeChanged.next();
+    this.filesValidation = true;
+  }
+
+  showDraftFileForm() {
+    this.error = null;
+    this.formTypeChanged.next();
+    this.draftFileValidation = true;
+  }
+
+  showDraftNameForm() {
+    this.draftNameValidation = true;
+    this.error = null;
+    this.formTypeChanged.next();
+    this.initDraftNameForm();
+  }
+
+  showApiOverview() {
+    this.apiOverview = true;
+    this.error = null;
+    this.formTypeChanged.next();
   }
 
   noFormDisplayed() {
-    return !(this.rfcNumberValidation);
+    return !(this.rfcNumberValidation || this.draftNameValidation || this.filesValidation || this.draftFileValidation || this.apiOverview);
   }
 
   resetValidation() {
+    this.formTypeChanged.next();
     this.rfcNumberValidation = false;
+    this.draftNameValidation = false;
+    this.filesValidation = false;
+    this.draftFileValidation = false;
+    this.apiOverview = false;
+    this.validationOutput = null;
   }
 
   validateRfcNumber() {
-    this.validadtingRfcNumberProgress = true;
-    this.dataService.testGet()
+    if (this.rfcNumberForm.invalid || this.validatingRfcNumberProgress) {
+      return;
+    }
+
+    this.validatingRfcNumberProgress = true;
+    this.validationOutput = null;
+    this.error = null;
+
+    this.dataService.validateRfcByNumber(this.rfcNumberForm.get('rfcNumber').value)
       .pipe(
-        takeUntil(this.componentDestroyed)
+        finalize(() => this.validatingRfcNumberProgress = false),
+        takeUntil(merge(this.formTypeChanged, this.componentDestroyed))
       )
       .subscribe(
-      res => {
-        console.log('res', res);
+        (output: ValidationOutput) => {
+          if (output.isFinal()) {
+            this.validationOutput = output;
+          } else {
+            const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+            const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+            modalComponent.validationOutput = output;
+
+            modalRef.result.then(
+              (choosedRevisionsInput: ChosenMissingRevsInput) => {
+                this.validatingRfcNumberProgress = true;
+
+                if (choosedRevisionsInput !== null) {
+                  this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                    .pipe(
+                      finalize(() => this.validatingRfcNumberProgress = false),
+                      takeUntil(this.componentDestroyed)
+                    ).subscribe(
+                      () => this.validationOutput = output,
+                      err => this.error = err
+                    );
+                } else {
+                  this.dataService.validateRfcByNumberWithLatestRevisions(this.rfcNumberForm.get('rfcNumber').value)
+                    .pipe(
+                      finalize(() => this.validatingRfcNumberProgress = false),
+                      takeUntil(this.componentDestroyed)
+                    )
+                    .subscribe(
+                      output2 => this.validationOutput = output2,
+                      err => this.error = err
+                    );
+                }
+              },
+              () => {}
+            );
+          }
+        },
+        err => {
+          console.error(err);
+          this.error = err;
+        }
+      );
+  }
+
+  validateDraftName() {
+    if (this.draftNameForm.invalid || this.validatingDraftNameProgress) {
+      return;
+    }
+
+    this.validatingDraftNameProgress = true;
+    this.validationOutput = null;
+    this.error = null;
+
+    this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value)
+      .pipe(
+        finalize(() => this.validatingDraftNameProgress = false),
+        takeUntil(merge(this.componentDestroyed, this.formTypeChanged))
+      )
+      .subscribe(
+        (output: ValidationOutput) => {
+          if (output.isFinal()) {
+            this.validationOutput = output;
+          } else {
+            const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+            const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+            modalComponent.validationOutput = output;
+
+            modalRef.result.then(
+              (choosedRevisionsInput: ChosenMissingRevsInput) => {
+                this.validatingRfcNumberProgress = true;
+
+                if (choosedRevisionsInput !== null) {
+                  this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                    .pipe(
+                      finalize(() => this.validatingDraftNameProgress = false),
+                      takeUntil(this.componentDestroyed)
+                    ).subscribe(
+                    () => this.validationOutput = output,
+                    err => this.error = err
+                  );
+                } else {
+                  this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value)
+                    .pipe(
+                      finalize(() => this.validatingDraftNameProgress = false),
+                      takeUntil(this.componentDestroyed)
+                    )
+                    .subscribe(
+                      output2 => this.validationOutput = output2,
+                      err => this.error = err
+                    );
+                }
+              },
+              () => {}
+            );
+          }
+        },
+        err => {
+          this.error = err;
+        }
+      );
+  }
+
+  validateFiles() {
+    if (this.validatingFilesProgress) {
+      return;
+    }
+
+    this.validatingFilesProgress = true;
+    this.validationOutput = null;
+    this.error = null;
+
+    const formData: FormData = new FormData();
+    this.filesForm.form.get('attachments').value.forEach(
+      o => formData.append('data', o.file)
+    );
+
+    this.dataService.preSetupFilesUpload(false, true)
+      .pipe(
+        mergeMap(cache => {
+          return this.dataService.uploadPreSetFiles(cache, formData);
+        }),
+        finalize(() => this.validatingFilesProgress = false),
+        takeUntil(merge(this.filesForm.selection, this.formTypeChanged, this.componentDestroyed))
+      ).subscribe(
+      output => {
+        this.validatingFilesProgress = false;
+        if (output.isFinal()) {
+          this.validationOutput = output;
+        } else {
+          const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+          const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+          modalComponent.validationOutput = output;
+
+          modalRef.result.then(
+            (choosedRevisionsInput: ChosenMissingRevsInput) => {
+              this.validatingFilesProgress = true;
+              this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                .pipe(
+                  finalize(() => this.validatingFilesProgress = false),
+                  takeUntil(this.componentDestroyed)
+                ).subscribe(
+                () => this.validationOutput = output,
+                err => this.error = err
+              );
+            },
+            () => {}
+          );
+        }
       },
       err => {
         console.error(err);
+        this.error = err;
       }
     );
+
+  }
+
+  validateDraftFile() {
+    if (this.validatingDraftFileProgress) {
+      return;
+    }
+
+    this.validatingDraftFileProgress = true;
+    this.validationOutput = null;
+    this.error = null;
+
+    const formData: FormData = new FormData();
+    this.draftFileForm.form.get('attachments').value.forEach(
+      o => formData.append('data', o.file)
+    );
+
+    this.dataService.preSetupFilesUpload(false, true)
+      .pipe(
+        mergeMap(cache => {
+          return this.dataService.uploadPreSetDraftFile(cache, formData);
+        }),
+        finalize(() => this.validatingDraftFileProgress = false),
+        takeUntil(merge(this.draftFileForm.selection, this.formTypeChanged, this.componentDestroyed))
+      ).subscribe(
+      output => {
+        this.validatingDraftFileProgress = false;
+        if (output.isFinal()) {
+          this.validationOutput = output;
+        } else {
+          const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+          const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+          modalComponent.validationOutput = output;
+
+          modalRef.result.then(
+            (choosedRevisionsInput: ChosenMissingRevsInput) => {
+              this.validatingDraftFileProgress = true;
+              this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                .pipe(
+                  finalize(() => this.validatingDraftFileProgress = false),
+                  takeUntil(this.componentDestroyed)
+                ).subscribe(
+                () => this.validationOutput = output,
+                err => this.error = err
+              );
+            },
+            () => {
+            }
+          );
+        }
+      },
+      err => {
+        console.error(err);
+        this.error = err;
+      }
+    );
+
+  }
+
+
+  onCloseWarning() {
+    this.validationOutput.warning = '';
   }
 }

@@ -12,10 +12,12 @@ import { YangModuleDetailViewerModule } from './yang-module-detail-viewer/yang-m
 import { YangRegexValidatorModule } from './yang-regex-validator/yang-regex-validator.module';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { FileUploadFormComponent } from './shared/file-upload-form/file-upload-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,8 +31,11 @@ import { HttpClientModule } from '@angular/common/http';
     YangModuleDetailViewerModule,
     YangRegexValidatorModule,
     HttpClientModule,
+    NgBootstrapFormValidationModule.forRoot()
   ],
   providers: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

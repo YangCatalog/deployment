@@ -1,22 +1,3 @@
-.attachment-file-input {
-  visibility: hidden;
-}
-
-.delete-attachment {
-  background-color: initial;
-  border: 1px solid silver;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-
-  .icon-close {
-    margin-right: 4px;
-    margin-top: 0;
-    font-size: font('size-large');
-    color: silver;
-  }
-}
 
 a {
   color: #0056b3 !important;
@@ -46,4 +27,9 @@ h3 {
 
 .form-group {
   margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.files-validation-container {
+  padding-top: 30px;
 }

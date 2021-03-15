@@ -1,0 +1,39 @@
+.attachment-file-input {
+  visibility: hidden;
+}
+
+.delete-attachment {
+  background-color: initial;
+  border: 1px solid silver;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+
+  .icon-close {
+    margin-right: 4px;
+    margin-top: 0;
+    font-size: font('size-large');
+    color: silver;
+  }
+}
+.error-msg{
+  color: red;
+}
+
+.attachments-table-upload {
+  margin-top: 20px;
+
+  .col-md-10, .col-md-2 {
+    padding-left: 0;
+  }
+
+  .delete-attachment {
+    i.bi {
+      padding: 0;
+    }
+  }
+}
+.attachment-files {
+  margin-bottom: 30px;
+}
