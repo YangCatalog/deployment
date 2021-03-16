@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/backend: "true"
+        io.kompose.network/confd: "true"
+        io.kompose.network/frontend: "true"
+        io.kompose.network/mysql: "true"
+        io.kompose.network/rabbitmq: "true"
+        io.kompose.network/redis: "true"
+        io.kompose.network/elasticsearch: "true"
+        io.kompose.network/crontab: "true"
+        io.kompose.network/tools-ieft-org: "true"
+        io.kompose.service: backend
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: localhost:32000/catalog_backend_api:latest
+        name: backend
+        volumeMounts:
+        - mountPath: /etc/yangcatalog/yangcatalog.conf
+          name: yangcatalog-conf-pv
+        - mountPath: /etc/postfix/main.cf
+          name: resources-pv
+        - mountPath: /var/yang
+          name: yang-resources-pv
+        - mountPath: /usr/share/nginx/html/YANG-modules
+          name: nginx-yang-modules-pv
+        - mountPath: /usr/share/nginx/html/compatibility
+          name: nginx-compatibility-pv
+        - mountPath: /usr/share/nginx/html/private
+          name: nginx-private-pv
+        - mountPath: /usr/share/nginx/html/results
+          name: nginx-results-pv
+        - mountPath: /usr/share/nginx/html/stats
+          name: nginx-stats-pv
+        - mountPath: /usr/share/nginx/html/slate
+          name: docs-pv
+        - mountPath: /var/run/yang
+          name: run-pv
+        - mountPath: /var/run/mysqld
+          name: mysql-pv
+        - mountPath: /etc/nginx
+          name: nginx-conf-pv
+        - mountPath: /usr/share/nginx/html/downloadables
+          name: downloadables-pv
+      restartPolicy: Always
+      volumes:
+      - name: yangcatalog-conf-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf
+      - name: resources-pv
+        hostPath:
+          path: {{ .Values.DEPLOYMENT_SRC }}/resources/main.cf
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}
+      - name: nginx-yang-modules-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/YANG-modules
+      - name: nginx-compatibility-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/compatibility
+      - name: nginx-private-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/private
+      - name: nginx-results-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/results
+      - name: nginx-stats-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/stats
+      - name: docs-pv
+        persistentVolumeClaim:
+          claimName: docs-pvc
+      - name: run-pv
+        persistentVolumeClaim:
+          claimName: run-pvc
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      - name: nginx-conf-pv
+        persistentVolumeClaim:
+          claimName: nginx-conf-pvc
+      - name: downloadables-pv
+        persistentVolumeClaim:
+          claimName: downloadables-pvc

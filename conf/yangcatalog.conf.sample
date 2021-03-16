@@ -24,18 +24,18 @@
 [DB-Section]
 
 ;for access to local database used by all tools
-host=yc_mariadb_1
+host=yc-mariadb
 name-search=yang
 name-users=yang_catalog
 user=yang
 
 ;for access to elasticsearch database used by all tools
-es-host=yc_elasticsearch_1
+es-host=yc-elasticsearch
 es-port=9200
 es-aws=True
 
 ;for access to redis database used by all tools
-redis-host=yc_redis_1
+redis-host=yc-redis
 redis-port=6379
 
 [Secrets-Section]
@@ -106,6 +106,8 @@ ssl-cert=/etc/letsencrypt/live/yangcatalog.org/fullchain.pem
 email-from=no-reply@yangcatalog.org
 ; who are we sending email to
 email-to=bclaise@cisco.com einarnn@cisco.com jclarke@cisco.com miroslav.kovac@pantheon.tech evyncke@cisco.com slavomir.mazur@pantheon.tech
+; who are we sending email to (development only)
+developers-email=slavomir.mazur@pantheon.tech
 
 [Web-Section]
 
@@ -114,7 +116,7 @@ api-port=8443
 ; port where confd is running
 confd-port=8008
 ; ip address where confd is running
-confd-ip=yc_confd_1
+confd-ip=yc-confd
 ; ip address where yangcatalog is running
 ip=35.158.116.10
 ; My own URI WEB_URL
@@ -208,7 +210,7 @@ confdc-yangpath=${Directory-Section:modules_directory}/mef:${Directory-Section:m
 [RabbitMQ-Section]
 
 ;for access to local database used by all tools
-host=yc_rabbit_1
+host=yc-rabbit
 username=@RABBITMQ_USER@
 virtual-host=/
 port=5672

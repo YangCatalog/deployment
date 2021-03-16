@@ -2,5 +2,6 @@
 conf/yangcatalog.conf
 .idea/*
 .env
+values.yaml
 /resources/*.crt
 /resources/*.key

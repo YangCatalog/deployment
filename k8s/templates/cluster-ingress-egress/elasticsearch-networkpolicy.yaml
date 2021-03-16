@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: elasticsearch
+spec:
+  podSelector:
+    matchLabels:
+      io.kompose.network/elasticsearch: "true"
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 9200
+    - from:
+        - ipBlock:
+            cidr: ::0/0
+      ports:
+        - port: 9200
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 9200
+    - to:
+        - ipBlock:
+            cidr: ::/0
+      ports:
+        - port: 9200
