@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  REST_BASE_URL: '/'
+  REST_BASE_URL: '/',
+  WEBROOT_BASE_URL: 'yangcatalog-ui/'
 };
 
 /*
