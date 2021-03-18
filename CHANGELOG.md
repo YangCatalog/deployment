@@ -1,11 +1,16 @@
-## Backend Release Notes
+## Deployment Release Notes
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### 3.1.0 - 2021-03-18
+
+  * Running Yangcatalog project using Kubernetes [#52](https://github.com/YangCatalog/deployment/issues/52)
+  * xym tool update to version 0.5 deployment [#50](https://github.com/YangCatalog/deployment/issues/50)
+
 * ##### v3.0.1 - 2021-02-26
 
-* Bump mariaDB version to 1:10.5.9
-* rsyslog and systemd added to all Dockerfiles [#48](https://github.com/YangCatalog/deployment/issues/48)
+  * Bump mariaDB version to 1:10.5.9
+  * rsyslog and systemd added to all Dockerfiles [#48](https://github.com/YangCatalog/deployment/issues/48)
 
 * ##### v3.0.0 - 2021-02-10
 
@@ -19,14 +24,14 @@
   * Update YumaPro version
   * Update docker-compose file
   * Various major/minor bug fixes and improvements
-  
+
 * ##### v2.0.0 - 2020-08-14
 
   * Add health check endpoint to nginx
   * Completely refactor and update yangcatalog config sample file
   * Update docker-compose file
   * Various major/minor bug fixes and improvements
-  
+
 * ##### v1.1.0 - 2020-07-16
 
   * Update docker-compose file
@@ -36,14 +41,14 @@
   * Update nginx files
   * Add uwsgi timeout 5 mins for yangvalidator
   * Various major/minor bug fixes and improvements
-  
+
 * ##### v1.0.1 - 2020-07-03
-  
+
   * Update docker-compose file
   * Add admin_ui submodule
   * Update yangcatalog config file
   * Various major/minor bug fixes and improvements
-  
+
 * ##### v1.0.0 - 2020-06-23
 
   * Initial submitted version
