@@ -28,7 +28,6 @@ else
         echo "Docker did not install please try to install it manualy before proceeding to next steps"
 	exit 1
     fi
-
 fi
 
 if [ -x "$(command -v docker-compose)" ]; then
@@ -44,6 +43,17 @@ else
 	    exit 1
     fi
 fi
+
+email_address=$(awk '/^email-addres/{print $3}' install.conf)
+change_first_line="MAILTO=$email_address"
+echo "changing email address in crontab files"
+
+sed -i "1s/.*/$change_first_line/" ../backend/crontab
+sed -i "1s/.*/$change_first_line/" ../search/crontab
+sed -i "1s/.*/$change_first_line/" ../sdo_analysis/crontab
+
+
+
 exit 1
 
 YANG_PATH=/var/yang2
