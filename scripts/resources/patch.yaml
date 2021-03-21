@@ -1,0 +1,98 @@
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 98b63a0..80602f4 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -49,7 +49,7 @@ services:
+       - confd
+       - mysql
+       - backend
+-    #  - elasticsearch
++      - elasticsearch
+       - rabbitmq
+       - frontend
+       - redis
+@@ -75,7 +75,7 @@ services:
+     networks:
+       - mysql
+       - backend
+- #     - elasticsearch
++      - elasticsearch
+       - frontend
+     restart: always
+ 
+@@ -110,7 +110,7 @@ services:
+       - confd
+       - mysql
+       - backend
+-#      - elasticsearch
++      - elasticsearch
+       - rabbitmq
+     restart: always
+ 
+@@ -166,7 +166,7 @@ services:
+       - backend
+       - yang-search
+       - yangre
+- #     - elasticsearch
++      - elasticsearch
+     restart: always
+ 
+   admin-ui:
+@@ -204,26 +204,26 @@ services:
+       - frontend
+     restart: always
+ 
+-#  elasticsearch:
+-#    container_name: yc-elasticsearch
+-#    build:
+-#      context: elasticsearch
+-#      dockerfile: Dockerfile
+-#      args:
+-#        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+-#        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+-#    environment:
+-#      - bootstrap.memory_lock=true
+-#    ulimits:
+-#      memlock:
+-#        soft: -1
+-#        hard: -1
+-#    volumes:
+-#      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+-#      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+-#    networks:
+-#      - elasticsearch
+-#    restart: always
++  elasticsearch:
++    container_name: yc-elasticsearch
++    build:
++      context: elasticsearch
++      dockerfile: Dockerfile
++      args:
++        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
++        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
++    environment:
++      - bootstrap.memory_lock=true
++    ulimits:
++      memlock:
++        soft: -1
++        hard: -1
++    volumes:
++      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
++      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
++    networks:
++      - elasticsearch
++    restart: always
+ 
+   rabbit:
+     container_name: yc-rabbit
+@@ -322,8 +322,8 @@ networks:
+     driver: bridge
+   backend:
+     driver: bridge
+-#  elasticsearch:
+-#    driver: bridge
++  elasticsearch:
++    driver: bridge
+   rabbitmq:
+     driver: bridge
+   redis:

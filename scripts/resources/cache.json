@@ -1,0 +1,161 @@
+{
+  "yang-catalog:catalog": {
+    "modules": {
+      "module": [
+        {
+          "name": "yang-catalog",
+          "revision": "2018-04-03",
+          "organization": "ietf",
+          "ietf": {
+            "ietf-wg": "netmod"
+          },
+          "namespace": "urn:ietf:params:xml:ns:yang:yang-catalog",
+          "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/experimental/ietf-extracted-YANG-modules/yang-catalog@2018-04-03.yang",
+          "generated-from": "not-applicable",
+          "maturity-level": "initial",
+          "document-name": "draft-clacla-netmod-model-catalog-03.txt",
+          "author-email": "draft-clacla-netmod-model-catalog@ietf.org",
+          "reference": "https://datatracker.ietf.org/doc/draft-clacla-netmod-model-catalog/03",
+          "module-classification": "unknown",
+          "compilation-status": "unknown",
+          "compilation-result": "https://yangcatalog.org/results/yang-catalog@2018-04-03_ietf.html",
+          "prefix": "yc",
+          "yang-version": "1.1",
+          "description": "This module contains metadata pertinent to each YANG module, as\nwell as a list of vendor implementations for each module.  The\nstructure is laid out in such a way as to make it possible to\nlocate metadata and vendor implementation on a per-module basis\nas well as obtain a list of available modules for a given\nvendor's platform and specific software release.",
+          "contact": "Benoit Claise <bclaise@cisco.com>\n\nJoe Clarke <jclarke@cisco.com>",
+          "module-type": "module",
+          "tree-type": "nmda-compatible",
+          "yang-tree": "https://yangcatalog.org/api/services/tree/yang-catalog@2018-04-03.yang",
+          "expired": true,
+          "dependencies": [
+            {
+              "name": "ietf-inet-types",
+              "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-inet-types@2013-07-15.yang"
+            },
+            {
+              "name": "ietf-yang-library",
+              "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/standard/ietf/RFC/ietf-yang-library@2016-06-21.yang"
+            },
+            {
+              "name": "ietf-yang-types",
+              "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-yang-types@2013-07-15.yang"
+            }
+          ],
+          "derived-semantic-version": "4.0.0"
+        },
+        {
+            "name": "ietf-yang-types",
+            "revision": "2013-07-15",
+            "organization": "ietf",
+            "ietf": {
+                "ietf-wg": "NETMOD"
+            },
+            "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-yang-types@2013-07-15.yang",
+            "generated-from": "not-applicable",
+            "maturity-level": "ratified",
+            "document-name": "rfc6991",
+            "reference": "https://tools.ietf.org/html/rfc6991",
+            "module-classification": "unknown",
+            "compilation-status": "passed",
+            "compilation-result": "",
+            "prefix": "yang",
+            "yang-version": "1.0",
+            "description": "This module contains a collection of generally useful derived\nYANG data types.\n\nCopyright (c) 2013 IETF Trust and the persons identified as\nauthors of the code.  All rights reserved.\n\nRedistribution and use in source and binary forms, with or\nwithout modification, is permitted pursuant to, and subject\nto the license terms contained in, the Simplified BSD License\nset forth in Section 4.c of the IETF Trust's Legal Provisions\nRelating to IETF Documents\n(http://trustee.ietf.org/license-info).\n\nThis version of this YANG module is part of RFC 6991; see\nthe RFC itself for full legal notices.",
+            "contact": "WG Web:   <http://tools.ietf.org/wg/netmod/>\nWG List:  <mailto:netmod@ietf.org>\n\nWG Chair: David Kessens\n          <mailto:david.kessens@nsn.com>\n\nWG Chair: Juergen Schoenwaelder\n          <mailto:j.schoenwaelder@jacobs-university.de>\n\nEditor:   Juergen Schoenwaelder\n          <mailto:j.schoenwaelder@jacobs-university.de>",
+            "module-type": "module",
+            "tree-type": "not-applicable",
+            "yang-tree": "https://yangcatalog.org/api/services/tree/ietf-yang-types@2013-07-15.yang",
+            "expired": false,
+            "dependents": [
+              {
+                    "name": "yang-catalog",
+                    "revision": "2018-04-03",
+                    "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/experimental/ietf-extracted-YANG-modules/yang-catalog@2018-04-03.yang"
+              }
+            ],
+            "derived-semantic-version": "5.0.6",
+            "implementations": {
+                "implementation": []
+            }
+        },
+        {
+            "name": "ietf-inet-types",
+            "revision": "2013-07-15",
+            "organization": "ietf",
+            "ietf": {
+                "ietf-wg": "NETMOD"
+            },
+            "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-inet-types@2013-07-15.yang",
+            "generated-from": "not-applicable",
+            "maturity-level": "ratified",
+            "document-name": "rfc6991",
+            "reference": "https://tools.ietf.org/html/rfc6991",
+            "module-classification": "unknown",
+            "compilation-status": "failed",
+            "compilation-result": "https://yangcatalog.org/results/ietf-inet-types@2013-07-15_ietf.html",
+            "prefix": "inet",
+            "yang-version": "1.0",
+            "description": "This module contains a collection of generally useful derived\nYANG data types for Internet addresses and related things.\n\nCopyright (c) 2013 IETF Trust and the persons identified as\nauthors of the code.  All rights reserved.\n\nRedistribution and use in source and binary forms, with or\nwithout modification, is permitted pursuant to, and subject\nto the license terms contained in, the Simplified BSD License\nset forth in Section 4.c of the IETF Trust's Legal Provisions\nRelating to IETF Documents\n(http://trustee.ietf.org/license-info).\n\nThis version of this YANG module is part of RFC 6991; see\nthe RFC itself for full legal notices.",
+            "contact": "WG Web:   <http://tools.ietf.org/wg/netmod/>\nWG List:  <mailto:netmod@ietf.org>\n\nWG Chair: David Kessens\n          <mailto:david.kessens@nsn.com>\n\nWG Chair: Juergen Schoenwaelder\n          <mailto:j.schoenwaelder@jacobs-university.de>\n\nEditor:   Juergen Schoenwaelder\n          <mailto:j.schoenwaelder@jacobs-university.de>",
+            "module-type": "module",
+            "tree-type": "not-applicable",
+            "yang-tree": "https://yangcatalog.org/api/services/tree/ietf-inet-types@2013-07-15.yang",
+            "expired": false,
+            "dependents": [
+              {
+                    "name": "yang-catalog",
+                    "revision": "2018-04-03",
+                    "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/experimental/ietf-extracted-YANG-modules/yang-catalog@2018-04-03.yang"
+              }
+            ],
+            "derived-semantic-version": "12.0.0",
+            "implementations": {
+                "implementation": []
+            }
+        },
+        {
+            "name": "ietf-yang-library",
+            "revision": "2016-06-21",
+            "organization": "ietf",
+            "ietf": {
+                "ietf-wg": "NETCONF"
+            },
+            "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/standard/ietf/RFC/ietf-yang-library@2016-06-21.yang",
+            "generated-from": "not-applicable",
+            "maturity-level": "ratified",
+            "document-name": "rfc7895",
+            "reference": "https://tools.ietf.org/html/rfc7895",
+            "module-classification": "unknown",
+            "compilation-status": "passed",
+            "compilation-result": "",
+            "prefix": "yanglib",
+            "yang-version": "1.0",
+            "description": "This module contains monitoring information about the YANG\nmodules and submodules that are used within a YANG-based\nserver.\n\nCopyright (c) 2016 IETF Trust and the persons identified as\nauthors of the code.  All rights reserved.\n\nRedistribution and use in source and binary forms, with or\nwithout modification, is permitted pursuant to, and subject\nto the license terms contained in, the Simplified BSD License\nset forth in Section 4.c of the IETF Trust's Legal Provisions\nRelating to IETF Documents\n(http://trustee.ietf.org/license-info).\n\nThis version of this YANG module is part of RFC 7895; see\nthe RFC itself for full legal notices.",
+            "contact": "WG Web:   <https://datatracker.ietf.org/wg/netconf/>\nWG List:  <mailto:netconf@ietf.org>\n\nWG Chair: Mehmet Ersue\n          <mailto:mehmet.ersue@nsn.com>\n\nWG Chair: Mahesh Jethanandani\n          <mailto:mjethanandani@gmail.com>\n\nEditor:   Andy Bierman\n          <mailto:andy@yumaworks.com>\n\nEditor:   Martin Bjorklund\n          <mailto:mbj@tail-f.com>\n\nEditor:   Kent Watsen\n          <mailto:kwatsen@juniper.net>",
+            "module-type": "module",
+            "tree-type": "transitional-extra",
+            "yang-tree": "http://yc_frontend_1/api/services/tree/ietf-yang-library@2016-06-21.yang",
+            "expired": false,
+            "dependencies": [
+              {
+                "name": "ietf-inet-types",
+                "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-inet-types@2013-07-15.yang"
+              },
+              {
+                "name": "ietf-yang-types",
+                "schema": "https://raw.githubusercontent.com/YangModels/yang/c895bb6733b2c317144aef9599ccf47a0b9dac2e/standard/ietf/RFC/ietf-yang-types@2013-07-15.yang"
+              }
+            ],
+            "dependents": [],
+            "derived-semantic-version": "8.0.0",
+            "implementations": {
+                "implementation": []
+            }
+        }
+      ]
+    }
+  }
+}
