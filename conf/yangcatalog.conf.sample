@@ -117,6 +117,8 @@ api-port=8443
 confd-port=8008
 ; ip address where confd is running
 confd-ip=yc-confd
+; ip text used in backend processes
+ip-text=yangcatalog.org
 ; ip address where yangcatalog is running
 ip=35.158.116.10
 ; My own URI WEB_URL

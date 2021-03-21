@@ -1,0 +1,7 @@
+{
+    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+    "prefix": "yang",
+    "name": "ietf-yang-types",
+    "type": "module",
+    "children": []
+}

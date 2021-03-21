@@ -1,0 +1,369 @@
+{
+    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+    "prefix": "yanglib",
+    "name": "ietf-yang-library",
+    "type": "module",
+    "children": [
+        {
+            "status": "current",
+            "name": "modules-state",
+            "prefix": "yanglib",
+            "description": "Contains YANG module monitoring information.",
+            "flags": {
+                "config": false
+            },
+            "path": "/yanglib:modules-state?container",
+            "schema_type": "container",
+            "options": "",
+            "class": "container",
+            "type_info": {},
+            "children": [
+                {
+                    "status": "current",
+                    "name": "module-set-id",
+                    "prefix": "yanglib",
+                    "description": "Contains a server-specific identifier representing\\nthe current set of modules and submodules.  The\\nserver MUST change the value of this leaf if the\\ninformation represented by the 'module' list instances\\nhas changed.",
+                    "flags": {
+                        "config": false
+                    },
+                    "type": "string",
+                    "path": "/yanglib:modules-state?container/yanglib:module-set-id?leaf",
+                    "schema_type": "leaf",
+                    "options": "",
+                    "class": "leaf",
+                    "type_info": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "status": "current",
+                    "name": "module",
+                    "prefix": "yanglib",
+                    "description": "Each entry represents one revision of one module\\ncurrently supported by the server.",
+                    "flags": {
+                        "config": false
+                    },
+                    "list_key": "name revision",
+                    "path": "/yanglib:modules-state?container/yanglib:module?list",
+                    "schema_type": "list",
+                    "options": "",
+                    "class": "list",
+                    "type_info": {},
+                    "children": [
+                        {
+                            "status": "current",
+                            "name": "name",
+                            "prefix": "yanglib",
+                            "description": "The YANG module or submodule name.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "yang:yang-identifier",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:name?leaf",
+                            "schema_type": "leaf",
+                            "options": "",
+                            "class": "leaf",
+                            "type_info": {
+                                "type": "yang:yang-identifier",
+                                "typedef": {
+                                    "type": "string",
+                                    "length": "1..max",
+                                    "pattern": "[a-zA-Z_][a-zA-Z0-9\\\\-_.]*"
+                                }
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "revision",
+                            "prefix": "yanglib",
+                            "description": "The YANG module or submodule revision date.\\nA zero-length string is used if no revision statement\\nis present in the YANG module or submodule.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "union",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:revision?leaf",
+                            "schema_type": "leaf",
+                            "options": "",
+                            "class": "leaf",
+                            "type_info": {
+                                "type": "union",
+                                "union": [
+                                    "revision-identifier",
+                                    "string"
+                                ]
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "schema",
+                            "prefix": "yanglib",
+                            "description": "Contains a URL that represents the YANG schema\\nresource for this module or submodule.\\n\\nThis leaf will only be present if there is a URL\\navailable for retrieval of the schema for this entry.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "inet:uri",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:schema?leaf",
+                            "schema_type": "leaf",
+                            "options": "?",
+                            "class": "leaf",
+                            "type_info": {
+                                "type": "inet:uri",
+                                "typedef": {
+                                    "type": "string"
+                                }
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "namespace",
+                            "prefix": "yanglib",
+                            "description": "The XML namespace identifier for this module.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "inet:uri",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:namespace?leaf",
+                            "schema_type": "leaf",
+                            "options": "",
+                            "class": "leaf",
+                            "type_info": {
+                                "type": "inet:uri",
+                                "typedef": {
+                                    "type": "string"
+                                }
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "feature",
+                            "prefix": "yanglib",
+                            "description": "List of YANG feature names from this module that are\\nsupported by the server, regardless of whether they are\\ndefined in the module or any included submodule.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "yang:yang-identifier",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:feature?leaf-list",
+                            "schema_type": "leaf-list",
+                            "options": "*",
+                            "class": "leaf-list",
+                            "type_info": {
+                                "type": "yang:yang-identifier",
+                                "typedef": {
+                                    "type": "string",
+                                    "length": "1..max",
+                                    "pattern": "[a-zA-Z_][a-zA-Z0-9\\\\-_.]*"
+                                }
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "deviation",
+                            "prefix": "yanglib",
+                            "description": "List of YANG deviation module names and revisions\\nused by this server to modify the conformance of\\nthe module associated with this entry.  Note that\\nthe same module can be used for deviations for\\nmultiple modules, so the same entry MAY appear\\nwithin multiple 'module' entries.\\n\\nThe deviation module MUST be present in the 'module'\\nlist, with the same name and revision values.\\nThe 'conformance-type' value will be 'implement' for\\nthe deviation module.",
+                            "flags": {
+                                "config": false
+                            },
+                            "list_key": "name revision",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:deviation?list",
+                            "schema_type": "list",
+                            "options": "",
+                            "class": "list",
+                            "type_info": {},
+                            "children": [
+                                {
+                                    "status": "current",
+                                    "name": "name",
+                                    "prefix": "yanglib",
+                                    "description": "The YANG module or submodule name.",
+                                    "flags": {
+                                        "config": false
+                                    },
+                                    "type": "yang:yang-identifier",
+                                    "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:deviation?list/yanglib:name?leaf",
+                                    "schema_type": "leaf",
+                                    "options": "",
+                                    "class": "leaf",
+                                    "type_info": {
+                                        "type": "yang:yang-identifier",
+                                        "typedef": {
+                                            "type": "string",
+                                            "length": "1..max",
+                                            "pattern": "[a-zA-Z_][a-zA-Z0-9\\\\-_.]*"
+                                        }
+                                    },
+                                    "children": []
+                                },
+                                {
+                                    "status": "current",
+                                    "name": "revision",
+                                    "prefix": "yanglib",
+                                    "description": "The YANG module or submodule revision date.\\nA zero-length string is used if no revision statement\\nis present in the YANG module or submodule.",
+                                    "flags": {
+                                        "config": false
+                                    },
+                                    "type": "union",
+                                    "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:deviation?list/yanglib:revision?leaf",
+                                    "schema_type": "leaf",
+                                    "options": "",
+                                    "class": "leaf",
+                                    "type_info": {
+                                        "type": "union",
+                                        "union": [
+                                            "revision-identifier",
+                                            "string"
+                                        ]
+                                    },
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "status": "current",
+                            "name": "conformance-type",
+                            "prefix": "yanglib",
+                            "description": "Indicates the type of conformance the server is claiming\\nfor the YANG module identified by this entry.",
+                            "flags": {
+                                "config": false
+                            },
+                            "type": "enumeration",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:conformance-type?leaf",
+                            "schema_type": "leaf",
+                            "options": "",
+                            "class": "leaf",
+                            "type_info": {
+                                "type": "enumeration",
+                                "enumeration": [
+                                    "implement",
+                                    "import"
+                                ]
+                            },
+                            "children": []
+                        },
+                        {
+                            "status": "current",
+                            "name": "submodule",
+                            "prefix": "yanglib",
+                            "description": "Each entry represents one submodule within the\\nparent module.",
+                            "flags": {
+                                "config": false
+                            },
+                            "list_key": "name revision",
+                            "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:submodule?list",
+                            "schema_type": "list",
+                            "options": "",
+                            "class": "list",
+                            "type_info": {},
+                            "children": [
+                                {
+                                    "status": "current",
+                                    "name": "name",
+                                    "prefix": "yanglib",
+                                    "description": "The YANG module or submodule name.",
+                                    "flags": {
+                                        "config": false
+                                    },
+                                    "type": "yang:yang-identifier",
+                                    "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:submodule?list/yanglib:name?leaf",
+                                    "schema_type": "leaf",
+                                    "options": "",
+                                    "class": "leaf",
+                                    "type_info": {
+                                        "type": "yang:yang-identifier",
+                                        "typedef": {
+                                            "type": "string",
+                                            "length": "1..max",
+                                            "pattern": "[a-zA-Z_][a-zA-Z0-9\\\\-_.]*"
+                                        }
+                                    },
+                                    "children": []
+                                },
+                                {
+                                    "status": "current",
+                                    "name": "revision",
+                                    "prefix": "yanglib",
+                                    "description": "The YANG module or submodule revision date.\\nA zero-length string is used if no revision statement\\nis present in the YANG module or submodule.",
+                                    "flags": {
+                                        "config": false
+                                    },
+                                    "type": "union",
+                                    "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:submodule?list/yanglib:revision?leaf",
+                                    "schema_type": "leaf",
+                                    "options": "",
+                                    "class": "leaf",
+                                    "type_info": {
+                                        "type": "union",
+                                        "union": [
+                                            "revision-identifier",
+                                            "string"
+                                        ]
+                                    },
+                                    "children": []
+                                },
+                                {
+                                    "status": "current",
+                                    "name": "schema",
+                                    "prefix": "yanglib",
+                                    "description": "Contains a URL that represents the YANG schema\\nresource for this module or submodule.\\n\\nThis leaf will only be present if there is a URL\\navailable for retrieval of the schema for this entry.",
+                                    "flags": {
+                                        "config": false
+                                    },
+                                    "type": "inet:uri",
+                                    "path": "/yanglib:modules-state?container/yanglib:module?list/yanglib:submodule?list/yanglib:schema?leaf",
+                                    "schema_type": "leaf",
+                                    "options": "?",
+                                    "class": "leaf",
+                                    "type_info": {
+                                        "type": "inet:uri",
+                                        "typedef": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "notifications": [
+        {
+            "status": "current",
+            "name": "yang-library-change",
+            "prefix": "yanglib",
+            "description": "Generated when the set of modules and submodules supported\\nby the server has changed.",
+            "flags": {},
+            "path": "/yanglib:yang-library-change?notification",
+            "schema_type": "notification",
+            "options": "",
+            "class": "folder",
+            "type_info": {},
+            "children": [
+                {
+                    "status": "current",
+                    "name": "module-set-id",
+                    "prefix": "yanglib",
+                    "description": "Contains the module-set-id value representing the\\nset of modules and submodules supported at the server at\\nthe time the notification is generated.",
+                    "flags": {
+                        "config": false
+                    },
+                    "type": "leafref",
+                    "path": "/yanglib:yang-library-change?notification/yanglib:module-set-id?leaf",
+                    "schema_type": "leaf",
+                    "options": "",
+                    "class": "leaf",
+                    "type_info": {
+                        "type": "leafref",
+                        "path": "/yanglib:modules-state/yanglib:module-set-id"
+                    }
+                }
+            ]
+        }
+    ]
+}

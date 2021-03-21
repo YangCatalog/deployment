@@ -5,3 +5,4 @@ conf/yangcatalog.conf
 values.yaml
 /resources/*.crt
 /resources/*.key
+/scripts/install.conf
