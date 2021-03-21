@@ -239,6 +239,8 @@ else
     cp ../confd/ietf-inet-types.yang $yang_path/all_modules/ietf-inet-types@2013-07-15.yang
     cp ../confd/ietf-yang-library.yang $yang_path/all_modules/ietf-yang-library@2016-06-21.yang
     mkdir $yang_path/backup
+    mkdir $yang_path/yangsuite
+    mkdir $yang_path/yangsuite/users
     mkdir $yang_path/commit_dir
     mkdir $yang_path/logs
     mkdir $yang_path/logs/confd
