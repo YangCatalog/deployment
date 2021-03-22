@@ -133,7 +133,10 @@ else
         cd ..
         git apply patch.yaml
         rm patch.yaml
-        cd scripts
+        cd elasticsearch
+        sed -i 's/-Xms6g/-Xms2g/g' jvm.options
+        sed -i 's/-Xmx6g/-Xmx2g/g' jvm.options
+        cd ../scripts
         echo "done patching"
     else
         echo "please setup elastic search for yangcatalog.conf file"
