@@ -2,6 +2,8 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+  * YumaPro validator updated to version 20.10-6 [#53](https://github.com/YangCatalog/deployment/issues/53)
+
 * ##### 3.1.0 - 2021-03-18
 
   * Running Yangcatalog project using Kubernetes [#52](https://github.com/YangCatalog/deployment/issues/52)
