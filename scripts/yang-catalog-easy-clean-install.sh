@@ -145,7 +145,7 @@ else
     here=$(pwd)
     cp ../conf/yangcatalog.conf.sample ./yangcatalog.conf
 
-    VAL=AWS_ELK
+    VAL=$AWS_ELK
     sed -i "s/^\(es-aws\s*=\s*\).*\$/\1$VAL/" ./yangcatalog.conf
 
     VAL=$(awk '/^update-signature/{print $3}' install.conf)
