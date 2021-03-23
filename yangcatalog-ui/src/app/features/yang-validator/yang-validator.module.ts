@@ -8,8 +8,8 @@ import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { MissingModulesSelectionComponent } from './missing-modules-confirmation/missing-modules-selection.component';
 import { ValidationResultComponent } from './validation-result/validation-result.component';
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
-import { AppModule } from '../app.module';
-import { FileUploadFormModule } from '../shared/file-upload-form/file-upload-form.module';
+import { AppModule } from '../../app.module';
+import { FileUploadFormModule } from '../../shared/file-upload-form/file-upload-form.module';
 
 @NgModule({
   declarations: [YangValidatorComponent, MissingModulesSelectionComponent, ValidationResultComponent, ValidationErrorComponent],

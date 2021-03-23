@@ -51,3 +51,13 @@ button i.bi {
 .mb-30 {
   margin-bottom: 30px !important;
 }
+
+.tooltip-inner {
+  white-space: pre-line;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}

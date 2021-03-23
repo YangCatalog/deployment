@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataServiceService } from '../core/data-service.service';
+import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ValidationOutput } from './models/validation-output';
@@ -10,7 +10,7 @@ import { isArray } from 'rxjs/internal-compatibility';
 @Injectable({
   providedIn: 'root'
 })
-export class YangValidatorService extends DataServiceService {
+export class YangValidatorService extends DataService {
 
 
   constructor(httpClient: HttpClient) {

@@ -4,16 +4,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { StaticContentModule } from './static-content/static-content.module';
-import { YangValidatorModule } from './yang-validator/yang-validator.module';
-import { YangSearchModule } from './yang-search/yang-search.module';
-import { YangImpactAnalysisModule } from './yang-impact-analysis/yang-impact-analysis.module';
-import { YangModuleDetailViewerModule } from './yang-module-detail-viewer/yang-module-detail-viewer.module';
-import { YangRegexValidatorModule } from './yang-regex-validator/yang-regex-validator.module';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { StaticContentModule } from './features/static-content/static-content.module';
+import { YangValidatorModule } from './features/yang-validator/yang-validator.module';
+import { YangSearchModule } from './features/yang-search/yang-search.module';
+import { YangImpactAnalysisModule } from './features/yang-impact-analysis/yang-impact-analysis.module';
+import { YangRegexValidatorModule } from './features/yang-regex-validator/yang-regex-validator.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
-import { FileUploadFormComponent } from './shared/file-upload-form/file-upload-form.component';
+import { YangModuleDetailsModule } from './features/yang-module-details/yang-module-details.module';
 
 @NgModule({
   declarations: [
@@ -23,12 +21,11 @@ import { FileUploadFormComponent } from './shared/file-upload-form/file-upload-f
     BrowserModule,
     RouterModule,
     AppRoutingModule,
-    NgbTabsetModule,
     StaticContentModule,
     YangValidatorModule,
     YangSearchModule,
+    YangModuleDetailsModule,
     YangImpactAnalysisModule,
-    YangModuleDetailViewerModule,
     YangRegexValidatorModule,
     HttpClientModule,
     NgBootstrapFormValidationModule.forRoot()

@@ -7,7 +7,7 @@ import { BlogComponent } from './blog/blog.component';
 import { ContributeComponent } from './contribute/contribute.component';
 
 const staticRoutes: Routes = [
-  { path: '', redirectTo: 'home.html', pathMatch: 'full'},
+  { path: '', redirectTo: '/home.html', pathMatch: 'full'},
   {
     path: 'home.html',
     component: YangCatalogComponent,

@@ -7,8 +7,8 @@ import { ValidationOutput } from './models/validation-output';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MissingModulesSelectionComponent } from './missing-modules-confirmation/missing-modules-selection.component';
 import { ChosenMissingRevsInput } from './models/chosen-missing-revs-input';
-import { FileUploadFormComponent } from '../shared/file-upload-form/file-upload-form.component';
-import { YcValidationsService } from '../core/yc-validations.service';
+import { FileUploadFormComponent } from '../../shared/file-upload-form/file-upload-form.component';
+import { YcValidationsService } from '../../core/yc-validations.service';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 
 

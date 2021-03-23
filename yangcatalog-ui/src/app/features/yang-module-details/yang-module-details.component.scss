@@ -1,0 +1,55 @@
+a {
+  color: #0056b3 !important;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+
+}
+
+.form-inline {
+  input {
+    width: 50%;
+  }
+}
+
+.form-group {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.bi-question-circle {
+  cursor: pointer;
+}
+
+.app-links {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  a, span {
+    padding-right: 20px;
+  }
+}
+
+table.nested-object {
+  background: #f2f2f2 !important;
+}
+
+.collapsed {
+  max-height: 94px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.show-more-link {
+  position: absolute;
+  top: 61px;
+  left: 0;
+  width: 100%;
+  padding-top: 30px;
+}
+
+.show-less-link {
+
+}

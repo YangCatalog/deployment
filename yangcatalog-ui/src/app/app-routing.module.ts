@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { YangCatalogComponent } from './static-content/yang-catalog/yang-catalog.component';
-import { AboutComponent } from './static-content/about/about.component';
-import { StaticContentComponent } from './static-content/static-content.component';
-import { YangValidatorModule } from './yang-validator/yang-validator.module';
-import { YangValidatorComponent } from './yang-validator/yang-validator.component';
-import { YangSearchComponent } from './yang-search/yang-search.component';
-import { YangImpactAnalysisComponent } from './yang-impact-analysis/yang-impact-analysis.component';
-import { YangModuleDetailViewerComponent } from './yang-module-detail-viewer/yang-module-detail-viewer.component';
-import { YangRegexValidatorComponent } from './yang-regex-validator/yang-regex-validator.component';
+import { StaticContentComponent } from './features/static-content/static-content.component';
+import { YangValidatorComponent } from './features/yang-validator/yang-validator.component';
+import { YangSearchComponent } from './features/yang-search/yang-search.component';
+import { YangImpactAnalysisComponent } from './features/yang-impact-analysis/yang-impact-analysis.component';
+import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
+import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
 
 const routes: Routes = [
   {
@@ -29,8 +25,12 @@ const routes: Routes = [
     component: YangImpactAnalysisComponent
   },
   {
+    path: 'yang-search/module_details/:module',
+    component: YangModuleDetailsComponent
+  },
+  {
     path: 'yang-search/module_details',
-    component: YangModuleDetailViewerComponent
+    component: YangModuleDetailsComponent
   },
   {
     path: 'yangre',

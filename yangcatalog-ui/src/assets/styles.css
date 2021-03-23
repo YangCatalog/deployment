@@ -454,7 +454,7 @@ h6 {
 }
 .yc-disabled {
   cursor: not-allowed;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .yc-disabled * {
   pointer-events: none;
