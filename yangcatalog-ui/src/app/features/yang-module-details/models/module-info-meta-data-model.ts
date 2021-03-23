@@ -6,6 +6,12 @@ export class ModuleInfoMetaDataModel {
 
   constructor(metaData) {
     this.metaData = metaData;
+
+    if (this.metaData['implementations'] && this.metaData['implementations']['implementation']) {
+      this.metaData['implementations']['implementation']['ordering'] = this.metaData['implementations']['ordering'];
+      this.metaData['implementations']['implementation']['help-text'] = this.metaData['implementations']['help-text'];
+      this.metaData['implementations'] = this.metaData['implementations']['implementation'];
+    }
   }
 
   getPropertiesSorted(propertiesContainer: any): string[] {

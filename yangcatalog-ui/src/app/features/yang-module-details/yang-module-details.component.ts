@@ -15,6 +15,7 @@ import { NgTemplateOutlet } from '@angular/common';
   styleUrls: ['./yang-module-details.component.scss']
 })
 export class YangModuleDetailsComponent implements OnInit, OnDestroy {
+
   @ViewChild('revisionTemplate') public revisionTemplate: TemplateRef<any>;
   @ViewChild('plainTextTemplate') public plainTextTemplate: TemplateRef<any>;
   @ViewChild('linkTemplate') public linkTemplate: TemplateRef<any>;

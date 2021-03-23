@@ -90,25 +90,27 @@
         </ng-template>
 
         <ng-template #nestedListOfObjectsTemplate let-data="data" let-mainProperty="mainProperty">
-          <a (click)="expandCollapsableObject(mainProperty)" *ngIf="!expanded[mainProperty]">Show nested {{ infoData.data[mainProperty].length }} objects</a>
-          <a (click)="collapseObject(mainProperty)" *ngIf="expanded[mainProperty]">Hide nested {{ infoData.data[mainProperty].length }} objects</a>
-          <ng-container *ngIf="expanded[mainProperty]">
-            <table class="table nested-object" *ngFor="let obj of infoData.data[mainProperty]">
-              <tbody>
-              <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
-                <th scope="row" class="col-md-2">
-                  {{property}}
-                  <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
-                     [openDelay]="300"
-                     [closeDelay]="500"></i>
-                </th>
-                <td>
-                  <ng-container
-                    *ngTemplateOutlet="getPropTemplate(property, true);context:{data: obj[property]}"></ng-container>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+          <ng-container *ngIf="infoData.data[mainProperty]">
+            <a (click)="expandCollapsableObject(mainProperty)" *ngIf="!expanded[mainProperty]">Show nested {{ infoData.data[mainProperty].length }} objects</a>
+            <a (click)="collapseObject(mainProperty)" *ngIf="expanded[mainProperty]">Hide nested {{ infoData.data[mainProperty].length }} objects</a>
+            <ng-container *ngIf="expanded[mainProperty]">
+              <table class="table nested-object" *ngFor="let obj of infoData.data[mainProperty]">
+                <tbody>
+                <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
+                  <th scope="row" class="col-md-2">
+                    {{property}}
+                    <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
+                       [openDelay]="300"
+                       [closeDelay]="500"></i>
+                  </th>
+                  <td>
+                    <ng-container
+                      *ngTemplateOutlet="getPropTemplate(property, true);context:{data: obj[property]}"></ng-container>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </ng-container>
           </ng-container>
         </ng-template>
 
