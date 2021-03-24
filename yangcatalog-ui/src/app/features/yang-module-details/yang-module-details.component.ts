@@ -133,13 +133,13 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   }
 
   onGetDetailsClick() {
-    const newRoute = this.myBaseUrl + 'yang-search/module_details/' + this.form.get('moduleName').value;
+    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value;
     // this.router.navigate([newRoute]);
     window.location.href = newRoute;
   }
 
   onRevisionSelectChange(event: Event) {
-    const newRoute = this.myBaseUrl + 'yang-search/module_details/' + this.form.get('moduleName').value + '@' + this.form.get('moduleRevision').value;
+    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value + '@' + this.form.get('moduleRevision').value;
     // this.router.navigate([newRoute]);
     window.location.href = newRoute;
 

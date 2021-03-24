@@ -3,7 +3,7 @@ html {
   box-sizing: border-box;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  font-family: Verdana, sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-size: 15px;
   line-height: 1.7;
   overflow-x: hidden;
@@ -19,7 +19,7 @@ html {
 }
 body {
   margin: 0;
-  font-family: Verdana, sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-size: 15px;
   line-height: 2;
 }

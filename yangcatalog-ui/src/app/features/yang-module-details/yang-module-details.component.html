@@ -17,7 +17,7 @@
             <input id="moduleNameInput" formControlName="moduleName" type="text" class="form-control"
                    [ngbTypeahead]="autocomplete"
                    placeholder="Fill the module name"/>
-            <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5" (click)="onGetDetailsClick()">
+            <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5" routerLink="/yang-search/module_details/{{form.get('moduleName').value}}">
               <div class="spinner-border text-primary" role="status" *ngIf="loadingDetailsProgress"></div>
               Get details
             </button>
