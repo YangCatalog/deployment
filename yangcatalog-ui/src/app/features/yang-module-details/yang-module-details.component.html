@@ -1,0 +1,146 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px" id="webAccess">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+      <h2><a (click)="goHome()">YANG Module Details</a></h2>
+
+      <p>
+        Yang Module Detail will provide You with the wide information about the module.
+      </p>
+
+      <form [formGroup]="form">
+        <div class="form-group">
+          <ngb-alert type="danger" (close)="onCloseError()" role="alert"
+                     *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
+
+          <label class="control-label" for="moduleNameInput">Module Name</label>
+          <div class="form-inline">
+            <input id="moduleNameInput" formControlName="moduleName" type="text" class="form-control"
+                   [ngbTypeahead]="autocomplete"
+                   placeholder="Fill the module name"/>
+            <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5" (click)="onGetDetailsClick()">
+              <div class="spinner-border text-primary" role="status" *ngIf="loadingDetailsProgress"></div>
+              Get details
+            </button>
+          </div>
+          <div class="form-inline app-links" *ngIf="infoData">
+            <a href="/yang-search/yang_tree/{{infoData.currentModule}}">
+              <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{infoData.currentModule}}" border="0">
+              Tree View</a>
+            <a href="/yang-search/impact_analysis/{{infoData.currentModule}}">
+              <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{infoData.currentModule}}"
+                   border="0">
+              Impact Analysis</a>
+            <span class="yc-disabled"><img src="{{myBaseUrl}}/assets/img/yang_suite.png" border="0">
+              Yang Suite</span>
+          </div>
+        </div>
+
+        <!--templates for several types of response content -->
+        <ng-template #revisionTemplate let-data="data">
+          <select class="form-select" (change)="onRevisionSelectChange($event)" formControlName="moduleRevision">
+            <option value="{{rev}}" *ngFor="let rev of infoData.revisions"
+                    [selected]="rev === form.get('moduleRevision').value">{{rev}}</option>
+          </select>
+        </ng-template>
+
+        <ng-template #linkTemplate let-data="data">
+          <a href="{{data}}" target="_blank">{{data}}</a>
+        </ng-template>
+
+        <ng-template #mailTemplate let-data="data">
+          <a href="mailto:{{data}}" target="_blank">{{data}}</a>
+        </ng-template>
+
+        <ng-template #plainTextTemplate let-data="data" >
+          {{ data }}
+        </ng-template>
+
+        <ng-template #formatedTextTemplate let-data="data" let-mainProperty="mainProperty">
+          <div style="position: relative; overflow: hidden">
+            <div [innerHTML]="data | advancedFormat" [ngClass]="{collapsed: !expanded[mainProperty]}" ></div>
+            <div class="show-more-link" *ngIf="!expanded[mainProperty]">
+              <a (click)="expandCollapsableObject(mainProperty)" >Show more ></a>
+            </div>
+            <div class="show-less-link" *ngIf="expanded[mainProperty]">
+              <a (click)="collapseObject(mainProperty)">< Show less</a>
+            </div>
+          </div>
+        </ng-template>
+
+
+        <ng-template #nestedObjectTemplate let-data="data" let-mainProperty="mainProperty">
+          <a (click)="expandCollapsableObject(mainProperty)" *ngIf="!expanded[mainProperty]">Show nested object</a>
+          <a (click)="collapseObject(mainProperty)" *ngIf="expanded[mainProperty]">Hide nested object</a>
+          <table class="table nested-object" *ngIf="expanded[mainProperty]">
+            <tbody>
+            <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
+              <th scope="row" class="col-md-2">
+                {{property}}
+                <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
+                   [openDelay]="300"
+                   [closeDelay]="500"></i>
+              </th>
+              <td *ngIf="infoData.data[mainProperty]">
+                <ng-container
+                  *ngTemplateOutlet="getPropTemplate(property);context:{data: infoData.data[mainProperty][property]}"></ng-container>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-template>
+
+        <ng-template #nestedListOfObjectsTemplate let-data="data" let-mainProperty="mainProperty">
+          <ng-container *ngIf="infoData.data[mainProperty]">
+            <a (click)="expandCollapsableObject(mainProperty)" *ngIf="!expanded[mainProperty]">Show nested {{ infoData.data[mainProperty].length }} objects</a>
+            <a (click)="collapseObject(mainProperty)" *ngIf="expanded[mainProperty]">Hide nested {{ infoData.data[mainProperty].length }} objects</a>
+            <ng-container *ngIf="expanded[mainProperty]">
+              <table class="table nested-object" *ngFor="let obj of infoData.data[mainProperty]">
+                <tbody>
+                <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
+                  <th scope="row" class="col-md-2">
+                    {{property}}
+                    <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
+                       [openDelay]="300"
+                       [closeDelay]="500"></i>
+                  </th>
+                  <td>
+                    <ng-container
+                      *ngTemplateOutlet="getPropTemplate(property, true);context:{data: obj[property]}"></ng-container>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+
+        <ng-container *ngIf="infoData">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Property Name</th>
+              <th scope="col">Property Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData); index as i">
+              <th scope="row" class="col-md-2">
+                {{property}}
+                <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText(property)" [openDelay]="300"
+                   [closeDelay]="500"></i>
+              </th>
+              <td>
+                <ng-container
+                  *ngTemplateOutlet="getPropTemplate(property);context:{data: infoData.data[property], mainProperty: property}"></ng-container>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+

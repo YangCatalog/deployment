@@ -1,0 +1,101 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Additional Information Required</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <ng-container *ngIf="!selectingMissingDependencies && missingDependencies.length > 0">
+    <p>Several revisions are available for some dependencies.</p>
+    <form [formGroup]="selectMethodForm">
+      <div class="form-group">
+        <label for="useLatestMissingRadio" class="radio form-inline">
+          <input type="radio" id="useLatestMissingRadio" name="missingDependenciesSelection" value="latest" formControlName="missingDependenciesSelection"/>
+          <i class="skin"></i>
+          <span>Use the latest revision for each dependency</span>
+        </label>
+        <label for="selectManuallyMissingRadio" class="radio mb-0 form-inline">
+          <input type="radio" id="selectManuallyMissingRadio" name="missingDependenciesSelection" value="manually" formControlName="missingDependenciesSelection"/>
+          <i class="skin"></i> <span>Select the revision for each dependency manually</span>
+        </label>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="selectingMissingDependencies && missingDependencies.length > 0">
+    <form [formGroup]="selectionForm">
+      <p>
+        Please select, which revision should be used for module <strong>{{ missingDependencies[0] }}</strong>.
+      </p>
+      <div class="form-group">
+        <label class="radio form-inline" *ngFor="let rev of validationOutput.getMissingRevisions(missingDependencies[0]) ">
+          <input type="radio" id="rev_missing_{{rev}}" name="rev_{{missingDependencies[0]}}" value="{{rev}}" formControlName="rev_{{missingDependencies[0]}}"/>
+          <i class="skin"></i>
+          <span>{{rev}}</span>
+        </label>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!selectingExistingDependencies && existingDependencies.length > 0 && missingDependencies.length === 0">
+    <p>Several different revisions are available for some of <strong>the uploaded</strong> dependencies.</p>
+    <form [formGroup]="selectMethodForm">
+      <div class="form-group">
+        <label for="useMyExistingRadio" class="radio form-inline">
+          <input type="radio" id="useMyExistingRadio" name="existingDependenciesSelection" value="my" formControlName="existingDependenciesSelection"/>
+          <i class="skin"></i>
+          <span>Use my uploaded revision for each dependency</span>
+        </label>
+        <label for="useLatestRepoExistingRadio" class="radio form-inline">
+          <input type="radio" id="useLatestRepoExistingRadio" name="existingDependenciesSelection" value="latest" formControlName="existingDependenciesSelection"/>
+          <i class="skin"></i>
+          <span>Use the latest revision for each dependency</span>
+        </label>
+        <label for="selectManuallyRadio" class="radio mb-0 form-inline">
+          <input type="radio" id="selectManuallyRadio" name="existingDependenciesSelection" value="manually" formControlName="existingDependenciesSelection"/>
+          <i class="skin"></i> <span>Select the revision for each dependency manually</span>
+        </label>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="selectingExistingDependencies && existingDependencies.length > 0">
+    <form [formGroup]="selectionForm">
+      <p>
+        Please select, which revision should be used for module <strong>{{existingDependencies[0]}}</strong>.
+      </p>
+      <div class="form-group">
+        <label class="radio form-inline">
+          <input type="radio" id="rev_existing_uploaded" name="rev_{{existingDependencies[0]}}" value="uploaded" formControlName="rev_{{existingDependencies[0]}}"/>
+          <i class="skin"></i>
+          <span>{{validationOutput.getExistingUploadedRevision(existingDependencies[0])}} (Uploaded)</span>
+        </label>
+        <label class="radio form-inline" *ngFor="let rev of validationOutput.getExistingRepoRevisions(existingDependencies[0]) ">
+          <input type="radio" id="rev_existing_{{rev}}" name="rev_{{existingDependencies[0]}}" value="{{rev}}" formControlName="rev_{{existingDependencies[0]}}"/>
+          <i class="skin"></i>
+          <span>{{rev}}</span>
+        </label>
+      </div>
+    </form>
+  </ng-container>
+</div>
+<div class="modal-footer">
+  <button type="button" id="cancelDepsSelectionBtn" class="btn btn-outline-dark" (click)="onCancelClick()">Cancel</button>
+
+  <button type="button" id="startMissingDepsSelBtn" class="btn btn-outline-primary" (click)="onStartMissingSelectionClick()" *ngIf="!selectingMissingDependencies && missingDependencies.length > 0">
+    <span>Continue</span>
+  </button>
+  <button type="button" id="continueMissingDepsSelBtn" class="btn btn-outline-primary" (click)="onContinueMissingSelectionClick()" *ngIf="selectingMissingDependencies && (missingDependencies.length > 1 || existingDependencies.length > 0)">
+    <span>Continue</span>
+  </button>
+  <button type="button" id="finishMissingDepsSelBtn" class="btn btn-outline-primary" (click)="onFinishMissingSelectionClick()" *ngIf="selectingMissingDependencies && missingDependencies.length === 1 && existingDependencies.length === 0">
+    <span>Validate</span>
+  </button>
+
+  <button type="button" id="startExistingDepsSelBtn" class="btn btn-outline-primary" (click)="onStartExistingSelectionClick()" *ngIf="!selectingExistingDependencies && existingDependencies.length > 0 && missingDependencies.length === 0">
+    <span>Continue</span>
+  </button>
+  <button type="button" id="continueExistingDepsSelBtn" class="btn btn-outline-primary" (click)="onContinueExistingSelectionClick()" *ngIf="selectingExistingDependencies && existingDependencies.length > 1">
+    <span>Continue</span>
+  </button>
+  <button type="button" id="finishExistingDepsSelBtn" class="btn btn-outline-primary" (click)="onFinishExistingSelectionClick()" *ngIf="selectingExistingDependencies && existingDependencies.length === 1">
+    <span>Validate</span>
+  </button>
+</div>
