@@ -9,7 +9,7 @@
 
       <form [formGroup]="form">
         <div class="form-group">
-          <ngb-alert type="danger" (close)="onCloseError()"
+          <ngb-alert type="danger" (close)="onCloseError()" role="alert"
                      *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
 
           <label class="control-label" for="moduleNameInput">Module Name</label>

@@ -10,22 +10,24 @@ import { ValidationResultComponent } from './validation-result/validation-result
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
 import { AppModule } from '../../app.module';
 import { FileUploadFormModule } from '../../shared/file-upload-form/file-upload-form.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [YangValidatorComponent, MissingModulesSelectionComponent, ValidationResultComponent, ValidationErrorComponent],
   providers: [
     YangValidatorService
   ],
-  imports: [
-    CommonModule,
-    NgbTabsetModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgBootstrapFormValidationModule,
-    NgbAccordionModule,
-    NgbAlertModule,
-    FileUploadFormModule
-  ]
+    imports: [
+        CommonModule,
+        NgbTabsetModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgBootstrapFormValidationModule,
+        NgbAccordionModule,
+        NgbAlertModule,
+        FileUploadFormModule,
+        RouterModule
+    ]
 })
 export class YangValidatorModule {
 }

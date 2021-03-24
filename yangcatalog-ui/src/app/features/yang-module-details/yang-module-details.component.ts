@@ -1,13 +1,12 @@
-import { Component, ContentChildren, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { merge, Observable, of, Subject, zip } from 'rxjs';
-import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize, mergeMap, takeUntil } from 'rxjs/operators';
 import { YangModuleDetailsService } from './yang-module-details.service';
 import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
 import { ModuleDetailsModel } from './models/module-details-model';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { NgTemplateOutlet } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'yc-yang-module-details',

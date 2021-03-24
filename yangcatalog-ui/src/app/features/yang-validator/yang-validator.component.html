@@ -2,7 +2,7 @@
   <div class="yc-row-padding yc-main-content">
     <div class="yc-col">
 
-      <h2><a (click)="resetValidation()">YANG Validator</a></h2>
+      <h2><a routerLink="/yangvalidator/">YANG Validator</a></h2>
       <h3 *ngIf="rfcNumberValidation">Validating the IETF RFC specified by number</h3>
       <h3 *ngIf="draftNameValidation">Validating the IETF Draft specified by name</h3>
       <h3 *ngIf="filesValidation">Validating the uploaded Yang files</h3>
@@ -13,12 +13,11 @@
         <p>YANG Validator allows you to fetch, extract and validate the YANG modules. <br>
           What would You like to do?</p>
         <p>
-          <a (click)="showFilesForm()">I have one or multiple yang files and I want to validate them >> </a><br>
-          <a (click)="showDraftFileForm()">I have the Internet Draft/RFC document and I want to validate it >> </a><br>
-          <a (click)="showRfcNumberForm()">I know the number of IETF RFC and I want to validate it
-            >></a> <br>
-          <a (click)="showDraftNameForm()">I know the name of IETF Draft and I want to validate it >></a><br>
-          <a (click)="showApiOverview()">I want to use the REST API for validating the IETF RFCs >></a>
+          <a [routerLink]="'files'">I have one or multiple yang files and I want to validate them >> </a><br>
+          <a [routerLink]="'draft-file'">I have the Internet Draft/RFC document and I want to validate it >> </a><br>
+          <a [routerLink]="'rfc-number'">I know the number of IETF RFC and I want to validate it >></a> <br>
+          <a [routerLink]="'draft-name'">I know the name of IETF Draft and I want to validate it >></a><br>
+          <a [routerLink]="'api'">I want to use the REST API for validating the IETF RFCs >></a>
         </p>
       </div>
 

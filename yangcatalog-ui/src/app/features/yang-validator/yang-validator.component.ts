@@ -10,6 +10,8 @@ import { ChosenMissingRevsInput } from './models/chosen-missing-revs-input';
 import { FileUploadFormComponent } from '../../shared/file-upload-form/file-upload-form.component';
 import { YcValidationsService } from '../../core/yc-validations.service';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -20,6 +22,8 @@ import { ErrorMessage } from 'ng-bootstrap-form-validation';
 export class YangValidatorComponent implements OnInit, OnDestroy {
   @ViewChild('filesForm') filesForm: FileUploadFormComponent;
   @ViewChild('draftFileForm') draftFileForm: FileUploadFormComponent;
+
+  myBaseUrl = environment.WEBROOT_BASE_URL;
 
   rfcNumberForm: FormGroup;
   draftNameForm: FormGroup;
@@ -56,7 +60,8 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataService: YangValidatorService,
     private modalService: NgbModal,
-    private ycValidations: YcValidationsService
+    private ycValidations: YcValidationsService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -73,6 +78,8 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.rfcNameForm = this.formBuilder.group({
       rfcName: ['', Validators.required]
     });
+
+    this.subscribeRouteParams();
 
   }
 
@@ -366,5 +373,22 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
   onCloseWarning() {
     this.validationOutput.warning = '';
+  }
+
+  private subscribeRouteParams() {
+    this.route.params.subscribe(params => {
+      if (params.hasOwnProperty('validating')) {
+        const validatingActions = {
+          files: 'showFilesForm',
+          'draft-file': 'showDraftFileForm',
+          'rfc-number': 'showRfcNumberForm',
+          'draft-name': 'showDraftNameForm',
+          api: 'showApiOverview'
+        };
+        if (validatingActions.hasOwnProperty(params['validating'])) {
+          this[validatingActions[params['validating']]]();
+        }
+      }
+    });
   }
 }

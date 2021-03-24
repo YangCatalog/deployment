@@ -13,6 +13,10 @@ const routes: Routes = [
     component: StaticContentComponent,
   },
   {
+    path: 'yangvalidator/:validating',
+    component: YangValidatorComponent,
+  },
+  {
     path: 'yangvalidator',
     component: YangValidatorComponent
   },

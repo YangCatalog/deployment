@@ -7,11 +7,14 @@ import { BlogComponent } from './blog/blog.component';
 import { ContributeComponent } from './contribute/contribute.component';
 
 const staticRoutes: Routes = [
-  { path: '', redirectTo: '/home.html', pathMatch: 'full'},
+  {
+    path: '',
+    component: YangCatalogComponent,
+    pathMatch: 'full'
+  },
   {
     path: 'home.html',
     component: YangCatalogComponent,
-    pathMatch: 'full'
   },
   {
     path: 'about.html',
@@ -24,11 +27,6 @@ const staticRoutes: Routes = [
   {
     path: 'contribute.html',
     component: ContributeComponent
-  },
-  {
-    path: '**',
-    redirectTo: '/',
-    pathMatch: 'full'
   }
 ];
 
@@ -39,4 +37,5 @@ const staticRoutes: Routes = [
 
   ]
 })
-export class StaticContentRoutingModule { }
+export class StaticContentRoutingModule {
+}
