@@ -1,0 +1,177 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;" [ngClass]="{maximized: resultsMaximized}">
+  <div class="yc-row-padding">
+    <div class="yc-col">
+      <form [formGroup]="form" *ngIf="!resultsMaximized">
+        <h2>YANG Search</h2>
+        <div class="form-group">
+          <ngb-alert type="danger" (close)="onCloseError()"
+                     *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
+
+
+          <label class="control-label" for="searchTermInput">Search term</label>
+            <input id="searchTermInput" formControlName="searchTerm" type="text" class="form-control" placeholder="Enter your search term"/>
+
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>Search Options</a>
+              <ng-template ngbNavContent>
+                <div formGroupName="searchOptions">
+                  <label for="caseSensitiveCheckbox" class="checkbox"><input id="caseSensitiveCheckbox" formControlName="caseSensitive" type="checkbox"/><i class="skin"></i> <span>Case-Sensitive</span></label>
+                  <label for="regularExpressionCheckbox" class="checkbox"><input id="regularExpressionCheckbox" formControlName="regularExpression" type="checkbox"/><i class="skin"></i> <span>Regular Expression</span></label>
+                  <label for="includeMibsCheckbox" class="checkbox"><input id="includeMibsCheckbox" formControlName="includeMibs" type="checkbox"/><i class="skin"></i> <span>Include Mibs</span></label>
+                  <label for="onlyLatestRevsCheckbox" class="checkbox"><input id="onlyLatestRevsCheckbox" formControlName="onlyLatestRevs" type="checkbox"/><i class="skin"></i> <span>Only Latest Revs</span></label>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Search Fields</a>
+              <ng-template ngbNavContent>
+                <div>
+                  <label (change)="onCheckChange('searchFields', $event)" for="moduleNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'module')" id="moduleNameCheckbox" value="module" type="checkbox"/><i class="skin"></i> <span>Module Name</span></label>
+                  <label (change)="onCheckChange('searchFields', $event)" for="nodeNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'argument')" id="nodeNameCheckbox" value="argument" type="checkbox"/><i class="skin"></i> <span>Node Name</span></label>
+                  <label (change)="onCheckChange('searchFields', $event)" for="nodeDescriptionCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'description')" id="nodeDescriptionCheckbox" value="description" type="checkbox"/><i class="skin"></i> <span>Node Description</span></label>
+
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink>Yang Versions</a>
+              <ng-template ngbNavContent>
+                <div formGroupName="yangVersions">
+                  <label (change)="onCheckChange('yangVersions', $event)" for="yangVersion1dot0Checkbox" class="checkbox"><input [checked]="checkCheckedField('yangVersions', '1.0')" id="yangVersion1dot0Checkbox" value="1.0" type="checkbox"/><i class="skin"></i> <span>1.0</span></label>
+                  <label (change)="onCheckChange('yangVersions', $event)" for="yangVersion1dot1Checkbox" class="checkbox"><input [checked]="checkCheckedField('yangVersions', '1.1')" id="yangVersion1dot1Checkbox" value="1.1" type="checkbox"/><i class="skin"></i> <span>1.1</span></label>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="4">
+              <a ngbNavLink>Schema Types</a>
+              <ng-template ngbNavContent>
+                <div formGroupName="schemaTypes">
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="typedefCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'typedef')" value="typedef" id="typedefCheckbox" type="checkbox"/><i class="skin"></i> <span>Typedef</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="groupingCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'grouping')" value="grouping" id="groupingCheckbox" type="checkbox"/><i class="skin"></i> <span>Grouping</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="featureCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'feature')" value="feature" id="featureCheckbox" type="checkbox"/><i class="skin"></i> <span>Feature</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="identityCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'identity')" value="identity" id="identityCheckbox" type="checkbox"/><i class="skin"></i> <span>Identity</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="extensionCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'extension')" value="extension" id="extensionCheckbox" type="checkbox"/><i class="skin"></i> <span>Extension</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="rpcCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'rpc')" value="rpc" id="rpcCheckbox" type="checkbox"/><i class="skin"></i> <span>Rpc</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="containerCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'container')" value="container" id="containerCheckbox" type="checkbox"/><i class="skin"></i> <span>Container</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="listCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'list')" value="list" id="listCheckbox" type="checkbox"/><i class="skin"></i> <span>List</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="leafListCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'leaf-list')" value="leafListC" id="leafListCheckbox" type="checkbox"/><i class="skin"></i> <span>Leaf List</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="leafCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'leaf')" value="leaf" id="leafCheckbox" type="checkbox"/><i class="skin"></i> <span>Leaf</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="notificationCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'notification')" value="notification" id="notificationCheckbox" type="checkbox"/><i class="skin"></i> <span>Notification</span></label>
+                  <label (change)="onCheckChange('schemaTypes', $event)" for="actionCheckbox" class="checkbox"><input [checked]="checkCheckedField('schemaTypes', 'action')" value="action" id="actionCheckbox" type="checkbox"/><i class="skin"></i> <span>Action</span></label>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="5">
+              <a ngbNavLink>Output Columns</a>
+              <ng-template ngbNavContent>
+                <div formGroupName="outputColumns">
+                  <label (change)="onCheckChange('outputColumns', $event)" for="nameCheckbox" class="checkbox"><input id="nameCheckbox" [checked]="checkCheckedField('outputColumns', 'name')" value="name" type="checkbox"/><i class="skin"></i> <span>Name</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="revisionCheckbox" class="checkbox"><input id="revisionCheckbox" [checked]="checkCheckedField('outputColumns', 'revision')" value="revision" type="checkbox"/><i class="skin"></i> <span>Revision</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="schemaTypeCheckbox" class="checkbox"><input id="schemaTypeCheckbox" [checked]="checkCheckedField('outputColumns', 'schema-type')" value="schema" type="checkbox"/><i class="skin"></i> <span>Schema Type</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="pathCheckbox" class="checkbox"><input id="pathCheckbox" [checked]="checkCheckedField('outputColumns', 'path')" value="path" type="checkbox"/><i class="skin"></i> <span>Path</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="moduleCheckbox" class="checkbox"><input id="moduleCheckbox" [checked]="checkCheckedField('outputColumns', 'module-name')" value="module-name" type="checkbox"/><i class="skin"></i> <span>Module</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="originCheckbox" class="checkbox"><input id="originCheckbox" [checked]="checkCheckedField('outputColumns', 'origin')" value="origin" type="checkbox"/><i class="skin"></i> <span>Origin</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="organizationCheckbox" class="checkbox"><input id="organizationCheckbox" [checked]="checkCheckedField('outputColumns', 'organization')" value="organization" type="checkbox"/><i class="skin"></i> <span>Organization</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="maturityCheckbox" class="checkbox"><input id="maturityCheckbox" [checked]="checkCheckedField('outputColumns', 'maturity')" value="maturity" type="checkbox"/><i class="skin"></i> <span>Maturity</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="importedByNumberModulesCheckbox" class="checkbox"><input id="importedByNumberModulesCheckbox" [checked]="checkCheckedField('outputColumns', 'dependents')" value="dependents" type="checkbox"/><i class="skin"></i> <span>Imported By Number Modules</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="compilationStatusCheckbox" class="checkbox"><input id="compilationStatusCheckbox" [checked]="checkCheckedField('outputColumns', 'compilation-status')" value="compilation-status" type="checkbox"/><i class="skin"></i> <span>Compilation Status</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="descriptionCheckbox" class="checkbox"><input id="descriptionCheckbox" [checked]="checkCheckedField('outputColumns', 'description')" value="description" type="checkbox"/><i class="skin"></i> <span>Description</span></label>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="6">
+              <a ngbNavLink>Advanced search</a>
+              <ng-template ngbNavContent>
+                <div *ngFor="let fc of form.get('advanced')['controls']; let i = index" class="form-inline advanced-search-row" [ngClass]="{marginated: previousOr(i)}">
+
+                  <label class="control-label" for="advancedTermInput_{{i}}">Search term</label>
+                  <input id="advancedTermInput_{{i}}" [formControl]="fc.get('term')" type="text" class="form-control" placeholder="Fill the search term"/>
+
+                  <label class="control-label" for="advancedColumnSelect_{{i}}">in</label>
+                  <select class="form-select" id="advancedColumnSelect_{{i}}" [formControl]="fc.get('col')" >
+                    <option value="{{col['value']}}" *ngFor="let col of getColumnsList()"
+                            [selected]="false">{{col['name']}}</option>
+                  </select>
+
+                  <div class="operator" [ngClass]="{hidden: i === form.get('advanced')['controls'].length -1}">
+                    <label for="operatorRadioAnd_{{i}}" class="radio mb-0 form-inline and-operator">
+                      <input type="radio" id="operatorRadioAnd_{{i}}" name="op_{{i}}"  value="and" [formControl]="fc.get('op')"/>
+                      <i class="skin"></i> <span>and</span>
+                    </label>
+
+                    <label for="operatorRadioOr_{{i}}" class="radio mb-0 form-inline">
+                      <input type="radio" id="operatorRadioOr_{{i}}" name="op_{{i}}"  value="or" [formControl]="fc.get('op')"/>
+                      <i class="skin"></i> <span>or</span>
+                    </label>
+
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+
+          </ul>
+          <div [ngbNavOutlet]="nav" class="search-options"></div>
+
+          <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="onSearchClick()">
+            <div class="spinner-border text-primary" role="status" *ngIf="searchingProgress"></div>
+            Search
+          </button>
+
+        </div>
+      </form>
+
+      <div *ngIf="results">
+        <div class="results-header">
+          <h4>Search results</h4>
+          <button type="button" class="close" aria-label="Maximize" (click)="onMaximizeResultsClick()" ngbTooltip="Maximize results" *ngIf="!resultsMaximized">
+            <span class="bi bi-fullscreen"></span>
+          </button>
+          <button type="button" class="close" aria-label="Restore" (click)="onRestoreResultsClick()" ngbTooltip="Restore results" *ngIf="resultsMaximized">
+            <span class="bi bi-fullscreen-exit"></span>
+          </button>
+        </div>
+        <div class="results-grid-container" [ngStyle]="{minWidth: resultsContainerWidth}">
+          <span class="ag-icon ag-icon-asc"></span>
+          <yc-ag-grid tableId="searchResults"
+                      entityName="Module"
+                      entityNamePlural="Modules"
+                      [suppressHorizontalScroll]="false"
+                      [gridOptions]="gridOptions"
+                      [defaultColDef]="defaultColDef"
+                      [allColumnDefs]="currentColDefs"
+                      (gridReady)="onGridReady($event)"
+                      [rowData]="results.rows" #resultsGrid>
+
+            <ng-template let-row #moduleColumnTemplate>
+              <span [innerHTML]="row['module-name'] | highlightSearched : searchedTermToBeHighlighted"></span> <br>
+              <a href="{{myBaseUrl}}/yang-search/module_details/{{row['module-name']}}@{{row['revision']}}">
+                <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{row['module-name']}}" border="0">
+                Module details</a> <br>
+              <a href="{{myBaseUrl}}/yang-search/yang_tree/{{row['module-name']}}">
+                <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{row['module-name']}}" border="0">
+                Tree View</a> <br>
+              <a href="{{myBaseUrl}}/yang-search/impact_analysis/{{row['module-name']}}">
+                <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{row['module-name']}}"
+                     border="0">
+                Impact Analysis</a> <br>
+            </ng-template>
+
+
+
+            <ng-template let-row #nameColumnTemplate>
+              <a [href]="prepareNodeDetailUri(row)" target="_blank" [innerHTML]="row['name'] | highlightSearched : searchedTermToBeHighlighted"></a>
+            </ng-template>
+
+            <ng-template let-row #descriptionColumnTemplate>
+              <span [innerHTML]="row['description'] | highlightSearched : searchedTermToBeHighlighted"></span>
+            </ng-template>
+
+          </yc-ag-grid>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<yc-footer [footerNgStyle]="{minWidth: resultsContainerWidth}"></yc-footer>

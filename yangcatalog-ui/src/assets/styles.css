@@ -6,7 +6,7 @@ html {
   font-family: "Segoe UI", sans-serif;
   font-size: 15px;
   line-height: 1.7;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
 }
 * {
   box-sizing: inherit;
@@ -44,6 +44,7 @@ figure {
 }
 footer {
   display: block;
+  width: 100%;
 }
 header {
   display: block;
@@ -752,6 +753,7 @@ h6 {
 }
 .yc-container {
   padding: 0.01em 16px;
+  min-height: calc(100% - 151px);
 }
 .yc-container img {
   max-width: 1200px;
