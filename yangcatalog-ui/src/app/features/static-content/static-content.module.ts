@@ -7,13 +7,15 @@ import { ContributeComponent } from './contribute/contribute.component';
 import { StaticContentComponent } from './static-content.component';
 import { RouterModule } from '@angular/router';
 import { StaticContentRoutingModule } from './static-content-routing.module';
+import { CoreModule } from '../../core/core.module';
 
 @NgModule({
   declarations: [YangCatalogComponent, AboutComponent, BlogComponent, ContributeComponent, StaticContentComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    StaticContentRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        StaticContentRoutingModule,
+        CoreModule
+    ]
 })
 export class StaticContentModule { }

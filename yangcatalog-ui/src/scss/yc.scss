@@ -1,6 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "yc-main.scss";
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+//@import "~ag-grid-community/dist/styles/ag-theme-material.css";
+@import "ag-theme-bootstrap.scss";
 
 
 #myNavbar {
@@ -91,4 +94,16 @@ ngb-alert button {
 .modal-header button {
   background: none !important;
   border: none !important;
+}
+
+.ag-cell-value {
+  font-size: 13px !important;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
