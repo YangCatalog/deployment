@@ -9,7 +9,7 @@
            (change)="onFileChangeHandler($event)"  #attachmentFileInput />
   </div>
 
-  <p *ngIf="!attachments || attachments.length === 0">
+  <p class="pt25" *ngIf="!attachments || attachments.length === 0">
     No {{ multipleFiles ? 'files' : 'file' }} selected.
   </p>
 

@@ -5,6 +5,9 @@
 //@import "~ag-grid-community/dist/styles/ag-theme-material.css";
 @import "ag-theme-bootstrap.scss";
 
+h2 {
+  padding-bottom: 20px;
+}
 
 #myNavbar {
   a {
@@ -16,7 +19,7 @@
   padding-top: 25px;
 }
 
-p {
+.pt25 {
   padding-top: 25px;
 }
 
@@ -48,7 +51,7 @@ label.radio {
 }
 
 button i.bi {
-  padding-right: 7px;
+  padding-right: 2px;
 }
 
 .mb-30 {

@@ -92,9 +92,6 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  goHome() {
-
-  }
 
   onCloseError() {
     this.error = null;
