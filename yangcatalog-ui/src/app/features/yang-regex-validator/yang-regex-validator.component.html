@@ -1,0 +1,58 @@
+<div class="yc-container yc-app-container regex-validator" style="padding:128px 16px">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+      <h2>Regex Expression Validator</h2>
+      <form [formGroup]="form">
+
+        <ngb-alert type="danger" (close)="onCloseError()" *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
+
+        <div class=" form-group form-inline pattern-row" [customErrorMessages]="customPatternErrorMessages" [formGroup]="patternFormGroup" *ngFor="let patternFormGroup of this.form.get('patterns')['controls']; let i = index">
+            <div class="form-inline btn-group">
+              <label class="control-label" for="patternInput_{{i}}">Pattern {{i+1}}</label>
+              <div class="pattern-input-container">
+                <input id="patternInput_{{i}}" formControlName="pattern" type="text" class="form-control" placeholder="Example: [0-9a-fA-F]*"/>
+                <span class="btn invert-btn" (click)="onInvertMatchClick(i)" [ngClass]="{active: patternFormGroup.get('inverted').value}">
+                  {{ patternFormGroup.get('inverted').value ? 'Inverted match' : 'Invert match'}}
+                </span>
+              </div>
+
+
+              <button disabled class="btn status-btn" *ngIf="patternFormGroup.get('progress').value">Validating...</button>
+              <ng-container *ngIf="!patternFormGroup.get('progress').value && patternFormGroup.get('result').value">
+                <button disabled class="btn status-btn btn-success" *ngIf="patternFormGroup.get('result').value['result'] === 0">Valid</button>
+                <button disabled class="btn status-btn btn-danger" *ngIf="patternFormGroup.get('result').value['result'] !== 0">Invalid</button>
+              </ng-container>
+
+            </div>
+            <button id="addPatternBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Add pattern" (click)="addPattern(i)" ngbTooltip="Add one more pattern">
+              <i class="bi bi-plus-circle"></i>
+            </button>
+            <button id="removePatternBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Remove pattern"
+                    [disabled]="this.form.get('patterns')['controls'].length === 1" (click)="removePattern(i)" ngbTooltip="Remove this pattern">
+              <i class="bi bi-dash-circle"></i>
+            </button>
+            <bfv-messages></bfv-messages>
+          </div>
+
+        <div class="form-group test-string">
+          <label for="testingStrTextarea">Test string</label>
+          <textarea class="form-control" id="testingStrTextarea" formControlName="testStr" rows="3"></textarea>
+        </div>
+
+        <div class="submits">
+
+          <button id="yangValidateSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="onValidateYangcatalogClick()" [disabled]="form.invalid">
+            Yang Validate
+          </button>
+          <button id="w3cValidateSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="onValidateW3cClick()" [disabled]="form.invalid">
+            W3C Validate
+          </button>
+          <button id="aboutBtn" class="btn px-ml-5 btn-outline-secondary search-submit" (click)="onAboutClick()" >
+            <i class="bi bi-question-circle"></i>
+            About
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

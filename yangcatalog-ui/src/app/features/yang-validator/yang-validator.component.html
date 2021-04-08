@@ -1,0 +1,84 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px" id="webAccess">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+
+      <h2><a routerLink="/yangvalidator/">YANG Validator</a></h2>
+      <h3 *ngIf="rfcNumberValidation">Validating the IETF RFC specified by number</h3>
+      <h3 *ngIf="draftNameValidation">Validating the IETF Draft specified by name</h3>
+      <h3 *ngIf="filesValidation">Validating the uploaded Yang files</h3>
+      <h3 *ngIf="draftFileValidation">Validating the uploaded Draft/RFC document</h3>
+      <h3 *ngIf="apiOverview">API overview</h3>
+
+      <div class="main-options" *ngIf="noFormDisplayed()">
+        <p class="pt25">YANG Validator allows you to fetch, extract and validate the YANG modules. <br>
+          What would You like to do?</p>
+        <p>
+          <a [routerLink]="'files'">I have one or multiple yang files and I want to validate them >> </a><br>
+          <a [routerLink]="'draft-file'">I have the Internet Draft/RFC document and I want to validate it >> </a><br>
+          <a [routerLink]="'rfc-number'">I know the number of IETF RFC and I want to validate it >></a> <br>
+          <a [routerLink]="'draft-name'">I know the name of IETF Draft and I want to validate it >></a><br>
+          <a [routerLink]="'api'">I want to use the REST API for validating the IETF RFCs >></a>
+        </p>
+      </div>
+
+      <div class="files-validation-container" *ngIf="apiOverview">
+        WIP
+      </div>
+
+
+      <div class="files-validation-container" *ngIf="filesValidation">
+        <yc-validation-error [error]="error"></yc-validation-error>
+        <ngb-alert type="warning" [dismissible]="false" *ngIf="validationOutput && validationOutput.warning">{{ validationOutput.warning }}</ngb-alert>
+
+        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.txt', '.yang', '.zip']" #filesForm></yc-file-upload-form>
+        <button id="filesSubmit" class="btn btn-outline-primary mb-30" (click)="validateFiles()" *ngIf="filesForm.attachments.length">
+          <div class="spinner-border text-primary" role="status" *ngIf="validatingFilesProgress"></div>
+          Validate
+        </button>
+      </div>
+
+      <div class="files-validation-container" *ngIf="draftFileValidation">
+        <yc-validation-error [error]="error"></yc-validation-error>
+        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.*']" [multipleFiles]="false" #draftFileForm></yc-file-upload-form>
+        <button id="draftFilesSubmit" class="btn btn-outline-primary mb-30" (click)="validateDraftFile()" *ngIf="draftFileForm.attachments.length">
+          <div class="spinner-border text-primary" role="status" *ngIf="validatingDraftFileProgress"></div>
+          Validate
+        </button>
+      </div>
+
+      <form [formGroup]="rfcNumberForm" *ngIf="rfcNumberValidation">
+        <div class="form-group" [customErrorMessages]="customErrorMessages">
+          <yc-validation-error [error]="error"></yc-validation-error>
+          <label class="control-label" for="rfcNumberInput">IETF RFC number</label>
+          <div class="form-inline">
+            <input id="rfcNumberInput" formControlName="rfcNumber" type="text" class="form-control"
+                   placeholder="RFC number, e.g. 7223"/>
+            <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5" (click)="validateRfcNumber()">
+              <div class="spinner-border text-primary" role="status" *ngIf="validatingRfcNumberProgress"></div>
+              Validate
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form [formGroup]="draftNameForm" *ngIf="draftNameValidation">
+        <div class="form-group">
+          <yc-validation-error [error]="error"></yc-validation-error>
+          <label class="control-label" for="rfcNumberInput">IETF Draft name</label>
+          <div class="form-inline">
+            <input id="draftNameInput" formControlName="draftName" type="text" class="form-control"
+                   placeholder="Draft name, e.g. draft-ietf-netmod-syslog-model"/>
+            <button id="draftNameSubmit" class="btn btn-outline-primary px-ml-5" (click)="validateDraftName()">
+              <div class="spinner-border text-primary" role="status" *ngIf="validatingDraftNameProgress"></div>
+              Validate
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <yc-validation-result [validationOutput]="validationOutput" *ngIf="validationOutput"></yc-validation-result>
+
+
+    </div>
+  </div>
+</div>
