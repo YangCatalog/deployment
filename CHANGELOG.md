@@ -2,6 +2,9 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v3.2.0 - 2021-04-15
+
+  * Python base image bumped to version 3.9 in all affected modules [#66](https://github.com/YangCatalog/deployment/issues/66)
   * YumaPro validator updated to version 20.10-6 [#53](https://github.com/YangCatalog/deployment/issues/53)
 
 * ##### 3.1.0 - 2021-03-18
