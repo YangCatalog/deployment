@@ -33,6 +33,10 @@ $ag-icon-font-family: 'agGridClassic';
     color: #333;
   }
 
+  .ag-cell-focus {
+    border: none !important;
+  }
+
   .ag-paging-panel {
     justify-content: left;
   }

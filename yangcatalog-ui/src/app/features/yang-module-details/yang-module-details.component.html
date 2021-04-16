@@ -23,7 +23,7 @@
             </button>
           </div>
           <div class="form-inline app-links" *ngIf="infoData">
-            <a href="/yang-search/yang_tree/{{infoData.currentModule}}">
+            <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}">
               <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{infoData.currentModule}}" border="0">
               Tree View</a>
             <a href="/yang-search/impact_analysis/{{infoData.currentModule}}">
