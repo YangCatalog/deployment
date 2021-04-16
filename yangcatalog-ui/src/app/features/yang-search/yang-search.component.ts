@@ -253,7 +253,6 @@ export class YangSearchComponent implements OnInit, OnDestroy {
   onGridReady(event: any) {
     setTimeout(() => {
       const newSize = this.resultsGrid.getColsViewportScrollWidth() + 25;
-      console.log('adjusting size to ', newSize);
       this.resultsContainerWidth = (newSize) + 'px';
     });
   }

@@ -7,6 +7,7 @@ import { YangImpactAnalysisComponent } from './features/yang-impact-analysis/yan
 import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
 import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
 import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
+import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,14 @@ const routes: Routes = [
   {
     path: 'yang-search/module_details/:module',
     component: YangModuleDetailsComponent
+  },
+  {
+    path: 'yang-search/yang_tree/show_node/:node/:path/:revision',
+    component: YangShowNodeComponent,
+  },
+  {
+    path: 'yang-search/yang_tree/:module',
+    component: YangTreeComponent
   },
   {
     path: 'yang-search/module_details',

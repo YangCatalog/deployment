@@ -1,9 +1,8 @@
 <div id="grid-wrapper-{{tableId}}" class="grid-wrapper" #containerDiv>
 
     <ag-grid-angular class="ag-theme-bootstrap grid-obj" [id]="tableId" [frameworkComponents]="frameworkComponents"
-                     [domLayout]="'autoHeight'"
                      [gridOptions]="gridOptions"
-                     [headerHeight]="headerHeight" [rowHeight]="rowHeight" [rowData]="rowData" [pagination]="true"
+                     [headerHeight]="headerHeight" [rowHeight]="rowHeight" [rowData]="rowData" [pagination]="pagination"
                      [paginationPageSize]="25"
                      [suppressHorizontalScroll]="suppressHorizontalScroll"
                      [suppressPaginationPanel]="false" [columnDefs]="columnDefs"

@@ -110,3 +110,7 @@ a {
     text-decoration: underline !important;
   }
 }
+
+.btn-no-focus:focus {
+  box-shadow: none !important;
+}

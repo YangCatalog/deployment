@@ -20,6 +20,7 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
   nodeName = '';
   nodeType = '';
   myText = '';
+  error: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,11 +42,12 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         result => {
-          console.log('result', result);
+          console.log('result');
           this.parseResult(result);
         },
         err => {
-          console.error(err);
+          console.log('error', err);
+          this.error = err;
         }
       );
   }
@@ -94,5 +96,9 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
 
   onClick() {
     this.myText = 'asdlkfjasdlkfjsadf';
+  }
+
+  onCloseError() {
+
   }
 }

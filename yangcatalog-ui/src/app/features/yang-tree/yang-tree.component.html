@@ -1,0 +1,90 @@
+<div class="yc-container yc-app-container" style="padding: 128px 16px 50px 16px; display: flex;">
+  <div class="yc-row-padding" style="flex: auto; display: flex;">
+    <div class="yc-col">
+      <h2>YANG Tree</h2>
+
+      <p class="pt25" *ngIf="loading">
+        <span class="spinner-border" role="status"></span>
+        Loading data...
+
+      </p>
+
+      <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
+        {{ error['error'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+      </ngb-alert>
+
+      <div class="results-grid-container" *ngIf="!loading && treeRows" [ngStyle]="{minWidth: resultsContainerWidth}">
+
+        <div id="collapseExpandDiv" style="display: none;">
+          <a (click)="expandAll()" id="expandAllSpan" title="Expand All">
+            <fa-icon [icon]="faPlusSquare"></fa-icon>
+          </a>
+          <a (click)="collapseAll()" id="collapseAllSpan" title="Collapse All">
+            <fa-icon [icon]="faMinusSquare"></fa-icon>
+          </a>
+        </div>
+
+        <p class="infoline">
+          <strong>Module:</strong> <span> {{ tree.module }} </span>
+          <strong>Namespace:</strong> <span> {{ tree.namespace }} </span>
+          <strong>Prefix:</strong> <span> {{ tree.prefix }} </span><br>
+          <a href="{{myBaseUrl}}/yang-search/module_details/{{tree.module}}">
+            <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{tree.module}}" border="0">
+            Module details</a>
+          <a href="/yang-search/impact_analysis/{{tree.module}}">
+            <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{tree.module}}"
+                 border="0">
+            Impact Analysis</a>
+          <span class="yc-disabled"><img src="{{myBaseUrl}}/assets/img/yang_suite.png" border="0">
+              Yang Suite</span>
+        </p>
+
+        <yc-ag-grid tableId="yangTreeResults"
+                    entityName="Module"
+                    entityNamePlural="Modules"
+                    [suppressHorizontalScroll]="false"
+                    [pagination]="false"
+                    [gridOptions]="gridOptions"
+                    [defaultColDef]="defaultColDef"
+                    [allColumnDefs]="allColDefs"
+                    (gridReady)="onGridReady($event)"
+                    [rowData]="treeRows" #resultsGrid>
+          <ng-template let-row #pathColumnTemplate>
+            <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['path']"
+                    *ngIf="row['path'].length > 0" title="Copy Path">
+              <fa-icon [icon]="faCopy"></fa-icon>
+            </button>
+            {{ row['path'] }}
+          </ng-template>
+
+          <ng-template let-row #sensorPathColumnTemplate>
+            <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['sensorPath']"
+                    *ngIf=" row['sensorPath'] && row['sensorPath'].length > 0" title="Copy Sensor Path">
+              <fa-icon [icon]="faCopy"></fa-icon>
+            </button>
+            {{ row['sensorPath'] }}
+          </ng-template>
+
+          <ng-template let-row #elementColumnTemplate>
+            <span *ngFor="let in of counter(row['level']) ;let i = index ">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <a title="{{row['title']}}" class="element"
+               (click)="row['groupCollapsed'] ?  expandGroup(row) : collapseGroup(row)"
+               *ngIf="row['children'].length > 0">
+              <fa-icon [icon]="faFolder" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === true"></fa-icon>
+              <fa-icon [icon]="faFolderOpen"
+                       *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
+              {{row['text']}}
+            </a>
+            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0"
+               href="{{prepareNodeDetailUri(row)}}">
+              <fa-icon [icon]="faLeaf" class="green"></fa-icon>
+              {{row['text']}}
+            </a>
+          </ng-template>
+        </yc-ag-grid>
+      </div>
+
+    </div>
+  </div>
+</div>
+<yc-footer [footerNgStyle]="{minWidth: resultsContainerWidth}"></yc-footer>

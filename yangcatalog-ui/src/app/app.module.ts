@@ -12,6 +12,14 @@ import { YangRegexValidatorModule } from './features/yang-regex-validator/yang-r
 import { HttpClientModule } from '@angular/common/http';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { YangModuleDetailsModule } from './features/yang-module-details/yang-module-details.module';
+import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
+import { CoreModule } from './core/core.module';
+import { AppAgGridModule } from './shared/ag-grid/app-ag-grid.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { YangShowNodeModule } from './features/yang-show-node/yang-show-node.module';
+import { ClipboardModule } from 'ngx-clipboard';
+import { YangTreeModule } from './features/yang-tree/yang-tree.module';
 
 @NgModule({
   declarations: [
@@ -27,8 +35,14 @@ import { YangModuleDetailsModule } from './features/yang-module-details/yang-mod
     YangModuleDetailsModule,
     YangImpactAnalysisModule,
     YangRegexValidatorModule,
+    YangTreeModule,
+    YangShowNodeModule,
     HttpClientModule,
-    NgBootstrapFormValidationModule.forRoot()
+    NgBootstrapFormValidationModule.forRoot(),
+    CoreModule,
+    AppAgGridModule,
+    FontAwesomeModule,
+    NgbTooltipModule,
   ],
   providers: [],
   exports: [
