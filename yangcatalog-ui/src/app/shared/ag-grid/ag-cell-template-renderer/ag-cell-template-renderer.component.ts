@@ -3,7 +3,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-ag-cell-template-renderer',
+  selector: 'yc-ag-cell-template-renderer',
   templateUrl: './ag-cell-template-renderer.component.html',
   styleUrls: ['./ag-cell-template-renderer.component.css']
 })
@@ -17,7 +17,7 @@ export class AgCellTemplateRendererComponent implements ICellRendererAngularComp
   refresh(params: any): boolean {
     this.templateContext = {
       $implicit: params.data,
-      params: params
+      params
     };
     this.zone.run(() => {});
     return true;

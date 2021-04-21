@@ -1,0 +1,163 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+      <h2>YANG Statistics</h2>
+
+      <p class="pt25" *ngIf="loading">
+        <span class="spinner-border" role="status"></span>
+        Loading data...
+      </p>
+
+      <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
+        {{ error['error'] ?  error['error']['description'] : (error.message || 'The application has encountered an unknown error.') }}
+      </ngb-alert>
+
+
+      <ng-container *ngIf="!loading && !error">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>General Statistics</a>
+            <ng-template ngbNavContent>
+              <div class="gen-stats">
+
+                <div class="gen-stat-number vendor"><span>{{ stats.general.numYangFilesVendor | number }}</span><p>Yang Files in Vendor</p></div>
+                <div class="gen-stat-number vendor-unique"><span>{{ stats.general.numYangFilesVendorNdp | number }}</span><p>Unique Yang Files in Vendor</p></div>
+                <div class="gen-stat-number standard"><span>{{ stats.general.numYangFilesStandard | number }}</span><p>Yang Files in Standard</p></div>
+                <div class="gen-stat-number standard-unique"><span>{{ stats.general.numYangFilesStandardNdp | number }}</span><p>Unique Yang Files in Standard </p></div>
+                <div class="gen-stat-number parsed"><span>{{ stats.general.numParsedFiles | number }}</span><p>Yang Files Parsed into Yangcatalog</p></div>
+                <div class="gen-stat-number parsed-unique"><span>{{ stats.general.numUniqueParsedFiles | number }}</span><p>Unique Yang Files Parsed into Yangcatalog</p></div>
+              </div>
+
+              <div class="charts">
+                <ngx-charts-pie-chart
+                  [results]="sdoToVendorPieData"
+                  [view]="[300, 300]"
+                  [legend]="true"
+                  [legendTitle]="'Yang files in Github'"
+                  gradient="true"
+                  [labels]="false" >
+                </ngx-charts-pie-chart>
+
+                <ngx-charts-pie-chart
+                  [results]="sdoPieData"
+                  [view]="[300, 300]"
+                  [legend]="true"
+                  gradient="true"
+                  [legendTitle]="'SDO and Opensource Yang files in Github'"
+                  [labels]="false" >
+                </ngx-charts-pie-chart>
+
+                <ngx-charts-pie-chart
+                  [results]="vendorPieData"
+                  [view]="[300, 300]"
+                  [legend]="true"
+                  [legendTitle]="'Vendor Yang files in Github'"
+                  gradient="true"
+                  [labels]="false" >
+                </ngx-charts-pie-chart>
+
+
+              </div>
+              <div class="results-grid-container">
+                <yc-ag-grid tableId="sdoResults"
+                            domLayout="autoHeight"
+                            [suppressHorizontalScroll]="false"
+                            [pagination]="false"
+                            [gridOptions]="gridOptions"
+                            [defaultColDef]="defaultColDef"
+                            [allColumnDefs]="collDefsSdo"
+                            [rowData]="stats.sdoContribs">
+                </yc-ag-grid>
+
+              </div>
+              <div class="results-grid-container">
+                <yc-ag-grid tableId="vendorResults"
+                            domLayout="autoHeight"
+                            [suppressHorizontalScroll]="false"
+                            [pagination]="false"
+                            [gridOptions]="gridOptions"
+                            [defaultColDef]="defaultColDef"
+                            [allColumnDefs]="collDefsVendor"
+                            [rowData]="stats.vendorContribs">
+                </yc-ag-grid>
+
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>Cisco Statistics</a>
+            <ng-template ngbNavContent>
+              <label class="control-label" for="ciscoStatSelection">Select statistics to be displayed</label>
+              <select class="form-select" id="ciscoStatSelection" [(ngModel)]="ciscoStatsSelection">
+                <option value="{{standard}}" *ngFor="let standard of ciscoStandards">{{standard}}</option>
+              </select>
+              <div class="results-grid-container" *ngIf="ciscoStatsSelection==='nx'">
+                <yc-ag-grid tableId="ciscoNxResults"
+                            domLayout="autoHeight"
+                            [suppressHorizontalScroll]="false"
+                            [pagination]="false"
+                            [gridOptions]="gridOptions"
+                            [defaultColDef]="defaultColDef"
+                            [allColumnDefs]="collDefsCiscoNx"
+                            [templateMap]="nxTemplateMap"
+                            [rowData]="stats.ciscoNx">
+                  <ng-template let-row let-params="params" #versionPlatformTemplate>
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['github']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['github']"></fa-icon>
+                    /
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                  </ng-template>
+                </yc-ag-grid>
+
+              </div>
+              <div class="results-grid-container" *ngIf="ciscoStatsSelection==='xr'">
+                <yc-ag-grid tableId="ciscoXrResults"
+                            domLayout="autoHeight"
+                            [suppressHorizontalScroll]="false"
+                            [pagination]="false"
+                            [gridOptions]="gridOptions"
+                            [defaultColDef]="defaultColDef"
+                            [allColumnDefs]="collDefsCiscoXr"
+                            [templateMap]="xrTemplateMap"
+                            [rowData]="stats.ciscoXr">
+                  <ng-template let-row let-params="params" #versionPlatformTemplate>
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['github']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['github']"></fa-icon>
+                    /
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                  </ng-template>
+                </yc-ag-grid>
+
+              </div>
+              <div class="results-grid-container" *ngIf="ciscoStatsSelection==='xe'">
+                <yc-ag-grid tableId="ciscoXrResults"
+                            domLayout="autoHeight"
+                            [suppressHorizontalScroll]="false"
+                            [pagination]="false"
+                            [gridOptions]="gridOptions"
+                            [defaultColDef]="defaultColDef"
+                            [allColumnDefs]="colDefsCiscoXe"
+                            [templateMap]="xeTemplateMap"
+                            [rowData]="stats.ciscoXe">
+                  <ng-template let-row let-params="params" #versionPlatformTemplate>
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['github']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['github']"></fa-icon>
+                    /
+                    <fa-icon [icon]="faCheck" *ngIf="row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                    <fa-icon [icon]="faTimes" *ngIf="!row[params['column']['colId']]['yangcatalog']"></fa-icon>
+                  </ng-template>
+                </yc-ag-grid>
+
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="search-options"></div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
+<yc-footer></yc-footer>

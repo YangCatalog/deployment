@@ -20,6 +20,9 @@ import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { YangShowNodeModule } from './features/yang-show-node/yang-show-node.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { YangTreeModule } from './features/yang-tree/yang-tree.module';
+import { YangStatsModule } from './features/statistics/yang-stats.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -37,12 +40,15 @@ import { YangTreeModule } from './features/yang-tree/yang-tree.module';
     YangRegexValidatorModule,
     YangTreeModule,
     YangShowNodeModule,
+    YangStatsModule,
     HttpClientModule,
     NgBootstrapFormValidationModule.forRoot(),
     CoreModule,
     AppAgGridModule,
     FontAwesomeModule,
     NgbTooltipModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   exports: [
