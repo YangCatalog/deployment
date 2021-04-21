@@ -56,6 +56,8 @@ export class AppAgGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Input() frameworkComponents: any;
 
+  @Input() templateMap: any;
+
   @Output() rowClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() cellMouseOver: EventEmitter<any> = new EventEmitter<any>();
   @Output() cellMouseOut: EventEmitter<any> = new EventEmitter<any>();
@@ -76,18 +78,19 @@ export class AppAgGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Output() gridReady: EventEmitter<any> = new EventEmitter();
 
+  @Input() domLayout = '';
+
   currentGridWidth: number;
 
   /**
    * For row reselection functionality
    */
   private selectedRows: RowNode[] = [];
-
   protected currentFilterModel: any;
   protected selectionChangedSubj: Subject<any[]> = new Subject<any[]>();
   gridApi: GridApi;
-  columnApi: ColumnApi;
 
+  columnApi: ColumnApi;
   columnDefs: ColDef[];
   itemsFrom = 0;
   itemsTo = 0;
@@ -274,11 +277,17 @@ export class AppAgGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   protected getTemplateForColumn(colId: string): TemplateRef<any> {
 
-    return this.templates.find(ref => {
-      // console.log(ref);
-      // return ref._def && ref._def.references.hasOwnProperty(colId + 'ColumnTemplate');
-      return ref['_declarationTContainer']['localNames'].indexOf(colId + 'ColumnTemplate') !== -1;
-    });
+    if (this.templateMap && this.templateMap.hasOwnProperty(colId)) {
+      return this.templates.find(ref => {
+        return ref['_declarationTContainer']['localNames'].indexOf(this.templateMap[colId]) !== -1;
+      });
+    } else {
+      return this.templates.find(ref => {
+        // console.log(ref);
+        // return ref._def && ref._def.references.hasOwnProperty(colId + 'ColumnTemplate');
+        return ref['_declarationTContainer']['localNames'].indexOf(colId + 'ColumnTemplate') !== -1;
+      });
+    }
   }
 
   getSelectedRows(): any[] {
@@ -421,4 +430,7 @@ export class AppAgGridComponent implements AfterViewInit, OnInit, OnDestroy {
       this.gridOptions['ensureDomOrder'] = true;
     }
   }
+
+
+
 }

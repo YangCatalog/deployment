@@ -8,6 +8,7 @@ import { YangRegexValidatorComponent } from './features/yang-regex-validator/yan
 import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
 import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
 import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
+import { YangStatsComponent } from './features/statistics/yang-stats.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'yangre',
     component: YangRegexValidatorComponent
+  },
+  {
+    path: 'stats/statistics.html',
+    component: YangStatsComponent
   }
 ];
 

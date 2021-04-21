@@ -36,9 +36,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.15",
+    "@angular/cdk": "11.2.9",
     "@angular/cli": "~9.1.15",
     "@angular/compiler-cli": "~9.1.13",
     "@angular/language-service": "~9.1.13",
+    "@swimlane/ngx-charts": "17.0.1",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
