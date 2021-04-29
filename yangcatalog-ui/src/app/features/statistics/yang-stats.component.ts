@@ -220,6 +220,7 @@ export class YangStatsComponent implements OnInit, OnDestroy {
         this.sdoPieData = this.stats.getSdoGighubNumbers();
       },
       err => {
+        console.error(err);
         this.error = err;
       }
     );

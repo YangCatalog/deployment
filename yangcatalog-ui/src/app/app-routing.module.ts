@@ -9,6 +9,7 @@ import { YangModuleDetailsComponent } from './features/yang-module-details/yang-
 import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
 import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
 import { YangStatsComponent } from './features/statistics/yang-stats.component';
+import { AccountComponent } from './features/account/account/account.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'stats/statistics.html',
     component: YangStatsComponent
+  },
+  {
+    path: 'create.html',
+    component: AccountComponent
   }
 ];
 
