@@ -125,3 +125,76 @@ describe a complete (modulo ConfD) deployment of the Yang Catalog.
 
 The `conf` directory contains a few files that are passed to the
 containers using bind mounts.
+
+### .env variables
+
+Some of the following variables if changed here has to corespond with yangcatalog.conf file  
+
+`COMPOSE_PROJECT_NAME=yc` - When running a docker-compose up command it will create
+a docker containers that have some specific name (like backend, frontend, yang-search...).
+This will add a prefix to these names so in this example we would have yc-backend, yc-frontend...
+
+`MYSQL_ROOT_PASSWORD=<ROOT PASSWORD>` - Password to get into mysql cli as a root or to make any
+changes as root. This password has to be used in any of these cases 
+
+`MYSQL_DATABASE=yang_catalog` - Database name
+
+`MYSQL_USER=yang` - yangcatalog specific user for mysql
+
+`MYSQL_PASSWORD=<MYSQL PASSWORD>` - Password to get into mysql cli as a yang user or to make any
+changes as yang user. This password has to be used in any of these cases. It can be same as root
+password although this is not recommended.
+
+`MYSQL_VOLUME=/var/yang/mysql` - where are all the mysql database files located
+
+`RABBITMQ_USER=<RABBITMQ_USER>` - rabbitmq username.
+
+`RABBITMQ_PASSWORD=<RABBITMQ PASSWORD>`  - rabbitmq username.
+
+`ELASTICSEARCH_DATA=/var/lib/elasticsearch` - This is only used with local elasticsearch. If AWS
+elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
+variable is used to specify where elasticsearch indexed data should be saved
+
+`ELASTICSEARCH_LOG=/var/log/elasticsearch`  - This is only used with local elasticsearch. If AWS
+elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
+variable is used to specify where elasticsearch logs should be saved
+
+`NGINX_LOG=/var/log/nginx` - Where do we save nginx logs
+
+`KEY_FILE=/home/yang/deployment/resources/yangcatalog.org.key` - certificate key file for HTTPS protocol.
+If None exists just use any path
+
+`CERT_FILE=/home/yang/deployment/resources/yangcatalog.org.crt` - certificate file for HTTPS protocol.
+If None exists just use any path
+
+`CA_CERT_FILE=/home/yang/deployment/resources/yangcatalog.org.crt` - ca_certificate file for HTTPS protocol.
+If None exists just use any path
+
+`ELASTICSEARCH_ID=1001` - This is only used with local elasticsearch. If AWS
+elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
+variable is used to set permissions to specific user ID. It`s safe to use same ID as YANG_ID
+
+`ELASTICSEARCH_GID=1001` - This is only used with local elasticsearch. If AWS
+elasticsearch is used to set permissions to specific user GID. It`s safe to use same GID as YANG_GID
+
+`YANG_ID=1016` - ID created for yang user
+
+`YANG_GID=1016` - GID created for yang user
+
+`MYSQL_ID=1001` - ID created for mysql. It`s safe to use same ID as YANG_GID
+
+`MYSQL_GID=1001` - GID created for mysql. It`s safe to use same GID as YANG_GID
+
+`YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved. 
+
+`NGINX_FILES=yangcatalog-nginx*.conf` - NGINX config files used for NGINX. There is testing config file
+or production one with HTTPS. Read [documentation](./DOCUMENTATION) file to find out how to use this variable
+
+`GIT_USER_NAME=foo` - yangcatalog is pushing some data to github repository and it needs to
+set usename before any commit is done.
+
+`GIT_USER_EMAIL=bar@foo.com` - yangcatalog is pushing some data to github repository and it needs to
+set email address before any commit is done.
+
+`CRON_MAIL_TO=miroslav.kovac@pantheon.tech` - comma separated list of emails which are used
+with cron jobs. If any cron job will fail it will send it to this comma separated list of email addresses.
