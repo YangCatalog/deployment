@@ -2,6 +2,10 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v3.2.1 - 2021-05-04
+
+  * Crontab MAILTO variable set during Docker image build [#72](https://github.com/YangCatalog/deployment/issues/72)
+
 * ##### v3.2.0 - 2021-04-15
 
   * Python base image bumped to version 3.9 in all affected modules [#66](https://github.com/YangCatalog/deployment/issues/66)
