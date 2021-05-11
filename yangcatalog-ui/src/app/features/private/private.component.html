@@ -1,0 +1,216 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
+  <div class="yc-row-padding ">
+    <div class="yc-col">
+      <div class="private-header">
+        <h2 routerLink="/private-page/">Yang Private Page</h2>
+        <h3 *ngIf="jsonfile">{{ jsonPreviewHeader }}</h3>
+      </div>
+
+
+      <ng-container *ngIf="!loading && !error && !jsonfile">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>Statistics</a>
+            <ng-template ngbNavContent>
+              <a [routerLink]="['AllYANGPageMain.html']">See all statistics</a><span> (updated daily) </span>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>Cisco Authors</a>
+            <ng-template ngbNavContent>
+              <h3>Cisco Authors at the IETF</h3>
+
+              <div class="thumbs">
+                <img class="thumb" [src]="image.thumb" (click)="openImagePreview(ciscoThumbs, i)" *ngFor="let image of ciscoThumbs; let i=index" />
+              </div>
+              <p>
+                <a [routerLink]="['IETFCiscoAuthorsYANGPageCompilation.html']">Cisco Authors: YANG Data Models extracted from IETF drafts </a><span>(updated daily) </span>
+              </p>
+
+
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3">
+            <a ngbNavLink>SDO</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let sdo of privateData['sdo-stats']">
+                <span>{{ jsonExtractFileName(sdo) }} (updated daily) </span> - <a [routerLink]="[jsonExtractFileName(sdo) + 'YANGPageCompilation.html']">preview</a> - <a href="{{myBaseUrl}}/private/{{sdo}}">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="4">
+            <a ngbNavLink>Dependency Graphs</a>
+            <ng-template ngbNavContent>
+
+              <div class="thumbs dependency-thumbs">
+                <div class="thumb-container" *ngFor="let image of dependencyGraphsThumbs; let i=index">
+
+                  <img class="thumb" [src]="image.thumb" (click)="openImagePreview(dependencyGraphsThumbs, i)"  />
+                  <p>{{ image.caption }}</p>
+                </div>
+              </div>
+
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="5">
+            <a ngbNavLink>Cisco </a>
+            <ng-template ngbNavContent>
+              <label class="control-label" for="ciscoStatSelection">Select statistics to be displayed</label>
+              <select class="form-select" id="ciscoStatSelection" [(ngModel)]="ciscoStatsSelection" style="width: 350px;">
+                <option value="XR" >Cisco IOS-XR</option>
+                <option value="XE" >Cisco IOS-XE</option>
+                <option value="NX" >Cisco NX-OS</option>
+              </select>
+
+              <div class="links-list">
+                <ng-container *ngIf="ciscoStatsSelection==='XR'">
+                  <p><a target="_blank" href="https://github.com/YangModels/yang/blob/master/vendor/cisco/xr/612/README.md">IMPORTANT NOTE regarding the compliance of those CISCO native IOS-XR models</a></p>
+                  <p *ngFor="let cs of privateData[ciscoStatsSelection]">
+                    <span>Cisco IOS-XR {{ cs['allCharacters'] }} native models  </span> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                    <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}{{cs['alphaNumeric']}}.json">download</a>
+                  </p>
+                </ng-container>
+                <ng-container *ngIf="ciscoStatsSelection==='XE'">
+                  <p><a target="_blank" href="https://github.com/YangModels/yang/blob/master/vendor/cisco/xe/1631/README.md">
+                    IMPORTANT NOTE regarding the compliance of those CISCO native IOS-XE models
+                  </a></p>
+                  <p *ngFor="let cs of privateData[ciscoStatsSelection]">
+                    <span>Cisco IOS-XE {{ cs['allCharacters'] }} native models  </span> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                    <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}}{{cs['alphaNumeric']}}.json">download</a>
+                  </p>
+                </ng-container>
+                <ng-container *ngIf="ciscoStatsSelection==='NX'">
+                  <p><a target="_blank" href="https://github.com/YangModels/yang/blob/master/vendor/cisco/nx/7.0-3-F1-1/README.md">
+                    IMPORTANT NOTE regarding the compliance of the native NX-OS models (check for the right version)
+                  </a></p>
+                  <p *ngFor="let cs of privateData[ciscoStatsSelection]">
+                    <span>Cisco NX-OS {{ cs['allCharacters'] }} native models  </span> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                    <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                    <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}{{cs['alphaNumeric']}}.json">download</a>
+                  </p>
+                </ng-container>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="6">
+            <a ngbNavLink>JUNIPER</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['juniper']">
+                <span>JUNIPER {{ s['allCharacters'] }} native models  </span> -
+                <a [routerLink]="['JUNIPER' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['JUNIPER' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/JUNIPER{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="7">
+            <a ngbNavLink>HUAWEI</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['huawei']">
+                <span>HUAWEI {{ s['allCharacters'] }} native models  </span> -
+                <a [routerLink]="['NETWORKROUTER' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['NETWORKROUTER' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/NETWORKROUTER{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="8">
+            <a ngbNavLink>CIENA</a>
+            <ng-template ngbNavContent>
+              <p>
+                <span>CIENA native models  </span> -
+                <a [routerLink]="['CIENAYANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['CIENAYANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/CIENA.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="9">
+            <a ngbNavLink>FUJITSU</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['fujitsu']">
+                <span>FUJITSU {{ s['allCharacters'] }} native models  </span> -
+                <a [routerLink]="['FUJITSU' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['Fujitsu' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/FUJITSU{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="10">
+            <a ngbNavLink>NOKIA</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['nokia']">
+                <span>NOKIA {{ s['allCharacters'] }} native models  </span> -
+                <a [routerLink]="['NOKIA' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['Nokia' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/NOKIA{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="11">
+            <a ngbNavLink>YUMAWORKS</a>
+            <ng-template ngbNavContent>
+              <p>
+                <span>YUMAWORKS native models  </span> -
+                <a [routerLink]="['YUMAWORKSYANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['YUMAWORKSYANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/YUMAWORKS.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="12">
+            <a ngbNavLink>OpenROADM </a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['openroadm']">
+                <span>OpenROADM {{ s['allCharacters'] }} native models  </span> -
+                <a [routerLink]="['OPENROADM' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['OpenROADM' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/OPENROADM{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="search-options"></div>
+
+      </ng-container>
+
+      <ng-container *ngIf="jsonfile && !showStatsOnly">
+        <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}">
+
+          <yc-ag-grid tableId="jsonFileResults"
+                      [suppressHorizontalScroll]="false"
+                      domLayout="autoHeight"
+                      [pagination]="false"
+                      [gridOptions]="gridOptions"
+                      [defaultColDef]="defaultColDef"
+                      [templateMap]="templateMap"
+                      [allColumnDefs]="jsonPreviewColdefs"
+                      (gridReady)="onGridReady($event)"
+                      [rowData]="jsonPreviewData" #jsonPreviewGrid>
+            <ng-template let-row let-params="params" #htmlContentTemplate>
+              <div [innerHTML]="row[params['column']['colId']]"></div>
+            </ng-template>
+          </yc-ag-grid>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="jsonfile && showStatsOnly">
+        <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}">
+          <p>
+            Number of YANG data models that passed compilation: {{ this.currentStats['passed']}}
+            <br>
+            Number of YANG data models that passed compilation with warnings: {{ this.currentStats['warnings']}}
+            <br>
+            Number of YANG data models that failed compilation: {{ this.currentStats['failed']}}
+            <br>
+          </p>
+
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

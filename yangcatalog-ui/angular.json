@@ -48,7 +48,8 @@
             ],
             "styles": [
               "src/scss/yc.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-lightbox/lightbox.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true
