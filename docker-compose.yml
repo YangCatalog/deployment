@@ -26,8 +26,8 @@ services:
     container_name: yc-backend
     image: catalog_backend_api:latest
     build:
-      context: backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./backend/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
@@ -63,8 +63,8 @@ services:
   yang-search:
     container_name: yc-yang-search
     build:
-      context: search
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./backend/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
