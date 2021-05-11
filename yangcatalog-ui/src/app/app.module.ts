@@ -24,6 +24,7 @@ import { YangStatsModule } from './features/statistics/yang-stats.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountModule } from './features/account/account.module';
+import { PrivateModule } from './features/private/private.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AccountModule } from './features/account/account.module';
     YangTreeModule,
     YangShowNodeModule,
     YangStatsModule,
+    PrivateModule,
     AccountModule,
     HttpClientModule,
     NgBootstrapFormValidationModule.forRoot(),

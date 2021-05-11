@@ -10,11 +10,21 @@ import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.
 import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
 import { YangStatsComponent } from './features/statistics/yang-stats.component';
 import { AccountComponent } from './features/account/account/account.component';
+import { PrivateComponent } from './features/private/private.component';
 
+// todo: move child routes to child modules
 const routes: Routes = [
   {
     path: '',
     component: StaticContentComponent,
+  },
+  {
+    path: 'private-page',
+    component: PrivateComponent,
+  },
+  {
+    path: 'private-page/:jsonfile',
+    component: PrivateComponent,
   },
   {
     path: 'yangvalidator/:validating',
