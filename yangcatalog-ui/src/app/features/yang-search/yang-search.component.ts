@@ -98,7 +98,7 @@ export class YangSearchComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = this.fb.group({
-      searchTerm: ['yang-catalog'],
+      searchTerm: [''],
       searchOptions: this.fb.group({
         caseSensitive: [false],
         regularExpression: [false],
