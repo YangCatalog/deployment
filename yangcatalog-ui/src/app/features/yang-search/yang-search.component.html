@@ -94,6 +94,14 @@
                             [selected]="false">{{col['name']}}</option>
                   </select>
 
+                  <button id="addCrioteriaBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Add criteria" (click)="addSearchCriteria(i)" ngbTooltip="Add one more criteria">
+                    <i class="bi bi-plus-circle"></i>
+                  </button>
+                  <button id="removeCriteriaBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Remove criteria"
+                          [disabled]="this.form.get('advanced')['controls'].length === 1" (click)="removeSearchCriteria(i)" ngbTooltip="Remove this criteria">
+                    <i class="bi bi-dash-circle"></i>
+                  </button>
+
                   <div class="operator" [ngClass]="{hidden: i === form.get('advanced')['controls'].length -1}">
                     <label for="operatorRadioAnd_{{i}}" class="radio mb-0 form-inline and-operator">
                       <input type="radio" id="operatorRadioAnd_{{i}}" name="op_{{i}}"  value="and" [formControl]="fc.get('op')"/>
@@ -133,6 +141,7 @@
         </div>
         <div class="results-grid-container" [ngStyle]="{minWidth: resultsContainerWidth}">
           <yc-ag-grid tableId="searchResults"
+                      domLayout="autoHeight"
                       entityName="Module"
                       entityNamePlural="Modules"
                       [suppressHorizontalScroll]="false"
