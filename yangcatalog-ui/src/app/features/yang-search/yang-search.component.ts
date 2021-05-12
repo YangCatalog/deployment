@@ -155,32 +155,6 @@ export class YangSearchComponent implements OnInit, OnDestroy {
 
     });
 
-    this.registerAdvancedSearchValueChangeEvents(0);
-  }
-
-  registerAdvancedSearchValueChangeEvents(index): void {
-    this.form.get('advanced')['controls'][index].get('term').valueChanges
-      .pipe(takeUntil(this.componentDestroyed))
-      .subscribe(
-        searchTerm => {
-          const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
-          if (searchTerm.length && this.form.get('advanced')['controls'].length === index + 1) {
-            const newGroup = this.fb.group({
-                index: [index + 1],
-                term: [''],
-                col: ['name'],
-                op: ['and'],
-              }
-            );
-            advancedFormArray.push(newGroup);
-            this.registerAdvancedSearchValueChangeEvents(index + 1);
-          } else if (searchTerm.length === 0) {
-            while (advancedFormArray.length > index + 1) {
-              advancedFormArray.removeAt(advancedFormArray.length - 1);
-            }
-          }
-        }
-      );
   }
 
   ngOnDestroy(): void {
@@ -305,5 +279,22 @@ export class YangSearchComponent implements OnInit, OnDestroy {
     result = result + encodeURIComponent(row['module-name']) + '/' + encodeURIComponent(row['path']) + '/' + encodeURIComponent(row['revision']);
     // console.log(result);
     return result;
+  }
+
+  addSearchCriteria(i: number) {
+    const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
+    const newGroup = this.fb.group({
+        index: [i + 1],
+        term: [''],
+        col: ['name'],
+        op: ['and'],
+      }
+    );
+    advancedFormArray.insert((i + 1), newGroup);
+  }
+
+  removeSearchCriteria(i: number) {
+    const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
+    advancedFormArray.removeAt(i);
   }
 }
