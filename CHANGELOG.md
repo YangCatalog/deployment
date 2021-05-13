@@ -2,6 +2,10 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+  * Bump mariaDB version to 1:10.5.10
+  * .dockerignore file added
+  * yang2.amsl.com mailname replaced by yangcatalog.org
+
 * ##### v3.2.1 - 2021-05-04
 
   * Crontab MAILTO variable set during Docker image build [#72](https://github.com/YangCatalog/deployment/issues/72)
