@@ -64,7 +64,7 @@ services:
     container_name: yc-yang-search
     build:
       context: .
-      dockerfile: ./backend/Dockerfile
+      dockerfile: ./search/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
