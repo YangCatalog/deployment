@@ -1,0 +1,140 @@
+<div class="yc-container " style="padding:128px 16px" id="webAccess">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+
+      <h3 class="yc-center">Use cases</h3>
+      <h4>YANG Module Developer</h4>
+      <p>
+        The typical flow for a YANG module designer is to validate a YANG module being developed, and then to populate
+        the YANG catalog via an IETF Internet-Draft, or Github, or directly via the YANG Catalog. See the Contribute
+        page for more information.
+      </p>
+      <p class="yc-center">
+        <img class="flowchart" src="{{myBasePath}}/assets/img/yang-module-designer.jpg" alt="YAND Module developer">
+      </p>
+      <h4>YANG Module User</h4>
+      <p>
+        The typical flow for a YANG module user, such as a network operator, is to search for an existing YANG module,
+        to look up the metadata (such as maturity level, implementation, etc.), and then to look up the import and
+        include dependencies, if any. Once the YANG module of choice is found, the YANG module user would browse the
+        YANG module content, then load the YANG module in the YANG explorer and test it by connecting to a NETCONF or
+        RESTCONF server, and finally generate python scripts to start the automation.
+      </p>
+      <p class="yc-center">
+        <img class="flowchart" src="{{myBasePath}}/assets/img/yang-module-user.jpg" alt="YAND Module user">
+      </p>
+
+      <h4>Find Module and Implementation Metadata</h4>
+      <p>
+        If you want to search for metadata on a specific module, or you are looking for modules that contain specific metadata, you can do the following:
+      </p>
+
+      <ol>
+
+        <li>
+          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/modules/{{{name},{{{revision},{{{organization}</strong> to receive all the metadata for a specific module and revision.
+        </li>
+        <li>
+          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/{{{key}/{{{value}</strong> to receive all the modules that contain a specific metadata.
+        </li>
+        <li>
+          For example, to find all modules with a successful compilation status: <a href="https://yangcatalog.org/api/search/compilation-status/passed">https://yangcatalog.org/api/search/compilation-status/passed</a>
+        </li>
+        <li>
+          To find all modules from the netconf working group in the IETF: <a href="https://yangcatalog.org/api/search/ietf/ietf-wg/netconf">https://yangcatalog.org/api/search/ietf/ietf-wg/netconf</a>
+        </li>
+        <li>
+          This method will work for any node within the <a href="https://raw.githubusercontent.com/xorrkaz/netmod-yang-catalog/master/yang-catalog.yang">yang-catalog:</a>
+          <br>
+          <pre>
+    +--rw catalog
+       +--rw modules
+       |  +--rw module* [name revision organization]
+       |     +--rw name                     yang:yang-identifier
+       |     +--rw revision                 union
+       |     +--rw organization             string
+       |     +--rw ietf
+       |     |  +--rw ietf-wg?   string
+       |     +--rw namespace                inet:uri
+       |     +--rw schema?                  inet:uri
+       |     +--rw generated-from?          enumeration
+       |     +--rw maturity-level?          enumeration
+       |     +--rw document-name?           string
+       |     +--rw author-email?            yc:email-address
+       |     +--rw reference?               inet:uri
+       |     +--rw module-classification    enumeration
+       |     +--rw compilation-status?      enumeration
+       |     +--rw compilation-result?      inet:uri
+       |     +--rw prefix?                  string
+       |     +--rw yang-version?            enumeration
+       |     +--rw description?             string
+       |     +--rw contact?                 string
+       |     +--rw module-type?             enumeration
+       |     +--rw belongs-to?              yang:yang-identifier
+       |     +--rw tree-type?               enumeration
+       |     +--rw submodule* [name revision]
+       |     |  +--rw name        yang:yang-identifier
+       |     |  +--rw revision    union
+       |     |  +--rw schema?     inet:uri
+       |     +--rw dependencies* [name]
+       |     |  +--rw name        yang:yang-identifier
+       |     |  +--rw revision?   union
+       |     |  +--rw schema?     inet:uri
+       |     +--rw dependents* [name]
+       |     |  +--rw name        yang:yang-identifier
+       |     |  +--rw revision?   union
+       |     |  +--rw schema?     inet:uri
+       |     +--rw semantic-version?           yc:semver
+       |     +--rw derived-semantic-version?   yc:semver
+       |     +--rw implementations
+       |        +--rw implementation* [vendor platform software-version software-flavor]
+       |           +--rw vendor              string
+       |           +--rw platform            string
+       |           +--rw software-version    string
+       |           +--rw software-flavor     string
+       |           +--rw os-version?         string
+       |           +--rw feature-set?        string
+       |           +--rw os-type?            string
+       |           +--rw feature*            yang:yang-identifier
+       |           +--rw deviation* [name revision]
+       |           |  +--rw name        yang:yang-identifier
+       |           |  +--rw revision    union
+       |           +--rw conformance-type?   enumeration
+       +--rw vendors
+          +--rw vendor* [name]
+             +--rw name         string
+             +--rw platforms
+                +--rw platform* [name]
+                   +--rw name                 string
+                   +--rw software-versions
+                      +--rw software-version* [name]
+                         +--rw name                string
+                         +--rw software-flavors
+                            +--rw software-flavor* [name]
+                               +--rw name         string
+                               +--rw protocols
+                               |  +--rw protocol* [name]
+                               |     +--rw name                identityref
+                               |     +--rw protocol-version*   string
+                               |     +--rw capabilities*       string
+                               +--rw modules
+                                  +--rw module* [name revision organization]
+                                     +--rw name                -> /catalog/modules/module/name
+                                     +--rw revision            -> /catalog/modules/module/revision
+                                     +--rw organization        -> /catalog/modules/module/organization
+                                     +--rw os-version?         string
+                                     +--rw feature-set?        string
+                                     +--rw os-type?            string
+                                     +--rw feature*            yang:yang-identifier
+                                     +--rw deviation* [name revision]
+                                     |  +--rw name        yang:yang-identifier
+                                     |  +--rw revision    union
+                                     +--rw conformance-type?   enumeration
+                 </pre>
+        </li>
+      </ol>
+
+    </div>
+  </div>
+</div>
+<yc-footer></yc-footer>

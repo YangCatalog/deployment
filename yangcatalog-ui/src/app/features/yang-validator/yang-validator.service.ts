@@ -63,7 +63,6 @@ export class YangValidatorService extends DataService {
       .pipe(
         map(output => {
 
-          console.log('output', output);
           if (output.hasOwnProperty('Error')) {
             throw new Error(output['Error']);
           } else {
@@ -77,7 +76,6 @@ export class YangValidatorService extends DataService {
     return this.post('yangvalidator/v2/draft-validator/' + cache, formData)
       .pipe(
         map(output => {
-          console.log('output', output);
           if (output.hasOwnProperty('Error')) {
             throw new Error(output['Error']);
           } else if (output.hasOwnProperty('output') && output['output'].hasOwnProperty('error')) {

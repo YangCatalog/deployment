@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'yc-contribute',
-  templateUrl: './contribute.component.html',
-  styleUrls: ['./contribute.component.scss']
+  selector: 'yc-use',
+  templateUrl: './use.component.html',
+  styleUrls: ['./use.component.scss']
 })
-export class ContributeComponent implements OnInit {
+export class UseComponent implements OnInit {
   myBasePath = environment.WEBROOT_BASE_URL;
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

@@ -696,7 +696,7 @@ h6 {
 }
 .yc-bar .fa-bars {
   font-size: 18px;
-  line-height: 74px;
+  line-height: 57px;
   margin-right: 0;
 }
 .yc-bar .yc-bar-item {
@@ -753,7 +753,7 @@ h6 {
 }
 .yc-container {
   padding: 0.01em 16px;
-  min-height: calc(100% - 55px);
+  min-height: calc(100% - 85px);
 }
 .yc-container img {
   max-width: 1200px;
@@ -851,7 +851,12 @@ h6 {
 .yc-col {
   float: left;
   width: 100%;
+  line-height: 30px;
 }
+.yc-col table{
+  line-height: 23px;
+}
+
 .yc-half {
   float: left;
   width: 100%;
@@ -2225,4 +2230,25 @@ header .yc-header-overlay {
 .yc-main-container {
   width: 100%;
   min-height: calc(100% - 218px);
+}
+
+h3 {
+  padding-bottom: 30px;
+}
+
+h4 {
+  padding-top: 25px;
+}
+
+.modal-dialog .yc-container {
+  padding-top: 40px !important;
+}
+
+a.blue {
+  color: #0d6efd;
+  cursor: pointer;
+}
+
+.modal-dialog {
+  max-width: 650px !important;
 }

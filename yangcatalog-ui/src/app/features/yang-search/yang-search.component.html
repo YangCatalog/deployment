@@ -1,6 +1,6 @@
 <div class="yc-container yc-app-container" style="padding:128px 16px;" [ngClass]="{maximized: resultsMaximized}">
   <div class="yc-row-padding">
-    <div class="yc-col">
+    <div class="yc-col" #contentCol>
       <form [formGroup]="form" *ngIf="!resultsMaximized">
         <h2>YANG Search</h2>
         <div class="form-group">
@@ -9,35 +9,28 @@
 
 
           <label class="control-label" for="searchTermInput">Search term</label>
-            <input id="searchTermInput" formControlName="searchTerm" type="text" class="form-control" placeholder="Enter your search term"/>
+          <input id="searchTermInput" formControlName="searchTerm" type="text" class="form-control" placeholder="Enter your search term"/>
 
+        </div>
           <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li [ngbNavItem]="1">
               <a ngbNavLink>Search Options</a>
               <ng-template ngbNavContent>
-                <div formGroupName="searchOptions">
+                <div formGroupName="searchOptions" class="options-category">
                   <label for="caseSensitiveCheckbox" class="checkbox"><input id="caseSensitiveCheckbox" formControlName="caseSensitive" type="checkbox"/><i class="skin"></i> <span>Case-Sensitive</span></label>
                   <label for="regularExpressionCheckbox" class="checkbox"><input id="regularExpressionCheckbox" formControlName="regularExpression" type="checkbox"/><i class="skin"></i> <span>Regular Expression</span></label>
                   <label for="includeMibsCheckbox" class="checkbox"><input id="includeMibsCheckbox" formControlName="includeMibs" type="checkbox"/><i class="skin"></i> <span>Include Mibs</span></label>
                   <label for="onlyLatestRevsCheckbox" class="checkbox"><input id="onlyLatestRevsCheckbox" formControlName="onlyLatestRevs" type="checkbox"/><i class="skin"></i> <span>Only Latest Revs</span></label>
                 </div>
-              </ng-template>
-            </li>
-            <li [ngbNavItem]="2">
-              <a ngbNavLink>Search Fields</a>
-              <ng-template ngbNavContent>
-                <div>
+                <div class="options-category">
+                  <p >Search Fields</p>
                   <label (change)="onCheckChange('searchFields', $event)" for="moduleNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'module')" id="moduleNameCheckbox" value="module" type="checkbox"/><i class="skin"></i> <span>Module Name</span></label>
                   <label (change)="onCheckChange('searchFields', $event)" for="nodeNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'argument')" id="nodeNameCheckbox" value="argument" type="checkbox"/><i class="skin"></i> <span>Node Name</span></label>
                   <label (change)="onCheckChange('searchFields', $event)" for="nodeDescriptionCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'description')" id="nodeDescriptionCheckbox" value="description" type="checkbox"/><i class="skin"></i> <span>Node Description</span></label>
 
                 </div>
-              </ng-template>
-            </li>
-            <li [ngbNavItem]="3">
-              <a ngbNavLink>Yang Versions</a>
-              <ng-template ngbNavContent>
-                <div formGroupName="yangVersions">
+                <div formGroupName="yangVersions" class="options-category">
+                  <p>Yang Versions</p>
                   <label (change)="onCheckChange('yangVersions', $event)" for="yangVersion1dot0Checkbox" class="checkbox"><input [checked]="checkCheckedField('yangVersions', '1.0')" id="yangVersion1dot0Checkbox" value="1.0" type="checkbox"/><i class="skin"></i> <span>1.0</span></label>
                   <label (change)="onCheckChange('yangVersions', $event)" for="yangVersion1dot1Checkbox" class="checkbox"><input [checked]="checkCheckedField('yangVersions', '1.1')" id="yangVersion1dot1Checkbox" value="1.1" type="checkbox"/><i class="skin"></i> <span>1.1</span></label>
                 </div>
@@ -68,7 +61,7 @@
                 <div formGroupName="outputColumns">
                   <label (change)="onCheckChange('outputColumns', $event)" for="nameCheckbox" class="checkbox"><input id="nameCheckbox" [checked]="checkCheckedField('outputColumns', 'name')" value="name" type="checkbox"/><i class="skin"></i> <span>Name</span></label>
                   <label (change)="onCheckChange('outputColumns', $event)" for="revisionCheckbox" class="checkbox"><input id="revisionCheckbox" [checked]="checkCheckedField('outputColumns', 'revision')" value="revision" type="checkbox"/><i class="skin"></i> <span>Revision</span></label>
-                  <label (change)="onCheckChange('outputColumns', $event)" for="schemaTypeCheckbox" class="checkbox"><input id="schemaTypeCheckbox" [checked]="checkCheckedField('outputColumns', 'schema-type')" value="schema" type="checkbox"/><i class="skin"></i> <span>Schema Type</span></label>
+                  <label (change)="onCheckChange('outputColumns', $event)" for="schemaTypeCheckbox" class="checkbox"><input id="schemaTypeCheckbox" [checked]="checkCheckedField('outputColumns', 'schema-type')" value="schema-type" type="checkbox"/><i class="skin"></i> <span>Schema Type</span></label>
                   <label (change)="onCheckChange('outputColumns', $event)" for="pathCheckbox" class="checkbox"><input id="pathCheckbox" [checked]="checkCheckedField('outputColumns', 'path')" value="path" type="checkbox"/><i class="skin"></i> <span>Path</span></label>
                   <label (change)="onCheckChange('outputColumns', $event)" for="moduleCheckbox" class="checkbox"><input id="moduleCheckbox" [checked]="checkCheckedField('outputColumns', 'module-name')" value="module-name" type="checkbox"/><i class="skin"></i> <span>Module</span></label>
                   <label (change)="onCheckChange('outputColumns', $event)" for="originCheckbox" class="checkbox"><input id="originCheckbox" [checked]="checkCheckedField('outputColumns', 'origin')" value="origin" type="checkbox"/><i class="skin"></i> <span>Origin</span></label>
@@ -83,50 +76,44 @@
             <li [ngbNavItem]="6">
               <a ngbNavLink>Advanced search</a>
               <ng-template ngbNavContent>
-                <div *ngFor="let fc of form.get('advanced')['controls']; let i = index" class="form-inline advanced-search-row" [ngClass]="{marginated: previousOr(i)}">
+                <div *ngFor="let advSearchGroup of form.get('advanced')['controls']; let i = index" class="advanced-search-group" [formGroup]="advSearchGroup">
+                  <div class="group-inner">
+                    <div *ngFor="let advSearchTerm of advSearchGroup['controls']; let j = index" class="form-inline advanced-search-row" [formGroup]="advSearchTerm">
 
-                  <label class="control-label" for="advancedTermInput_{{i}}">Search term</label>
-                  <input id="advancedTermInput_{{i}}" [formControl]="fc.get('term')" type="text" class="form-control" placeholder="Fill the search term"/>
+                      <label class="control-label" for="advancedTermInput_{{i}}_{{j}}">Search term</label>
+                      <input id="advancedTermInput_{{i}}_{{j}}" formControlName="term" type="text" class="form-control" placeholder="Fill the search term"/>
 
-                  <label class="control-label" for="advancedColumnSelect_{{i}}">in</label>
-                  <select class="form-select" id="advancedColumnSelect_{{i}}" [formControl]="fc.get('col')" >
-                    <option value="{{col['value']}}" *ngFor="let col of getColumnsList()"
-                            [selected]="false">{{col['name']}}</option>
-                  </select>
-
-                  <button id="addCrioteriaBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Add criteria" (click)="addSearchCriteria(i)" ngbTooltip="Add one more criteria">
-                    <i class="bi bi-plus-circle"></i>
-                  </button>
-                  <button id="removeCriteriaBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Remove criteria"
-                          [disabled]="this.form.get('advanced')['controls'].length === 1" (click)="removeSearchCriteria(i)" ngbTooltip="Remove this criteria">
-                    <i class="bi bi-dash-circle"></i>
-                  </button>
-
-                  <div class="operator" [ngClass]="{hidden: i === form.get('advanced')['controls'].length -1}">
-                    <label for="operatorRadioAnd_{{i}}" class="radio mb-0 form-inline and-operator">
-                      <input type="radio" id="operatorRadioAnd_{{i}}" name="op_{{i}}"  value="and" [formControl]="fc.get('op')"/>
-                      <i class="skin"></i> <span>and</span>
-                    </label>
-
-                    <label for="operatorRadioOr_{{i}}" class="radio mb-0 form-inline">
-                      <input type="radio" id="operatorRadioOr_{{i}}" name="op_{{i}}"  value="or" [formControl]="fc.get('op')"/>
-                      <i class="skin"></i> <span>or</span>
-                    </label>
-
+                      <label class="control-label" for="advancedColumnSelect_{{i}}_{{j}}">in</label>
+                      <select class="form-select" id="advancedColumnSelect_{{i}}_{{j}}" formControlName="col">
+                        <option value="{{col['value']}}" *ngFor="let col of columnsList">{{col['value']}}</option>
+                      </select>
+                      <button id="removeCriteriaBtn_{{i}}_{{j}}" class="btn btn-sm px-ml-5" aria-label="Remove this term"
+                              [disabled]="form.get('advanced')['controls'].length === 1 && advSearchGroup['controls'].length === 1" (click)="removeAdvSearchTerm(i, j)" ngbTooltip="Remove this term">
+                        <i class="bi bi-dash-circle"></i>
+                      </button>
+                      <button id="addCrioteriaBtn_{{i}}_{{j}}" class="btn " aria-label="Add one more term to this group" (click)="addAdvSearchTerm(i, j)" ngbTooltip="Add one more term to this group">
+                        <i class="bi bi-plus-circle"></i>
+                      </button>
+                    </div>
                   </div>
+
+
                 </div>
+                <button id="addAdvGroup" class="btn " aria-label="Add one more term to this group" (click)="addAdvSearchGroup()" ngbTooltip="Add one more group">
+                  <i class="bi bi-plus-circle"></i>
+                  Add group of search criteria
+                </button>
               </ng-template>
             </li>
 
           </ul>
           <div [ngbNavOutlet]="nav" class="search-options"></div>
 
-          <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="onSearchClick()">
+          <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="form.valid && onSearchClick()">
             <div class="spinner-border text-primary" role="status" *ngIf="searchingProgress"></div>
             Search
           </button>
 
-        </div>
       </form>
 
       <div *ngIf="results">
@@ -165,10 +152,8 @@
                 Impact Analysis</a> <br>
             </ng-template>
 
-
-
             <ng-template let-row #nameColumnTemplate>
-              <a [href]="prepareNodeDetailUri(row)" target="_blank" [innerHTML]="row['name'] | highlightSearched : searchedTermToBeHighlighted"></a>
+              <a class="blue" (click)="openNodeDetail(row)" [innerHTML]="row['name'] | highlightSearched : searchedTermToBeHighlighted"></a>
             </ng-template>
 
             <ng-template let-row #descriptionColumnTemplate>

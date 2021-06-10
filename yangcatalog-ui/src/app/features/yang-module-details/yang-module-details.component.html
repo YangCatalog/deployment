@@ -1,5 +1,5 @@
 <div class="yc-container yc-app-container" style="padding:128px 16px" id="webAccess">
-  <div class="yc-row-padding yc-main-content">
+  <div class="yc-row-padding">
     <div class="yc-col">
       <h2>YANG Module Details</h2>
 
@@ -8,7 +8,7 @@
       </p>
 
       <form [formGroup]="form">
-        <div class="form-group">
+        <div class="form-group" [customErrorMessages]="customPatternErrorMessages">
           <ngb-alert type="danger" (close)="onCloseError()" role="alert"
                      *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
 
@@ -22,6 +22,7 @@
               Get details
             </button>
           </div>
+          <bfv-messages></bfv-messages>
           <div class="form-inline app-links" *ngIf="infoData">
             <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}">
               <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{infoData.currentModule}}" border="0">
@@ -30,8 +31,6 @@
               <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{infoData.currentModule}}"
                    border="0">
               Impact Analysis</a>
-            <span class="yc-disabled"><img src="{{myBaseUrl}}/assets/img/yang_suite.png" border="0">
-              Yang Suite</span>
           </div>
         </div>
 
@@ -41,6 +40,10 @@
             <option value="{{rev}}" *ngFor="let rev of infoData.revisions"
                     [selected]="rev === form.get('moduleRevision').value">{{rev}}</option>
           </select>
+        </ng-template>
+
+        <ng-template #ietfDataTemplate let-data="data">
+          {{ data['ietf-wg'] }}
         </ng-template>
 
         <ng-template #linkTemplate let-data="data">
@@ -144,3 +147,4 @@
   </div>
 </div>
 
+<yc-footer></yc-footer>

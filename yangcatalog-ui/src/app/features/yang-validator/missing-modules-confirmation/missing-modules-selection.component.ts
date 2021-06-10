@@ -30,13 +30,53 @@ export class MissingModulesSelectionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.selectMethodForm = this.fb.group({
-      missingDependenciesSelection: ['latest'],
-      existingDependenciesSelection: ['my']
-    });
+    this.selectionForm = new FormGroup({});
     this.missingDependencies = this.validationOutput.getMissingDependenciesList();
     this.existingDependencies = this.validationOutput.getExistingDependenciesList();
+
+    this.missingDependencies.forEach(dependency => {
+      this.selectionForm.addControl('rev_' + dependency, new FormControl(this.validationOutput.getMissingRevisions(dependency)[0]));
+    });
+
+    this.existingDependencies.forEach(dependency => {
+      this.selectionForm.addControl('rev_' + dependency, new FormControl('uploaded'));
+    });
+
   }
+
+  fillLatest() {
+    this.missingDependencies.forEach(missing => {
+      this.selectionForm.get('rev_' + missing).setValue(this.validationOutput.getLatestMissingRevision(missing));
+    });
+
+    this.existingDependencies.forEach(existingDependency => {
+      this.selectionForm.get('rev_' + existingDependency).setValue(this.validationOutput.getLatestExistingRevision(existingDependency));
+    });
+  }
+
+  fillMyUploaded() {
+    this.existingDependencies.forEach(existing => {
+      this.selectionForm.get('rev_' + existing).setValue('uploaded');
+    });
+
+  }
+
+
+  onFinishClick() {
+    this.chosenRevisionsInput = new ChosenMissingRevsInput(this.validationOutput);
+    this.missingDependencies.forEach(dependency => {
+      this.chosenRevisionsInput.setDependencyRepoRevision(dependency, this.selectionForm.get('rev_' + dependency).value);
+    });
+    this.existingDependencies.forEach(dependency => {
+      if (this.selectionForm.get('rev_' + dependency).value === 'uploaded') {
+        this.chosenRevisionsInput.setDependencyUserRevision(dependency, this.validationOutput.getExistingUploadedRevision(dependency));
+      } else {
+        this.chosenRevisionsInput.setDependencyRepoRevision(dependency, this.selectionForm.get('rev_' + dependency).value);
+      }
+    });
+    this.modal.close(this.chosenRevisionsInput);
+  }
+
 
   ngOnDestroy(): void {
     this.componentDestroyed.next();
@@ -46,96 +86,4 @@ export class MissingModulesSelectionComponent implements OnInit, OnDestroy {
     this.modal.dismiss();
   }
 
-  onStartMissingSelectionClick() {
-    this.chosenRevisionsInput = new ChosenMissingRevsInput(this.validationOutput);
-
-    if (this.selectMethodForm.get('missingDependenciesSelection').value === 'latest') {
-      this.finishMissingUsingLatest();
-    } else {
-      this.selectingMissingDependencies = true;
-
-      this.selectionForm = new FormGroup({});
-      this.missingDependencies.forEach(moduleName => {
-        this.selectionForm.addControl('rev_' + moduleName, new FormControl(this.validationOutput.getMissingRevisions(moduleName)[0]));
-      });
-    }
-  }
-
-  private finishMissingUsingLatest() {
-    this.missingDependencies.forEach(missing => {
-      this.chosenRevisionsInput.setDependencyRepoRevision(missing, this.validationOutput.getLatestMissingRevision(missing));
-    });
-    this.missingDependencies = [];
-    this.selectingMissingDependencies = false;
-    if (this.existingDependencies.length === 0) {
-      this.modal.close(this.chosenRevisionsInput);
-    }
-  }
-
-  onStartExistingSelectionClick() {
-    if (!this.chosenRevisionsInput) {
-      this.chosenRevisionsInput = new ChosenMissingRevsInput(this.validationOutput);
-    }
-
-    if (this.selectMethodForm.get('existingDependenciesSelection').value === 'latest') {
-      this.finishExistingUsingLatest();
-    } else if (this.selectMethodForm.get('existingDependenciesSelection').value === 'my') {
-      this.finishExistingUsingMy();
-    } else {
-      this.selectingExistingDependencies = true;
-      this.selectionForm = new FormGroup({});
-      this.existingDependencies.forEach(moduleName => {
-        this.selectionForm.addControl('rev_' + moduleName, new FormControl(this.validationOutput.getExistingRepoRevisions(moduleName)[0]));
-      });
-    }
-  }
-
-  onContinueMissingSelectionClick() {
-    const m = this.missingDependencies.shift();
-    this.chosenRevisionsInput.setDependencyRepoRevision(m, this.selectionForm.get('rev_' + m).value);
-    if (this.missingDependencies.length === 0) {
-        this.selectingMissingDependencies = false;
-    }
-  }
-
-  onContinueExistingSelectionClick() {
-    const m = this.existingDependencies.shift();
-    if (this.selectionForm.get('rev_' + m).value === 'uploaded') {
-      this.chosenRevisionsInput.setDependencyUserRevision(m, this.validationOutput.getExistingUploadedRevision(m));
-    } else {
-      this.chosenRevisionsInput.setDependencyRepoRevision(m, this.selectionForm.get('rev_' + m).value);
-    }
-
-  }
-
-
-  onFinishMissingSelectionClick() {
-    this.chosenRevisionsInput.setDependencyRepoRevision(this.missingDependencies[0], this.selectionForm.get('rev_' + this.missingDependencies[0]).value);
-    this.modal.close(this.chosenRevisionsInput);
-  }
-
-  onFinishExistingSelectionClick() {
-    if (this.selectionForm.get('rev_' + this.existingDependencies[0]).value === 'uploaded') {
-      this.chosenRevisionsInput.setDependencyUserRevision(this.existingDependencies[0], this.validationOutput.getExistingUploadedRevision(this.existingDependencies[0]));
-    } else {
-      this.chosenRevisionsInput.setDependencyRepoRevision(this.existingDependencies[0], this.selectionForm.get('rev_' + this.existingDependencies[0]).value);
-    }
-    this.modal.close(this.chosenRevisionsInput);
-  }
-
-
-  private finishExistingUsingLatest() {
-    this.existingDependencies.forEach(existingDependency => {
-      const latestRev = this.validationOutput.getLatestExistingRevision(existingDependency);
-      if (latestRev !== this.validationOutput.getExistingUploadedRevision(existingDependency)) {
-        this.chosenRevisionsInput.setDependencyRepoRevision(existingDependency, latestRev);
-      }
-    });
-    this.modal.close(this.chosenRevisionsInput);
-  }
-
-  private finishExistingUsingMy() {
-    // no action required if uploaded files should be used
-    this.modal.close(this.chosenRevisionsInput);
-  }
 }

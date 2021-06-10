@@ -6,6 +6,7 @@ import { LightboxModule } from 'ngx-lightbox';
 import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PieChartModule } from '@swimlane/ngx-charts';
 
 
 
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
         LightboxModule,
         AppAgGridModule,
         RouterModule,
-        FormsModule
+        FormsModule,
+        PieChartModule
     ]
 })
 export class PrivateModule { }

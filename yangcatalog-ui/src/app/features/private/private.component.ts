@@ -7,6 +7,7 @@ import { ColDef, GridOptions } from 'ag-grid-community';
 import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { YangStatsModel } from '../statistics/models/yang-stats-model';
 
 @Component({
   selector: 'yc-private',
@@ -29,6 +30,29 @@ export class PrivateComponent implements OnInit, OnDestroy {
   error: any;
 
   active = 1;
+
+  sdoToVendorPieData = [];
+  vendorPieData = [];
+  sdoPieData = [];
+
+  collDefsSdo: ColDef[] = [
+    {colId: 'name', field: 'name', headerName: 'SDOs and Opensource'},
+    {colId: 'numGithub', field: 'numGithub', headerName: 'Number in Gituhub'},
+    {colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog'},
+    {colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation'},
+    {colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata'},
+  ];
+
+  collDefsVendor: ColDef[] = [
+    {colId: 'name', field: 'name', headerName: 'Vendor'},
+    {colId: 'numGithub', field: 'numGithub', headerName: 'Number in Gituhub'},
+    {colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog'},
+    {colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation'},
+    {colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata'},
+  ];
+
+  stats: YangStatsModel;
+
 
   privateData: any;
   ciscoThumbs: any[] = [];
@@ -93,6 +117,22 @@ export class PrivateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.dataService.getStats().pipe(
+      finalize(() => this.loading = false),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(
+      stats => {
+        this.stats = stats;
+        this.sdoToVendorPieData = this.stats.getSdoToVendorSums();
+        this.vendorPieData = this.stats.getVendorGithubNumbers();
+        this.sdoPieData = this.stats.getSdoGighubNumbers();
+      },
+      err => {
+        console.error(err);
+        this.error = err;
+      }
+    );
+
     this.loadGeneralPrivateData().pipe(
       mergeMap(() => this.route.params),
       takeUntil(this.componentDestroyed)
@@ -140,7 +180,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       {colId: '2', field: '2', maxWidth: 100, headerName: 'All Authors Email'},
       {colId: '3', field: '3', maxWidth: 100, headerName: 'Only Cisco Email'},
       {colId: '4', field: '4', maxWidth: 100, headerName: 'Download the YANG model'},
-      {colId: '5', field: '5', maxWidth: 120, headerName: 'Compilation'},
+      {colId: '5', field: '5', maxWidth: 150, headerName: 'Compilation'},
       {colId: '6', field: '6', maxWidth: 250, headerName: 'Compilation Results (pyang --ietf)'},
       {colId: '7', field: '7', maxWidth: 300, headerName: 'Compilation Results (pyang). Note: also generates errors for imported files.'},
       {colId: '8', field: '8', maxWidth: 300, headerName: 'Compilation Results (confdc) Note: also generates errors for imported files'},
@@ -148,11 +188,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
       {colId: '10', field: '10', maxWidth: 300, headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files.'},
     ];
 
+
     this.templateMap = {
       '1': 'htmlContentTemplate',
       '2': 'htmlContentTemplate',
       '3': 'htmlContentTemplate',
-      '4': 'htmlContentTemplate'
+      '4': 'htmlContentTemplate',
+      '5': 'htmlContentTemplate'
 
     };
     this.dataService.loadData(this.privateData['graphs-cisco-authors'][0]).pipe(
@@ -172,7 +214,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       {colId: '1', field: '1', maxWidth: 100, headerName: 'Draft Name'},
       {colId: '2', field: '2', maxWidth: 100, headerName: 'Email'},
       {colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model'},
-      {colId: '5', field: '3', maxWidth: 100, headerName: 'Compilation'},
+      {colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation'},
       {colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0'},
       {
         colId: '7',
@@ -204,13 +246,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
       '1': 'htmlContentTemplate',
       '2': 'htmlContentTemplate',
       '3': 'htmlContentTemplate',
+      '5': 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -231,7 +273,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -253,7 +294,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(res);
         this.currentStats = res;
         // this.jsonPreviewData = res;
       },
@@ -304,7 +344,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -354,7 +393,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -382,13 +420,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
       '1': 'htmlContentTemplate',
       '2': 'htmlContentTemplate',
       '3': 'htmlContentTemplate',
+      '4': 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -412,7 +450,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        console.log(this.jsonPreviewData);
         this.jsonPreviewData = res;
       },
       err => this.error = err
@@ -485,7 +522,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       Openconfig: this.initYangPageRfcStandardJsonPreview,
       AllYANGPageMain: this.initStatisticsJsonPreview,
     };
-    console.log('initing json file preview for', this.jsonfile);
 
     if (jsonPreviewInitMethodMap.hasOwnProperty(this.jsonfile)) {
       jsonPreviewInitMethodMap[this.jsonfile].bind(this)();

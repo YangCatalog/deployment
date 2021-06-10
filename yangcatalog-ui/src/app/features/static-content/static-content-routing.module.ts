@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { YangCatalogComponent } from './yang-catalog/yang-catalog.component';
 import { AboutComponent } from './about/about.component';
-import { BlogComponent } from './blog/blog.component';
 import { ContributeComponent } from './contribute/contribute.component';
+import { ContactComponent } from './contact/contact.component';
+import { UseComponent } from './use/use.component';
 
 const staticRoutes: Routes = [
   {
@@ -17,12 +17,16 @@ const staticRoutes: Routes = [
     component: YangCatalogComponent,
   },
   {
-    path: 'about.html',
-    component: AboutComponent
+    path: 'contact.html',
+    component: ContactComponent,
   },
   {
-    path: 'blog.html',
-    component: BlogComponent
+    path: 'use.html',
+    component: UseComponent,
+  },
+  {
+    path: 'about.html',
+    component: AboutComponent
   },
   {
     path: 'contribute.html',

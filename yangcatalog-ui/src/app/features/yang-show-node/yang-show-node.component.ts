@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { mergeMap, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { filter, merge, mergeMap, takeUntil } from 'rxjs/operators';
 import { YangSearchService } from '../yang-search/yang-search.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'yc-yang-show-node',
@@ -19,17 +20,19 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
   resultStr = 'Loading content...';
   nodeName = '';
   nodeType = '';
-  myText = '';
   error: any;
+  paramsSetManually: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private route: ActivatedRoute,
-    private dataService: YangSearchService
+    protected route: ActivatedRoute,
+    protected dataService: YangSearchService,
   ) { }
 
   ngOnInit(): void {
+
     this.route.params
       .pipe(
+        filter(params => params.hasOwnProperty('node')),
         mergeMap(params => {
             this.node = params['node'];
             this.path = params['path'];
@@ -38,12 +41,21 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
             return this.dataService.getNodeDetails(this.node, this.path, this.revision);
           }
         ),
+        merge(this.paramsSetManually.pipe((set) => {
+          if (this.node) {
+            this.parseNodeDetails();
+            return this.dataService.getNodeDetails(this.node, this.path, this.revision);
+          } else {
+            return of(null);
+          }
+        })),
         takeUntil(this.componentDestroyed)
       )
       .subscribe(
         result => {
-          console.log('result');
-          this.parseResult(result);
+          if (result) {
+            this.parseResult(result);
+          }
         },
         err => {
           console.log('error', err);
@@ -92,10 +104,6 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
     const nodeNameArr = lastPathElemArr[0].split(':');
     this.nodeName = nodeNameArr.length > 1 ? nodeNameArr[nodeNameArr.length - 1] : nodeNameArr[0];
     this.nodeType = lastPathElemArr[lastPathElemArr.length - 1];
-  }
-
-  onClick() {
-    this.myText = 'asdlkfjasdlkfjsadf';
   }
 
   onCloseError() {

@@ -25,6 +25,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountModule } from './features/account/account.module';
 import { PrivateModule } from './features/private/private.module';
+import { ImpactAnalysisModule } from './features/impact-analysis/impact-analysis.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PrivateModule } from './features/private/private.module';
     YangTreeModule,
     YangShowNodeModule,
     YangStatsModule,
+    ImpactAnalysisModule,
     PrivateModule,
     AccountModule,
     HttpClientModule,

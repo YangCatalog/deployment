@@ -14,6 +14,8 @@ import { faPlusSquare } from '@fortawesome/free-regular-svg-icons/faPlusSquare';
 import { faMinusSquare } from '@fortawesome/free-regular-svg-icons/faMinusSquare';
 import { faCopy } from '@fortawesome/free-regular-svg-icons/faCopy';
 import { environment } from '../../../environments/environment';
+import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'yc-yang-tree',
@@ -83,7 +85,8 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   error: any;
 
 
-  constructor(private dataService: YangTreeService, private route: ActivatedRoute) {
+  constructor(private dataService: YangTreeService, private route: ActivatedRoute,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -175,6 +178,18 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     let result = this.myBaseUrl + '/yang-search/yang_tree/show_node/';
     result = result + this.moduleName + '/' + encodeURIComponent(row['showNodePath']) + '/' + this.revision;
     return result;
+  }
+
+
+  openNodeDetail(row: any) {
+    console.log(row);
+    const modalNodeDetail: YangShowNodeModalComponent = this.modalService.open(YangShowNodeModalComponent, {
+      size: 'lg',
+    }).componentInstance;
+    modalNodeDetail.node = this.moduleName;
+    modalNodeDetail.path = row['showNodePath'];
+    modalNodeDetail.revision = this['revision'];
+    modalNodeDetail.paramsSetManually.next(true);
   }
 
 }

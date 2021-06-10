@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { YangValidatorService } from './yang-validator.service';
 import { finalize, mergeMap, takeUntil } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { YcValidationsService } from '../../core/yc-validations.service';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { ValidationResultComponent } from './validation-result/validation-result.component';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { environment } from '../../../environments/environment';
 export class YangValidatorComponent implements OnInit, OnDestroy {
   @ViewChild('filesForm') filesForm: FileUploadFormComponent;
   @ViewChild('draftFileForm') draftFileForm: FileUploadFormComponent;
+  @ViewChild('validationResults') validationResults: ElementRef;
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
@@ -29,11 +31,13 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   draftNameForm: FormGroup;
   rfcNameForm: FormGroup;
 
-  rfcNumberValidation = false;
-  draftNameValidation = false;
-  filesValidation = false;
-  draftFileValidation = false;
+  rfcNumberValidation = true;
+  draftNameValidation = true;
+  filesValidation = true;
+  draftFileValidation = true;
   apiOverview = false;
+
+  activeForm = '';
 
   validatingRfcNumberProgress = false;
   validatingDraftNameProgress = false;
@@ -49,7 +53,6 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
       format: (label, error) => `${label} has to be a number`
     }
   ];
-
 
 
   private componentDestroyed: Subject<void> = new Subject<void>();
@@ -160,6 +163,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         (output: ValidationOutput) => {
           if (output.isFinal()) {
             this.validationOutput = output;
+            this.scrollToResults();
           } else {
             const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
             const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
@@ -175,9 +179,12 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       finalize(() => this.validatingRfcNumberProgress = false),
                       takeUntil(this.componentDestroyed)
                     ).subscribe(
-                      () => this.validationOutput = output,
-                      err => this.error = err
-                    );
+                    () => {
+                      this.validationOutput = output;
+                      this.scrollToResults();
+                    },
+                    err => this.error = err
+                  );
                 } else {
                   this.dataService.validateRfcByNumberWithLatestRevisions(this.rfcNumberForm.get('rfcNumber').value)
                     .pipe(
@@ -185,12 +192,16 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       takeUntil(this.componentDestroyed)
                     )
                     .subscribe(
-                      output2 => this.validationOutput = output2,
+                      output2 => {
+                        this.validationOutput = output2;
+                        this.scrollToResults();
+                      },
                       err => this.error = err
                     );
                 }
               },
-              () => {}
+              () => {
+              }
             );
           }
         },
@@ -219,6 +230,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         (output: ValidationOutput) => {
           if (output.isFinal()) {
             this.validationOutput = output;
+            this.scrollToResults();
           } else {
             const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
             const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
@@ -234,7 +246,10 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       finalize(() => this.validatingDraftNameProgress = false),
                       takeUntil(this.componentDestroyed)
                     ).subscribe(
-                    () => this.validationOutput = output,
+                    () => {
+                      this.validationOutput = output;
+                      this.scrollToResults();
+                    },
                     err => this.error = err
                   );
                 } else {
@@ -244,12 +259,16 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       takeUntil(this.componentDestroyed)
                     )
                     .subscribe(
-                      output2 => this.validationOutput = output2,
+                      output2 => {
+                        this.validationOutput = output2;
+                        this.scrollToResults();
+                      },
                       err => this.error = err
                     );
                 }
               },
-              () => {}
+              () => {
+              }
             );
           }
         },
@@ -285,6 +304,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         this.validatingFilesProgress = false;
         if (output.isFinal()) {
           this.validationOutput = output;
+          this.scrollToResults();
         } else {
           const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
           const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
@@ -298,11 +318,15 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                   finalize(() => this.validatingFilesProgress = false),
                   takeUntil(this.componentDestroyed)
                 ).subscribe(
-                () => this.validationOutput = output,
+                () => {
+                  this.validationOutput = output;
+                  this.scrollToResults();
+                },
                 err => this.error = err
               );
             },
-            () => {}
+            () => {
+            }
           );
         }
       },
@@ -340,6 +364,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         this.validatingDraftFileProgress = false;
         if (output.isFinal()) {
           this.validationOutput = output;
+          this.scrollToResults();
         } else {
           const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
           const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
@@ -353,7 +378,10 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                   finalize(() => this.validatingDraftFileProgress = false),
                   takeUntil(this.componentDestroyed)
                 ).subscribe(
-                () => this.validationOutput = output,
+                () => {
+                  this.validationOutput = output;
+                  this.scrollToResults();
+                },
                 err => this.error = err
               );
             },
@@ -390,5 +418,15 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  setActiveForm(form: string) {
+    this.activeForm = form;
+  }
+
+  scrollToResults() {
+    if (this.validationResults) {
+      setTimeout(() => this.validationResults.nativeElement.scrollIntoView(), 100);
+    }
   }
 }
