@@ -11,6 +11,7 @@ import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
 import { YangStatsComponent } from './features/statistics/yang-stats.component';
 import { AccountComponent } from './features/account/account/account.component';
 import { PrivateComponent } from './features/private/private.component';
+import { ImpactAnalysisComponent } from './features/impact-analysis/impact-analysis.component';
 
 // todo: move child routes to child modules
 const routes: Routes = [
@@ -42,10 +43,10 @@ const routes: Routes = [
     path: 'yang-search',
     component: YangSearchComponent
   },
-  {
-    path: 'yang-search/impact_analysis',
-    component: YangImpactAnalysisComponent
-  },
+  // {
+  //   path: 'yang-search/impact_analysis',
+  //   component: YangImpactAnalysisComponent
+  // },
   {
     path: 'yang-search/module_details/:module',
     component: YangModuleDetailsComponent
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'yang-search/module_details',
     component: YangModuleDetailsComponent
+  },
+  {
+    path: 'yang-search/impact_analysis',
+    component: ImpactAnalysisComponent
   },
   {
     path: 'yangre',

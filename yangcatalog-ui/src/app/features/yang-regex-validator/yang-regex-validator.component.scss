@@ -21,8 +21,22 @@
     .form-inline {
       width: 75%;
 
+
+
+        .engine-type {
+          width: 101px !important;
+          text-align: center;
+          font-size: 13px;
+        }
+
+
+
       .btn.disabled, .btn:disabled, fieldset:disabled .btn {
         opacity: 1 !important;
+      }
+
+      .engine-type {
+        width: 100px;
       }
 
       .status-btn {
@@ -70,4 +84,8 @@
     }
   }
 
+}
+
+.header-container {
+  line-height: 14px !important;
 }

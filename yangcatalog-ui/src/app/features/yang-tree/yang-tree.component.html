@@ -35,8 +35,7 @@
             <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{tree.module}}"
                  border="0">
             Impact Analysis</a>
-          <span class="yc-disabled"><img src="{{myBaseUrl}}/assets/img/yang_suite.png" border="0">
-              Yang Suite</span>
+
         </p>
 
         <yc-ag-grid tableId="yangTreeResults"
@@ -50,19 +49,19 @@
                     (gridReady)="onGridReady($event)"
                     [rowData]="treeRows" #resultsGrid>
           <ng-template let-row #pathColumnTemplate>
+            {{ row['path'] }}
             <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['path']"
                     *ngIf="row['path'].length > 0" title="Copy Path">
               <fa-icon [icon]="faCopy"></fa-icon>
             </button>
-            {{ row['path'] }}
           </ng-template>
 
           <ng-template let-row #sensorPathColumnTemplate>
+            {{ row['sensorPath'] }}
             <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['sensorPath']"
                     *ngIf=" row['sensorPath'] && row['sensorPath'].length > 0" title="Copy Sensor Path">
               <fa-icon [icon]="faCopy"></fa-icon>
             </button>
-            {{ row['sensorPath'] }}
           </ng-template>
 
           <ng-template let-row #elementColumnTemplate>
@@ -75,8 +74,7 @@
                        *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
               {{row['text']}}
             </a>
-            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0"
-               href="{{prepareNodeDetailUri(row)}}">
+            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0" (click)="openNodeDetail(row)">
               <fa-icon [icon]="faLeaf" class="green"></fa-icon>
               {{row['text']}}
             </a>

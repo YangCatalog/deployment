@@ -1,19 +1,25 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { YangSearchService } from './yang-search.service';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { environment } from '../../../environments/environment';
+import { YangRegexAboutComponent } from '../yang-regex-validator/yang-regex-about/yang-regex-about.component';
+import { YangModuleDetailsComponent } from '../yang-module-details/yang-module-details.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { YangShowNodeComponent } from '../yang-show-node/yang-show-node.component';
+import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
 
 @Component({
   selector: 'yc-yang-search',
   templateUrl: './yang-search.component.html',
   styleUrls: ['./yang-search.component.scss']
 })
-export class YangSearchComponent implements OnInit, OnDestroy {
+export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('resultsGrid') resultsGrid: AppAgGridComponent;
+  @ViewChild('contentCol') contentCol: ElementRef;
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
@@ -71,10 +77,12 @@ export class YangSearchComponent implements OnInit, OnDestroy {
   };
   resultsMaximized = false;
   searchedTermToBeHighlighted = '';
+  columnsList: { name: string; value: string }[];
 
   constructor(
     private fb: FormBuilder,
-    private dataService: YangSearchService
+    private dataService: YangSearchService,
+    private modalService: NgbModal
   ) { }
 
   headerHeightGetter = () => {
@@ -90,15 +98,49 @@ export class YangSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.setColumnsList();
     this.initForm();
-
     // this.form.get('searchFields').setValue(['module']);
+
+  }
+
+  ngAfterViewInit(): void {
+    // this.initForm();
+    this.adjustColumnsOutput();
+
+  }
+
+
+  private adjustColumnsOutput() {
+    let screenWidth = 0;
+    if (this.contentCol) {
+      screenWidth = this.contentCol.nativeElement.scrollWidth;
+    } else {
+      return;
+    }
+    const formArray: FormArray = this.form.get('outputColumns') as FormArray;
+    const allCols = formArray.controls.map(ctrl => ctrl.value);
+    const smallScreenCols = ['name', 'revision', 'schema-type', 'path', 'module', 'description'];
+
+
+
+    let i = 0;
+    if (screenWidth < 1000) {
+      allCols.forEach((col) => {
+        if (smallScreenCols.indexOf(col) === -1 ) {
+          const index = formArray.controls.indexOf(col);
+          formArray.removeAt(index);
+        }
+        i++;
+      });
+    }
+
 
   }
 
   private initForm() {
     this.form = this.fb.group({
-      searchTerm: [''],
+      searchTerm: ['', Validators.required],
       searchOptions: this.fb.group({
         caseSensitive: [false],
         regularExpression: [false],
@@ -144,17 +186,21 @@ export class YangSearchComponent implements OnInit, OnDestroy {
         this.fb.control('description'),
       ]),
       advanced: this.fb.array([
-        this.fb.group(
-          {
-            index: [0],
-            term: [''],
-            col: ['name'],
-            op: ['and'],
-          }
-        )])
+        this.fb.array([
+          this.fb.group(
+            {
+              index: [0],
+              term: [''],
+              col: ['name'],
+              op: ['and'],
+            }
+          )
+        ])
+      ])
 
     });
 
+    this.adjustColumnsOutput();
   }
 
   ngOnDestroy(): void {
@@ -168,7 +214,7 @@ export class YangSearchComponent implements OnInit, OnDestroy {
   }
 
   onCloseError() {
-
+    this.error = null;
   }
 
   onCheckChange(formControlName, event) {
@@ -195,6 +241,7 @@ export class YangSearchComponent implements OnInit, OnDestroy {
 
   onSearchClick() {
     this.searchingProgress = true;
+    this.error = null;
     this.searchedTermToBeHighlighted = this.form.get('searchTerm').value;
     this.results = null;
     this.currentColDefs = this.allColDefs.filter((col: ColDef) => this.form.get('outputColumns').value.indexOf(col.field) !== -1);
@@ -239,41 +286,48 @@ export class YangSearchComponent implements OnInit, OnDestroy {
     this.resultsMaximized = false;
   }
 
-  getColumnsList(): any[] {
-    return this.allColDefs.map(
+  setColumnsList() {
+    this.columnsList = this.allColDefs.map(
       c => {
         return {value: c['field'], name: c['headerName']};
       }
     );
   }
 
-  previousOr(index: number): boolean {
-    const advancedFormArr: FormArray = this.form.get('advanced') as FormArray;
-    return index > 0 && advancedFormArr.at(index - 1).get('op').value === 'or';
-  }
 
   private prepareSubSearchInput() {
-    const result = [];
-    let subResult = {};
-    result.push(subResult);
+    const advancedGroupsFormArray: FormArray = this.form.get('advanced') as FormArray;
 
-    this.form.get('advanced')['controls'].forEach(
-      (fg: FormGroup) => {
-        if (fg.get('term').value.length > 0) {
-          subResult[fg.get('col').value] = fg.get('term').value;
-          if (fg.get('op').value === 'or') {
-            subResult = {};
-            result.push(subResult);
+    const result = [];
+
+    advancedGroupsFormArray.controls.forEach(
+      (searchGroup: FormGroup, i) => {
+        const advGroupArray: FormArray = advancedGroupsFormArray.at(i) as FormArray;
+        let hasSomeInput = false;
+        const subResult = {};
+
+        advGroupArray.controls.forEach(control => {
+          if (control.get('term').value.length > 0) {
+            if (!subResult.hasOwnProperty(control.get('col').value)) {
+              subResult[control.get('col').value] = [];
+            }
+            subResult[control.get('col').value].push(control.get('term').value);
+            hasSomeInput = true;
           }
+        });
+        if (hasSomeInput) {
+          result.push(subResult);
         }
       }
     );
+
     return result;
   }
 
   private encodeUriStr(input: string): string {
     return encodeURIComponent(input.replace(/\//g, '|'));
   }
+
   prepareNodeDetailUri(row: any) {
     let result = this.myBaseUrl + '/yang-search/show_node/';
     result = result + encodeURIComponent(row['module-name']) + '/' + encodeURIComponent(row['path']) + '/' + encodeURIComponent(row['revision']);
@@ -281,20 +335,50 @@ export class YangSearchComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  addSearchCriteria(i: number) {
+  addAdvSearchTerm(groupIndex: number, termIndex: number) {
     const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
+    const advGroupArray: FormArray = advancedFormArray.at(groupIndex) as FormArray;
     const newGroup = this.fb.group({
-        index: [i + 1],
+        index: [groupIndex + 1],
         term: [''],
         col: ['name'],
         op: ['and'],
       }
     );
-    advancedFormArray.insert((i + 1), newGroup);
+    advGroupArray.insert((termIndex + 1), newGroup);
   }
 
-  removeSearchCriteria(i: number) {
+  removeAdvSearchTerm(groupIndex: number, termIndex: number) {
     const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
-    advancedFormArray.removeAt(i);
+    const advGroupArray: FormArray = advancedFormArray.at(groupIndex) as FormArray;
+    advGroupArray.removeAt(termIndex);
+    if (advGroupArray.length === 0) {
+      advancedFormArray.removeAt(groupIndex);
+    }
+  }
+
+  openNodeDetail(row: any) {
+    const modalNodeDetail: YangShowNodeModalComponent = this.modalService.open(YangShowNodeModalComponent, {
+      size: 'lg',
+    }).componentInstance;
+    modalNodeDetail.node = row['module-name'];
+    modalNodeDetail.path = row['path'];
+    modalNodeDetail.revision = row['revision'];
+    modalNodeDetail.paramsSetManually.next(true);
+  }
+
+  addAdvSearchGroup() {
+    const advancedGroupsArray: FormArray = this.form.get('advanced') as FormArray;
+    advancedGroupsArray.push(this.fb.array([
+      this.fb.group(
+        {
+          index: [0],
+          term: [''],
+          col: ['name'],
+          op: ['and'],
+        }
+      )
+    ]));
+
   }
 }

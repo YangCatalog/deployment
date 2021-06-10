@@ -54,6 +54,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngx-chips": "2.2.2",
     "ngx-clipboard": "13.0.1",
     "ngx-lightbox": "2.3.0",
     "protractor": "~5.4.0",

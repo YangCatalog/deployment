@@ -3,6 +3,7 @@ import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { YangStatsModel } from '../statistics/models/yang-stats-model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,16 @@ export class PrivateService extends DataService {
   constructor(httpClient: HttpClient) {
     super(httpClient);
   }
+
+  getStats(): Observable<YangStatsModel> {
+    return this.customGet('api/get-statistics').pipe(
+      map(res => {
+        return new YangStatsModel(res);
+      })
+    );
+
+  }
+
 
   getPrivateJson(): Observable<any> {
     return this.customGet('private/private.json');
@@ -55,7 +66,6 @@ export class PrivateService extends DataService {
       objData[key].unshift(key);
       return objData[key];
     });
-    console.log('result, ', result);
     return result;
   }
 }

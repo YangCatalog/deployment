@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { merge, Observable, of, Subject, zip } from 'rxjs';
-import { debounceTime, distinctUntilChanged, finalize, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { YangModuleDetailsService } from './yang-module-details.service';
 import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
 import { ModuleDetailsModel } from './models/module-details-model';
 import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorMessage } from 'ng-bootstrap-form-validation';
 
 @Component({
   selector: 'yc-yang-module-details',
@@ -18,6 +19,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('revisionTemplate') public revisionTemplate: TemplateRef<any>;
   @ViewChild('plainTextTemplate') public plainTextTemplate: TemplateRef<any>;
   @ViewChild('linkTemplate') public linkTemplate: TemplateRef<any>;
+  @ViewChild('ietfDataTemplate') public ietfDataTemplate: TemplateRef<any>;
   @ViewChild('mailTemplate') public mailTemplate: TemplateRef<any>;
   @ViewChild('formatedTextTemplate') public formatedTextTemplate: TemplateRef<any>;
   @ViewChild('nestedObjectTemplate') public nestedDataTemplate: TemplateRef<any>;
@@ -35,6 +37,16 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   autocomplete = this.autocompleteRequest.bind(this);
 
   expanded = {};
+
+  customPatternErrorMessages: ErrorMessage[] = [
+    {
+      error: 'required',
+      format: (label, error) => `${label} is required`
+    }, {
+      error: 'nonexistingModule',
+      format: (label, error) => `Module with this name doesn't exist`
+    }
+  ];
 
   private componentDestroyed: Subject<void> = new Subject<void>();
 
@@ -67,7 +79,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = this.fb.group({
-      moduleName: ['', Validators.required],
+      moduleName: ['', Validators.required, this.getNonexistingValidator()],
       moduleRevision: ['']
     });
   }
@@ -153,7 +165,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       description: 'formatedTextTemplate',
       contact: 'formatedTextTemplate',
       'yang-version': 'formatedTextTemplate',
-      ietf : 'nestedDataTemplate',
+      ietf : 'ietfDataTemplate',
       dependencies: 'nestedListOfObjectsTemplate',
       dependents: 'nestedListOfObjectsTemplate',
       'author-email': 'mailTemplate',
@@ -174,5 +186,20 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   collapseObject(key: string): void {
     this.expanded[key] = false;
   }
+
+  getNonexistingValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors> => {
+      return this.dataService.getModuleAutocomplete(control.value).pipe(
+        map(result => {
+          if (result.length !== 1) {
+            return {nonexistingModule: true};
+          } else {
+            return {};
+          }
+        })
+      );
+    };
+  }
+
 
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'yc-footer',
@@ -7,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   @Input() footerNgStyle = {};
+  @Input() shadowClass = '';
+  myBasePath = environment.WEBROOT_BASE_URL;
 
   constructor() { }
 

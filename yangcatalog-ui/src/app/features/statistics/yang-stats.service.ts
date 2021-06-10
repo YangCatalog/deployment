@@ -15,12 +15,4 @@ export class YangStatsService extends DataService {
 
   }
 
-  getStats(): Observable<YangStatsModel> {
-    return this.customGet('api/get-statistics').pipe(
-      map(res => {
-        return new YangStatsModel(res);
-      })
-    );
-
-  }
 }

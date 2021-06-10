@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Additional Information Required</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Several revisions are available for some dependencies, please choose, which dependencies should be used.</p>
+  <form [formGroup]="selectionForm">
+    <table style="width: 100%;">
+      <tr *ngFor="let dep of missingDependencies">
+        <td >{{dep}}</td>
+        <td>
+          <select class="form-select" id="dependencyMissingSelection_{{dep}}" formControlName="rev_{{dep}}">
+            <option value="{{rev}}" *ngFor="let rev of validationOutput.getMissingRevisions(dep)" [selected]="selectionForm.get('rev_'+dep).value === rev">{{rev}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr *ngFor="let dep of existingDependencies">
+        <td>{{dep}}</td>
+        <td>
+          <select class="form-select" id="dependencyExistingSelection_{{dep}}" formControlName="rev_{{dep}}">
+            <option value="uploaded" [selected]="selectionForm.get('rev_'+dep).value === 'uploaded'">{{validationOutput.getExistingUploadedRevision(dep)}} (My Uploaded)</option>
+            <option value="{{rev}}" *ngFor="let rev of validationOutput.getExistingRepoRevisions(dep)" [selected]="selectionForm.get('rev_'+dep).value === rev">{{rev}}</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" id="useLatest" class="btn btn-outline-secondary" (click)="fillLatest()">Mark the latest for all</button>
+  <button type="button" id="useUploaded" class="btn btn-outline-secondary" (click)="fillMyUploaded()" *ngIf="existingDependencies.length > 0">Mark my uploaded revisions</button>
+  <div class="flex-fill"></div>
+  <button type="button" id="cancelDepsSelectionBtn" class="btn btn-outline-dark" (click)="onCancelClick()">Cancel</button>
+  <button type="button" id="finishSelectionBtn" class="btn btn-outline-primary" (click)="onFinishClick()">Continue</button>
+</div>

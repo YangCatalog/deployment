@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class YangRegexValidatorComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
+  results = false;
 
   customPatternErrorMessages: ErrorMessage[] = [
     {
@@ -38,11 +39,15 @@ export class YangRegexValidatorComponent implements OnInit, OnDestroy {
       patterns: this.fb.array([
         this.createPatterFormGroup()
       ]),
-      testStr: this.fb.control('', [Validators.required])
+      testStr: this.fb.control('', [Validators.required]),
+      yangEngCheckbox: this.fb.control(true),
+      w3cEngCheckbox: this.fb.control('')
     });
     this.form.get('testStr').valueChanges.pipe(takeUntil(this.componentDestroyed)).subscribe(() => {
+      this.results = false;
       const patFormArr = this.form.get('patterns') as FormArray;
-      patFormArr.controls.forEach(patFg => patFg.get('result').setValue(null));
+      patFormArr.controls.forEach(patFg => patFg.get('resultYang').setValue(null));
+      patFormArr.controls.forEach(patFg => patFg.get('resultW3c').setValue(null));
     });
   }
 
@@ -68,17 +73,20 @@ export class YangRegexValidatorComponent implements OnInit, OnDestroy {
       pattern: patternControl,
       inverted: invertedControl,
       progress: this.fb.control(false),
-      result: this.fb.control(null),
+      resultYang: this.fb.control(null),
+      resultW3c: this.fb.control(null),
       backendError: this.fb.control('')
     });
 
-    patternControl.valueChanges.subscribe(() => patternGroup.get('result').setValue(null));
-    invertedControl.valueChanges.subscribe(() => patternGroup.get('result').setValue(null));
+    patternControl.valueChanges.subscribe(() => patternGroup.get('resultYang').setValue(null));
+    patternControl.valueChanges.subscribe(() => patternGroup.get('resultW3c').setValue(null));
+    invertedControl.valueChanges.subscribe(() => patternGroup.get('resultYang').setValue(null));
+    invertedControl.valueChanges.subscribe(() => patternGroup.get('resultW3c').setValue(null));
     return patternGroup;
   }
 
-  onValidateYangcatalogClick() {
-
+  onValidateClick() {
+    this.results = false;
     if (this.form.invalid) {
       return;
     }
@@ -87,22 +95,39 @@ export class YangRegexValidatorComponent implements OnInit, OnDestroy {
     formArr.controls.forEach((fg: FormGroup, index: number) => {
       this.initPatternValidation(fg);
 
-      this.getPatternValidationObservable(fg, index, this.dataService.getYangcatalogValidation.bind(this.dataService)).subscribe(
-        result => {
-          fg.get('result').setValue(result);
-          if (result['result'] > 1) {
-            fg.get('pattern').setErrors({backend: true});
-            fg.get('backendError').setValue(result['output']);
+      if (this.form.get('yangEngCheckbox').value) {
+        this.getPatternValidationObservable(fg, index, this.dataService.getYangcatalogValidation.bind(this.dataService)).subscribe(
+          result => {
+            this.results = true;
+            fg.get('resultYang').setValue(result);
+            if (result['result'] > 1) {
+              fg.get('pattern').setErrors({backend: true});
+              fg.get('backendError').setValue(result['output']);
+            }
+          },
+          err => {
+            this.handleError(err);
           }
-        },
-        err => {
-          this.handleError(err);
-        }
-      );
-
+        );
+      }
+      if (this.form.get('w3cEngCheckbox').value) {
+        this.getPatternValidationObservable(fg, index, this.dataService.getW3cValidation.bind(this.dataService)).subscribe(
+          result => {
+            this.results = true;
+            fg.get('resultW3c').setValue(result);
+            if (result['result'] < 0 || result['result'] > 1) {
+              fg.get('pattern').setErrors({backend: true});
+              fg.get('backendError').setValue(result['output']);
+            }
+          },
+          err => {
+            this.handleError(err);
+          }
+        );
+      }
     });
-
   }
+
 
   private getPatternValidationObservable(patternFormGroup: FormGroup, patternNumber: number, serviceMethod: any) {
     return serviceMethod(
@@ -119,34 +144,10 @@ export class YangRegexValidatorComponent implements OnInit, OnDestroy {
   }
 
   private initPatternValidation(fg: FormGroup) {
-    fg.get('result').setValue(null);
+    fg.get('resultYang').setValue(null);
+    fg.get('resultW3c').setValue(null);
     fg.get('backendError').setValue('');
     fg.get('progress').setValue(true);
-  }
-
-  onValidateW3cClick() {
-    if (this.form.invalid) {
-      return;
-    }
-
-    const formArr = this.form.get('patterns') as FormArray;
-    formArr.controls.forEach((fg: FormGroup, index: number) => {
-      this.initPatternValidation(fg);
-
-      this.getPatternValidationObservable(fg, index, this.dataService.getW3cValidation.bind(this.dataService)).subscribe(
-        result => {
-          fg.get('result').setValue(result);
-          if (result['result'] < 0 || result['result'] > 1) {
-            fg.get('pattern').setErrors({backend: true});
-            fg.get('backendError').setValue(result['output']);
-          }
-        },
-        err => {
-          this.handleError(err);
-        }
-      );
-
-    });
   }
 
   onInvertMatchClick(i: number) {

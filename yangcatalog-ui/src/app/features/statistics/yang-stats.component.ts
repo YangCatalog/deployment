@@ -24,9 +24,7 @@ export class YangStatsComponent implements OnInit, OnDestroy {
   private componentDestroyed: Subject<void> = new Subject<void>();
   active: 1;
 
-  sdoToVendorPieData = [];
-  vendorPieData = [];
-  sdoPieData = [];
+
   ciscoStandards = ['nx', 'xr', 'xe'];
   ciscoStatsSelection = 'nx';
 
@@ -209,21 +207,7 @@ export class YangStatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.getStats().pipe(
-      finalize(() => this.loading = false),
-      takeUntil(this.componentDestroyed)
-    ).subscribe(
-      stats => {
-        this.stats = stats;
-        this.sdoToVendorPieData = this.stats.getSdoToVendorSums();
-        this.vendorPieData = this.stats.getVendorGithubNumbers();
-        this.sdoPieData = this.stats.getSdoGighubNumbers();
-      },
-      err => {
-        console.error(err);
-        this.error = err;
-      }
-    );
+
 
 
   }

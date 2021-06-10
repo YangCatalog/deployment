@@ -2,7 +2,7 @@
   <div class="yc-row-padding ">
     <div class="yc-col">
       <div class="private-header">
-        <h2 routerLink="/private-page/">Yang Private Page</h2>
+        <h2 routerLink="/private-page/">YANG Modules Stats</h2>
         <h3 *ngIf="jsonfile">{{ jsonPreviewHeader }}</h3>
       </div>
 
@@ -11,23 +11,82 @@
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
           <li [ngbNavItem]="1">
             <a ngbNavLink>Statistics</a>
-            <ng-template ngbNavContent>
-              <a [routerLink]="['AllYANGPageMain.html']">See all statistics</a><span> (updated daily) </span>
-            </ng-template>
-          </li>
-          <li [ngbNavItem]="2">
-            <a ngbNavLink>Cisco Authors</a>
-            <ng-template ngbNavContent>
-              <h3>Cisco Authors at the IETF</h3>
 
-              <div class="thumbs">
-                <img class="thumb" [src]="image.thumb" (click)="openImagePreview(ciscoThumbs, i)" *ngFor="let image of ciscoThumbs; let i=index" />
-              </div>
+
+
+            <ng-template ngbNavContent>
+
+              <ng-container *ngIf="!loading && !error">
+                <div class="gen-stats">
+                  <!--                <div class="gen-stat-number vendor"><span>{{ stats.general.numYangFilesVendor | number }}</span><p>Yang Files in Vendor</p></div>-->
+                  <div class="gen-stat-number vendor-unique"><span>{{ stats.general.numYangFilesVendorNdp | number }}</span><p>Unique Yang Files in Vendor</p></div>
+                  <!--                <div class="gen-stat-number standard"><span>{{ stats.general.numYangFilesStandard | number }}</span><p>Yang Files in Standard</p></div>-->
+                  <div class="gen-stat-number standard-unique"><span>{{ stats.general.numYangFilesStandardNdp | number }}</span><p>Unique Yang Files in Standard </p></div>
+                  <!--                <div class="gen-stat-number parsed"><span>{{ stats.general.numParsedFiles | number }}</span><p>Yang Files Parsed into Yangcatalog</p></div>-->
+                  <div class="gen-stat-number parsed-unique"><span>{{ stats.general.numUniqueParsedFiles | number }}</span><p>Unique Yang Files Parsed into Yangcatalog</p></div>
+                </div>
+
+                <div class="charts">
+                  <ngx-charts-pie-chart
+                    [results]="sdoToVendorPieData"
+                    [view]="[300, 300]"
+                    [legend]="true"
+                    [legendTitle]="'Yang files in Github'"
+                    gradient="true"
+                    [labels]="false" >
+                  </ngx-charts-pie-chart>
+
+                  <ngx-charts-pie-chart
+                    [results]="sdoPieData"
+                    [view]="[300, 300]"
+                    [legend]="true"
+                    gradient="true"
+                    [legendTitle]="'SDO and Opensource Yang files in Github'"
+                    [labels]="false" >
+                  </ngx-charts-pie-chart>
+
+                  <ngx-charts-pie-chart
+                    [results]="vendorPieData"
+                    [view]="[300, 300]"
+                    [scheme]="{domain: ['#eee213', '#2222d2', '#4fb84f', '#db9813', '#c32828']}"
+                    [legend]="true"
+                    [legendTitle]="'Vendor Yang files in Github'"
+                    gradient="true"
+                    [labels]="false" >
+                  </ngx-charts-pie-chart>
+
+
+                </div>
+                <div class="results-grid-container">
+                  <yc-ag-grid tableId="sdoResults"
+                              domLayout="autoHeight"
+                              [suppressHorizontalScroll]="false"
+                              [pagination]="false"
+                              [gridOptions]="gridOptions"
+                              [defaultColDef]="defaultColDef"
+                              [allColumnDefs]="collDefsSdo"
+                              [rowData]="stats.sdoContribs">
+                  </yc-ag-grid>
+
+                </div>
+                <div class="results-grid-container">
+                  <yc-ag-grid tableId="vendorResults"
+                              domLayout="autoHeight"
+                              [suppressHorizontalScroll]="false"
+                              [pagination]="false"
+                              [gridOptions]="gridOptions"
+                              [defaultColDef]="defaultColDef"
+                              [allColumnDefs]="collDefsVendor"
+                              [rowData]="stats.vendorContribs">
+                  </yc-ag-grid>
+
+                </div>
+
+              </ng-container>
               <p>
-                <a [routerLink]="['IETFCiscoAuthorsYANGPageCompilation.html']">Cisco Authors: YANG Data Models extracted from IETF drafts </a><span>(updated daily) </span>
+                <br>
+                <a [routerLink]="['AllYANGPageMain.html']">See all modules statistics</a><span> (updated daily) </span>
               </p>
-
-
             </ng-template>
           </li>
           <li [ngbNavItem]="3">

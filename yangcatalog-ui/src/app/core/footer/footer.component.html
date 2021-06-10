@@ -1,3 +1,22 @@
-<footer class="yc-center yc-black yc-padding-16" [ngStyle]="footerNgStyle">
-  (C) 2021 YANG CATALOG
+<div class="shadow-container {{shadowClass}}" [ngStyle]="footerNgStyle">
+  <div class="footer-shadow yc-card">
+    shadow
+  </div>
+</div>
+<footer class="yc-center" [ngStyle]="footerNgStyle">
+  <img src="{{myBasePath}}/assets/img/ietf-logo.dc9646b3c716.svg" class="ietf-logo" alt="IETF Logo">
+  <div class="bottom-menu">
+    <a target="_blank" href="https://www.ietf.org/about/administration/overview/">IETF LLC</a>
+    <a target="_blank" href="https://www.rfc-editor.org/">RFC Editor</a>
+    <a target="_blank" href="https://www.iana.org/">IANA</a>
+    <a target="_blank" href="https://www.iab.org/">IAB</a>
+    <a target="_blank" href="https://www.irtf.org/">IRTF</a>
+    <a target="_blank" href="https://trustee.ietf.org/">IRTF Trust</a>
+    <a target="_blank" href="https://www.ietf.org/policies/">Privacy & Policies</a>
+  </div>
+  <p class="support-recognition">
+    YANG Catalog: Established by <a href="https://www.cisco.com">Cisco</a>, currently funded by the
+    <a href="https://www.ietf.org">IETF</a>, powered by many individuals’ code contributions <a href="https://github.com/YangCatalog/">YANG
+    Catalog.</a>
+  </p>
 </footer>
