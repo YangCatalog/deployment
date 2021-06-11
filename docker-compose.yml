@@ -140,8 +140,6 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
         - NGINX_FILES=${NGINX_FILES}
-        - PRIVATE_ADMIN=${PRIVATE_ADMIN}
-        - PRIVATE_PASSWORD=${PRIVATE_PASSWORD}
     ports:
       - "80:80"
       - "443:443"
