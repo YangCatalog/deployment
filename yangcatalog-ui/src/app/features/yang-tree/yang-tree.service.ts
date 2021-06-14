@@ -6,6 +6,7 @@ import { TreeModel } from './models/tree-model';
 import { map } from 'rxjs/operators';
 import { TreeItemTableRowModel } from './models/tree-item-table-row-model';
 import { TreeItemModel } from './models/tree-item-model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class YangTreeService extends DataService {
   }
 
   getTree(modelName: string, revision: string): Observable<TreeModel> {
-    return this.httpClient.get('api/yang-search/v2/tree/' + modelName + '@' + revision)
+    return this.httpClient.get(environment.REST_BASE_URL + 'api/yang-search/v2/tree/' + modelName + '@' + revision)
       .pipe(
         map(
           response => {
