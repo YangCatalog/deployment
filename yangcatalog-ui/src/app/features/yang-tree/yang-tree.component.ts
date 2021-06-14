@@ -182,7 +182,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
 
 
   openNodeDetail(row: any) {
-    console.log(row);
     const modalNodeDetail: YangShowNodeModalComponent = this.modalService.open(YangShowNodeModalComponent, {
       size: 'lg',
     }).componentInstance;

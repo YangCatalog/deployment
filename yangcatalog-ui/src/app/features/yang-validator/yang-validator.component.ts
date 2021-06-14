@@ -46,6 +46,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
   validationOutput: ValidationOutput;
   error: any;
+  filesError = null;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -57,6 +58,9 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
   private componentDestroyed: Subject<void> = new Subject<void>();
   private formTypeChanged: Subject<void> = new Subject<void>();
+  draftError = null;
+  rfcError = null;
+  draftNameError = null;
 
 
   constructor(
@@ -183,7 +187,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       this.validationOutput = output;
                       this.scrollToResults();
                     },
-                    err => this.error = err
+                    err => this.rfcError = err
                   );
                 } else {
                   this.dataService.validateRfcByNumberWithLatestRevisions(this.rfcNumberForm.get('rfcNumber').value)
@@ -196,7 +200,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                         this.validationOutput = output2;
                         this.scrollToResults();
                       },
-                      err => this.error = err
+                      err => this.rfcError = err
                     );
                 }
               },
@@ -250,7 +254,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       this.validationOutput = output;
                       this.scrollToResults();
                     },
-                    err => this.error = err
+                    err => this.draftNameError = err
                   );
                 } else {
                   this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value)
@@ -263,7 +267,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                         this.validationOutput = output2;
                         this.scrollToResults();
                       },
-                      err => this.error = err
+                      err => this.draftNameError = err
                     );
                 }
               },
@@ -322,7 +326,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                   this.validationOutput = output;
                   this.scrollToResults();
                 },
-                err => this.error = err
+                err => this.filesError = err
               );
             },
             () => {
@@ -382,7 +386,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                   this.validationOutput = output;
                   this.scrollToResults();
                 },
-                err => this.error = err
+                err => this.draftError = err
               );
             },
             () => {

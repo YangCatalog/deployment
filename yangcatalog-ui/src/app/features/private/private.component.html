@@ -7,16 +7,28 @@
       </div>
 
 
-      <ng-container *ngIf="!loading && !error && !jsonfile">
+
+      <ngb-alert type="danger" *ngIf="privateError" [dismissible]="false">
+        {{ privateError['error'] && privateError['error']['description'] ?  privateError['error']['description'] : privateError.message || 'The application has encountered an unknown error.' }}
+      </ngb-alert>
+
+      <ng-container *ngIf="!loading && !jsonfile">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
           <li [ngbNavItem]="1">
             <a ngbNavLink>Statistics</a>
 
-
-
             <ng-template ngbNavContent>
 
-              <ng-container *ngIf="!loading && !error">
+              <p class="pt25" *ngIf="loading">
+                <span class="spinner-border" role="status"></span>
+                Loading statistics data...
+              </p>
+
+              <ngb-alert type="danger" *ngIf="statsError" [dismissible]="false">
+                {{ statsError['error'] && statsError['error']['description'] ?  statsError['error']['description'] : statsError.message || 'The application has encountered an unknown error.' }}
+              </ngb-alert>
+
+              <ng-container *ngIf="!loading && !statsError && stats">
                 <div class="gen-stats">
                   <!--                <div class="gen-stat-number vendor"><span>{{ stats.general.numYangFilesVendor | number }}</span><p>Yang Files in Vendor</p></div>-->
                   <div class="gen-stat-number vendor-unique"><span>{{ stats.general.numYangFilesVendorNdp | number }}</span><p>Unique Yang Files in Vendor</p></div>

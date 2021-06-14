@@ -18,6 +18,6 @@ export class YangSearchService extends DataService {
   }
 
   getNodeDetails(node: string, path: string, revision: string): Observable<any> {
-    return this.customGet(encodeURIComponent('api/yang-search/v2/show-node/' + node + '/' + path + '/' + revision));
+    return this.customGet(encodeURIComponent('api/yang-search/v2/show-node/' + node  + path + '/' + revision));
   }
 }

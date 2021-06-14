@@ -208,8 +208,6 @@ export class YangStatsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
-
   }
 
   ngOnDestroy(): void {

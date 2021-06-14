@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrivateComponent } from './private.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { LightboxModule } from 'ngx-lightbox';
 import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
 import { RouterModule } from '@angular/router';
@@ -19,7 +19,8 @@ import { PieChartModule } from '@swimlane/ngx-charts';
         AppAgGridModule,
         RouterModule,
         FormsModule,
-        PieChartModule
+        PieChartModule,
+        NgbAlertModule
     ]
 })
 export class PrivateModule { }

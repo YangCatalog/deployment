@@ -43,7 +43,7 @@
         </ng-template>
 
         <ng-template #ietfDataTemplate let-data="data">
-          {{ data['ietf-wg'] }}
+          {{ data ? data['ietf-wg'] : '' }}
         </ng-template>
 
         <ng-template #linkTemplate let-data="data">
