@@ -27,7 +27,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
   };
 
   loading = true;
-  error: any;
 
   active = 1;
 
@@ -107,6 +106,8 @@ export class PrivateComponent implements OnInit, OnDestroy {
   ciscoStatsSelection = 'XR';
   showStatsOnly = false;
   currentStats = {};
+  statsError = null;
+  privateError = null;
 
 
   constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute
@@ -128,8 +129,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
         this.sdoPieData = this.stats.getSdoGighubNumbers();
       },
       err => {
-        console.error(err);
-        this.error = err;
+        this.statsError = err;
       }
     );
 
@@ -172,38 +172,38 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.lightbox.close();
   }
 
-  initCiscoAuthorsJsonPreview() {
-    this.jsonPreviewHeader = 'Cisco Authors: YANG Data Models extracted from IETF drafts';
-    this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model'},
-      {colId: '1', field: '1', maxWidth: 100, headerName: 'Draft Name'},
-      {colId: '2', field: '2', maxWidth: 100, headerName: 'All Authors Email'},
-      {colId: '3', field: '3', maxWidth: 100, headerName: 'Only Cisco Email'},
-      {colId: '4', field: '4', maxWidth: 100, headerName: 'Download the YANG model'},
-      {colId: '5', field: '5', maxWidth: 150, headerName: 'Compilation'},
-      {colId: '6', field: '6', maxWidth: 250, headerName: 'Compilation Results (pyang --ietf)'},
-      {colId: '7', field: '7', maxWidth: 300, headerName: 'Compilation Results (pyang). Note: also generates errors for imported files.'},
-      {colId: '8', field: '8', maxWidth: 300, headerName: 'Compilation Results (confdc) Note: also generates errors for imported files'},
-      {colId: '9', field: '9', maxWidth: 300, headerName: 'Compilation Results (yumadump-pro). Note: also generates errors for imported files.'},
-      {colId: '10', field: '10', maxWidth: 300, headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files.'},
-    ];
-
-
-    this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
-      '3': 'htmlContentTemplate',
-      '4': 'htmlContentTemplate',
-      '5': 'htmlContentTemplate'
-
-    };
-    this.dataService.loadData(this.privateData['graphs-cisco-authors'][0]).pipe(
-      takeUntil(this.componentDestroyed)
-    ).subscribe(
-      res => this.jsonPreviewData = res,
-      err => this.error = err
-    );
-  }
+  // initCiscoAuthorsJsonPreview() {
+  //   this.jsonPreviewHeader = 'Cisco Authors: YANG Data Models extracted from IETF drafts';
+  //   this.jsonPreviewColdefs = [
+  //     {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model'},
+  //     {colId: '1', field: '1', maxWidth: 100, headerName: 'Draft Name'},
+  //     {colId: '2', field: '2', maxWidth: 100, headerName: 'All Authors Email'},
+  //     {colId: '3', field: '3', maxWidth: 100, headerName: 'Only Cisco Email'},
+  //     {colId: '4', field: '4', maxWidth: 100, headerName: 'Download the YANG model'},
+  //     {colId: '5', field: '5', maxWidth: 150, headerName: 'Compilation'},
+  //     {colId: '6', field: '6', maxWidth: 250, headerName: 'Compilation Results (pyang --ietf)'},
+  //     {colId: '7', field: '7', maxWidth: 300, headerName: 'Compilation Results (pyang). Note: also generates errors for imported files.'},
+  //     {colId: '8', field: '8', maxWidth: 300, headerName: 'Compilation Results (confdc) Note: also generates errors for imported files'},
+  //     {colId: '9', field: '9', maxWidth: 300, headerName: 'Compilation Results (yumadump-pro). Note: also generates errors for imported files.'},
+  //     {colId: '10', field: '10', maxWidth: 300, headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files.'},
+  //   ];
+  //
+  //
+  //   this.templateMap = {
+  //     '1': 'htmlContentTemplate',
+  //     '2': 'htmlContentTemplate',
+  //     '3': 'htmlContentTemplate',
+  //     '4': 'htmlContentTemplate',
+  //     '5': 'htmlContentTemplate'
+  //
+  //   };
+  //   this.dataService.loadData(this.privateData['graphs-cisco-authors'][0]).pipe(
+  //     takeUntil(this.componentDestroyed)
+  //   ).subscribe(
+  //     res => this.jsonPreviewData = res,
+  //     err => this. = err
+  //   );
+  // }
 
 
   initYangPageJsonPreview() {
@@ -243,10 +243,10 @@ export class PrivateComponent implements OnInit, OnDestroy {
     ];
 
     this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
-      '3': 'htmlContentTemplate',
-      '5': 'htmlContentTemplate',
+      1: 'htmlContentTemplate',
+      2: 'htmlContentTemplate',
+      3: 'htmlContentTemplate',
+      5: 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
@@ -255,12 +255,12 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
   initStatisticsJsonPreview() {
-    this.jsonPreviewHeader = "General Statistics Data";
+    this.jsonPreviewHeader = 'General Statistics Data';
 
     this.jsonPreviewColdefs = [
       {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models'},
@@ -275,7 +275,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -297,7 +297,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
         this.currentStats = res;
         // this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -335,9 +335,9 @@ export class PrivateComponent implements OnInit, OnDestroy {
     ];
 
     this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
-      '3': 'htmlContentTemplate',
+      1: 'htmlContentTemplate',
+      2: 'htmlContentTemplate',
+      3: 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
@@ -346,7 +346,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -384,9 +384,9 @@ export class PrivateComponent implements OnInit, OnDestroy {
     ];
 
     this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
-      '3': 'htmlContentTemplate',
+      1: 'htmlContentTemplate',
+      2: 'htmlContentTemplate',
+      3: 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
@@ -395,7 +395,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -417,10 +417,10 @@ export class PrivateComponent implements OnInit, OnDestroy {
     ];
 
     this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
-      '3': 'htmlContentTemplate',
-      '4': 'htmlContentTemplate',
+      1: 'htmlContentTemplate',
+      2: 'htmlContentTemplate',
+      3: 'htmlContentTemplate',
+      4: 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformObjData(this.jsonfile + '.json').pipe(
@@ -429,7 +429,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -442,8 +442,8 @@ export class PrivateComponent implements OnInit, OnDestroy {
     ];
 
     this.templateMap = {
-      '1': 'htmlContentTemplate',
-      '2': 'htmlContentTemplate',
+      1: 'htmlContentTemplate',
+      2: 'htmlContentTemplate',
 
     };
     this.dataService.loadAndTransformRfcObjData(this.jsonfile + '.json').pipe(
@@ -452,7 +452,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
       res => {
         this.jsonPreviewData = res;
       },
-      err => this.error = err
+      err => this.privateError = err
     );
   }
 
@@ -507,7 +507,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.currentStats = {};
 
     const jsonPreviewInitMethodMap = {
-      IETFCiscoAuthors: this.initCiscoAuthorsJsonPreview,
+      // IETFCiscoAuthors: this.initCiscoAuthorsJsonPreview,
       IETFDraft: this.initYangPageJsonPreview,
       IETFDraftExample: this.initYangPageDraftExampleJsonPreview,
       IETFYANGRFC: this.initYangPageRfcJsonPreview,

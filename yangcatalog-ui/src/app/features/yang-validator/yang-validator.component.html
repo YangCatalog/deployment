@@ -245,7 +245,7 @@ POST /yangvalidator/v2/upload-files-setup
            [ngClass]="{'inactive': activeForm && activeForm !== 'files'}" (click)="setActiveForm('files')">
         <p>I have one or multiple YANG files and I want to validate them </p>
 
-        <yc-validation-error [error]="error"></yc-validation-error>
+        <yc-validation-error [error]="filesError"></yc-validation-error>
         <ngb-alert type="warning" [dismissible]="false"
                    *ngIf="validationOutput && validationOutput.warning">{{ validationOutput.warning }}</ngb-alert>
 
@@ -266,7 +266,7 @@ POST /yangvalidator/v2/upload-files-setup
           I have the Internet Draft/RFC document and I want to validate it
         </p>
 
-        <yc-validation-error [error]="error"></yc-validation-error>
+        <yc-validation-error [error]="draftError"></yc-validation-error>
         <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.*']" [multipleFiles]="false"
                              #draftFileForm (click)="setActiveForm('draft')"></yc-file-upload-form>
         <button id="draftFilesSubmit" class="btn btn-outline-primary mb-30" (click)="validateDraftFile()"
@@ -284,7 +284,7 @@ POST /yangvalidator/v2/upload-files-setup
           <p>
             I know the number of IETF RFC and I want to validate it
           </p>
-          <yc-validation-error [error]="error"></yc-validation-error>
+          <yc-validation-error [error]="rfcError"></yc-validation-error>
           <label class="control-label" for="rfcNumberInput">IETF RFC number</label>
           <div class="form-inline">
             <input id="rfcNumberInput" formControlName="rfcNumber" type="text" class="form-control"
@@ -307,7 +307,7 @@ POST /yangvalidator/v2/upload-files-setup
           <p>
             I know the name of IETF Draft and I want to validate it
           </p>
-          <yc-validation-error [error]="error"></yc-validation-error>
+          <yc-validation-error [error]="draftNameError"></yc-validation-error>
           <label class="control-label" for="rfcNumberInput">IETF Draft name</label>
           <div class="form-inline">
             <input id="draftNameInput" formControlName="draftName" type="text" class="form-control"

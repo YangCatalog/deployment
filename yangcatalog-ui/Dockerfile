@@ -1,5 +1,5 @@
 ### Build Angular app ###
-FROM node
+FROM node:10.15.0
 
 ARG YANG_ID
 ARG YANG_GID
