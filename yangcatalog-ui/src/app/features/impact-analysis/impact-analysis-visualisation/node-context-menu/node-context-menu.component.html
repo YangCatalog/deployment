@@ -1,0 +1,11 @@
+<p>
+  <strong>{{node.name}}</strong><br>
+  <ng-container *ngIf="node.document">
+    Document <a href="{{node.document}}" target="_blank">{{node.document}}</a><br>
+  </ng-container>
+  <a (click)="onLoadMoreClick()" *ngIf="!loading">+ Load more</a>
+  <span *ngIf="loading">Loading...</span>
+
+
+</p>
+
