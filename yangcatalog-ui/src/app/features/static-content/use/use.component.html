@@ -6,7 +6,7 @@
       <h4>YANG Module Developer</h4>
       <p>
         The typical flow for a YANG module designer is to validate a YANG module being developed, and then to populate
-        the YANG catalog via an IETF Internet-Draft, or Github, or directly via the YANG Catalog. See the Contribute
+        the YANG catalog via an IETF Internet-Draft, or a <a href="https://github.com/YangModels/yang">Github repository</a>, or directly via the YANG Catalog. See the Contribute
         page for more information.
       </p>
       <p class="yc-center">
@@ -32,10 +32,10 @@
       <ol>
 
         <li>
-          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/modules/{{{name},{{{revision},{{{organization}</strong> to receive all the metadata for a specific module and revision.
+          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/modules/{{'{'}}name},{{'{'}}revision},{{'{'}}organization}</strong> to receive all the metadata for a specific module and revision.
         </li>
         <li>
-          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/{{{key}/{{{value}</strong> to receive all the modules that contain a specific metadata.
+          Use an HTTP GET request to <strong>https://yangcatalog.org/api/search/{{'{'}}key}/{{'{'}}value}</strong> to receive all the modules that contain a specific metadata.
         </li>
         <li>
           For example, to find all modules with a successful compilation status: <a href="https://yangcatalog.org/api/search/compilation-status/passed">https://yangcatalog.org/api/search/compilation-status/passed</a>

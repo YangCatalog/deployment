@@ -11,6 +11,7 @@ import { ValidationErrorComponent } from './validation-error/validation-error.co
 import { AppModule } from '../../app.module';
 import { FileUploadFormModule } from '../../shared/file-upload-form/file-upload-form.module';
 import { RouterModule } from '@angular/router';
+import { CoreModule } from '../../core/core.module';
 
 @NgModule({
   declarations: [YangValidatorComponent, MissingModulesSelectionComponent, ValidationResultComponent, ValidationErrorComponent],
@@ -26,7 +27,8 @@ import { RouterModule } from '@angular/router';
         NgbAccordionModule,
         NgbAlertModule,
         FileUploadFormModule,
-        RouterModule
+        RouterModule,
+        CoreModule
     ]
 })
 export class YangValidatorModule {

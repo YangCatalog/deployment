@@ -63,6 +63,10 @@ const routes: Routes = [
     component: YangModuleDetailsComponent
   },
   {
+    path: 'yang-search/impact_analysis/:module',
+    component: ImpactAnalysisComponent
+  },
+  {
     path: 'yang-search/impact_analysis',
     component: ImpactAnalysisComponent
   },

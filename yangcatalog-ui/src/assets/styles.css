@@ -753,8 +753,14 @@ h6 {
 }
 .yc-container {
   padding: 0.01em 16px;
-  min-height: calc(100% - 85px);
+  min-height: calc(100% - 117px);
 }
+
+.yc-container-short {
+  min-height: auto !important;
+
+}
+
 .yc-container img {
   max-width: 1200px;
 }

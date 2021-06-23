@@ -1,6 +1,6 @@
-<div class="yc-container yc-app-container" style="padding:128px 16px;">
-  <div class="yc-row-padding ">
-    <div class="yc-col">
+<div class="yc-container yc-app-container" style="padding:128px 16px 0 16px; display: flex;">
+  <div class="yc-row-padding " style="display: flex; flex: 1 1 auto;">
+    <div class="yc-col" style="display: flex; flex-direction: column; flex: 1 1 auto;">
       <div class="private-header">
         <h2 routerLink="/private-page/">YANG Modules Stats</h2>
         <h3 *ngIf="jsonfile">{{ jsonPreviewHeader }}</h3>
@@ -124,20 +124,20 @@
             </ng-template>
           </li>
           <li [ngbNavItem]="5">
-            <a ngbNavLink>Cisco </a>
+            <a ngbNavLink>CISCO </a>
             <ng-template ngbNavContent>
               <label class="control-label" for="ciscoStatSelection">Select statistics to be displayed</label>
               <select class="form-select" id="ciscoStatSelection" [(ngModel)]="ciscoStatsSelection" style="width: 350px;">
-                <option value="XR" >Cisco IOS-XR</option>
-                <option value="XE" >Cisco IOS-XE</option>
-                <option value="NX" >Cisco NX-OS</option>
+                <option value="XR" >CISCO IOS-XR</option>
+                <option value="XE" >CISCO IOS-XE</option>
+                <option value="NX" >CISCO NX-OS</option>
               </select>
 
               <div class="links-list">
                 <ng-container *ngIf="ciscoStatsSelection==='XR'">
                   <p><a target="_blank" href="https://github.com/YangModels/yang/blob/master/vendor/cisco/xr/612/README.md">IMPORTANT NOTE regarding the compliance of those CISCO native IOS-XR models</a></p>
                   <p *ngFor="let cs of privateData[ciscoStatsSelection]">
-                    <span>Cisco IOS-XR {{ cs['allCharacters'] }} native models  </span> -
+                    <span>CISCO IOS-XR {{ cs['allCharacters'] }} native models  </span> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
                     <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}{{cs['alphaNumeric']}}.json">download</a>
@@ -148,7 +148,7 @@
                     IMPORTANT NOTE regarding the compliance of those CISCO native IOS-XE models
                   </a></p>
                   <p *ngFor="let cs of privateData[ciscoStatsSelection]">
-                    <span>Cisco IOS-XE {{ cs['allCharacters'] }} native models  </span> -
+                    <span>CISCO IOS-XE {{ cs['allCharacters'] }} native models  </span> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
                     <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}}{{cs['alphaNumeric']}}.json">download</a>
@@ -159,7 +159,7 @@
                     IMPORTANT NOTE regarding the compliance of the native NX-OS models (check for the right version)
                   </a></p>
                   <p *ngFor="let cs of privateData[ciscoStatsSelection]">
-                    <span>Cisco NX-OS {{ cs['allCharacters'] }} native models  </span> -
+                    <span>CISCO NX-OS {{ cs['allCharacters'] }} native models  </span> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
                     <a [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
                     <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}{{cs['alphaNumeric']}}.json">download</a>
@@ -235,10 +235,10 @@
             </ng-template>
           </li>
           <li [ngbNavItem]="12">
-            <a ngbNavLink>OpenROADM </a>
+            <a ngbNavLink>OPENROADM </a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['openroadm']">
-                <span>OpenROADM {{ s['allCharacters'] }} native models  </span> -
+                <span>OPENROADM {{ s['allCharacters'] }} native models  </span> -
                 <a [routerLink]="['OPENROADM' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
                 <a [routerLink]="['OpenROADM' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
                 <a href="{{myBaseUrl}}/private/OPENROADM{{s['alphaNumeric']}}.json">download</a>
@@ -251,12 +251,9 @@
       </ng-container>
 
       <ng-container *ngIf="jsonfile && !showStatsOnly">
-        <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}">
-
+        <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}" style="flex: 1 1 auto;">
           <yc-ag-grid tableId="jsonFileResults"
                       [suppressHorizontalScroll]="false"
-                      domLayout="autoHeight"
-                      [pagination]="false"
                       [gridOptions]="gridOptions"
                       [defaultColDef]="defaultColDef"
                       [templateMap]="templateMap"
@@ -285,3 +282,4 @@
     </div>
   </div>
 </div>
+<yc-footer></yc-footer>

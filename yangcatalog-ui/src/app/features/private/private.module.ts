@@ -7,6 +7,7 @@ import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PieChartModule } from '@swimlane/ngx-charts';
+import { CoreModule } from '../../core/core.module';
 
 
 
@@ -20,7 +21,8 @@ import { PieChartModule } from '@swimlane/ngx-charts';
         RouterModule,
         FormsModule,
         PieChartModule,
-        NgbAlertModule
+        NgbAlertModule,
+        CoreModule
     ]
 })
 export class PrivateModule { }
