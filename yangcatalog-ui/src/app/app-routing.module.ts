@@ -3,7 +3,6 @@ import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { StaticContentComponent } from './features/static-content/static-content.component';
 import { YangValidatorComponent } from './features/yang-validator/yang-validator.component';
 import { YangSearchComponent } from './features/yang-search/yang-search.component';
-import { YangImpactAnalysisComponent } from './features/yang-impact-analysis/yang-impact-analysis.component';
 import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
 import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
 import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
