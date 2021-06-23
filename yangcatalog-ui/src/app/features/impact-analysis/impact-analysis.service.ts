@@ -16,7 +16,7 @@ export class ImpactAnalysisService extends DataService {
     super(httpClient);
   }
 
-  getImpactAnalysis(moduleName: string, allowRfc: boolean, allowSubmodules: boolean): Observable<ImpactAnalysisModel> {
+  getImpactAnalysis(moduleName: string, allowRfc: boolean, allowSubmodules: boolean, revision?: string): Observable<ImpactAnalysisModel> {
 
     /*
     'name': 'foo',
@@ -27,13 +27,18 @@ export class ImpactAnalysisService extends DataService {
     'graph-direction': ['dependents', 'dependencies'] // tu nemoze byt nic ine len jedno z tohoto alebo oboje
      */
 
-    return this.post('api/yang-search/v2/impact-analysis', {
+    const input = {
       name: moduleName,
       organizations: [],
       'allow-rfc': allowRfc,
       'allow-submodules': allowSubmodules,
       'graph-direction': ['dependents', 'dependencies']
-    }).pipe(
+    };
+    if (revision) {
+      input['revision'] = revision;
+    }
+
+    return this.post('api/yang-search/v2/impact-analysis', input).pipe(
       map(impactData => new ImpactAnalysisModel(impactData))
     );
   }

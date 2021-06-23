@@ -10,6 +10,7 @@ import { ImpactVisNodeModel } from './impact-analysis-visualisation/models/impac
 import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualisation/impact-analysis-visualisation.component';
 import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
 import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'yc-impact-analysis',
@@ -104,10 +105,27 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     private fb: FormBuilder,
     private dataService: ImpactAnalysisService,
     private svgService: SvgIconService,
-    private clusteringService: ClusteringService) {
+    private clusteringService: ClusteringService,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.initForm();
+
+    this.route.params.pipe(
+      takeUntil(this.componentDestroyed)
+    ).subscribe(
+      params => {
+        if (params.hasOwnProperty('module')) {
+          this.form.get('moduleName').setValue(params['module']);
+          this.submitModuleName();
+        }
+      }
+    );
+
+  }
+
+  private initForm() {
     this.form = this.fb.group({
       moduleName: [''],
       allowRfc: [true],
@@ -177,10 +195,13 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.maturities = [];
     this.matColors = {};
 
+    const moduleNameArr = this.form.get('moduleName').value.split('@');
+
     this.dataService.getImpactAnalysis(
-      this.form.get('moduleName').value,
+      moduleNameArr[0],
       this.form.get('allowRfc').value,
-      this.form.get('allowSubmodules').value
+      this.form.get('allowSubmodules').value,
+      moduleNameArr.length > 1 ? moduleNameArr[1] : null
     ).pipe(
       finalize(() => this.loadingResults = false),
       takeUntil(this.componentDestroyed)
