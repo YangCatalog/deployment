@@ -1,0 +1,91 @@
+.regex-validator {
+  .test-string {
+    margin-top: 30px;
+
+    .form-control.is-valid {
+      background: none !important;
+    }
+  }
+
+  .submits {
+    margin-top: 20px;
+  }
+
+  .pattern-row {
+    padding-top: 10px;
+
+    bfv-messages {
+      text-indent: 75px;
+    }
+
+    .form-inline {
+      width: 75%;
+
+
+
+        .engine-type {
+          width: 101px !important;
+          text-align: center;
+          font-size: 13px;
+        }
+
+
+
+      .btn.disabled, .btn:disabled, fieldset:disabled .btn {
+        opacity: 1 !important;
+      }
+
+      .engine-type {
+        width: 100px;
+      }
+
+      .status-btn {
+        width: 100px !important;
+        flex: unset;
+      }
+
+      .pattern-input-container {
+
+        position: relative;
+        flex: max-content;
+
+        input {
+          width: 100%;
+        }
+
+        .invert-btn {
+          position: absolute;
+          top: 1px;
+          right: 1px;
+          background: white;
+          outline: none !important;
+          font-size: 0.9rem;
+          box-shadow: none !important;
+
+          &.active {
+            font-weight: bold;
+          }
+        }
+
+
+      }
+
+    }
+
+
+
+    label{
+      padding-right: 15px;
+      line-height: 35px;
+    }
+
+    .btn i.bi {
+      padding-right: 0;
+    }
+  }
+
+}
+
+.header-container {
+  line-height: 14px !important;
+}

@@ -1,0 +1,20 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
+  <div class="yc-row-padding yc-main-content">
+    <div class="yc-col">
+      <h2>YANG Statistics</h2>
+
+      <p class="pt25" *ngIf="loading">
+        <span class="spinner-border" role="status"></span>
+        Loading data...
+      </p>
+
+      <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
+        {{ error['error'] && error['error']['description'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+      </ngb-alert>
+
+
+
+    </div>
+  </div>
+</div>
+<yc-footer></yc-footer>

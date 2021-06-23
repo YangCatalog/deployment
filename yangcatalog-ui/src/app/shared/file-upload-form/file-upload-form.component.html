@@ -1,0 +1,38 @@
+<form [formGroup]="form">
+
+  <div class="form-group">
+    <button class="btn btn-outline-primary" (click)="openAttachFileDialog()"><i class="bi bi-paperclip"></i>Select {{ multipleFiles ? 'files' : 'file' }}
+    </button>
+    <input class="attachment-file-input" type="file" accept="{{ allowedFileTypes }}" id="inputFiles"
+           (change)="onFileChangeHandler($event)" multiple #attachmentFileInputMultiple />
+    <input class="attachment-file-input" type="file" accept="{{ allowedFileTypes }}" id="inputFile"
+           (change)="onFileChangeHandler($event)"  #attachmentFileInput />
+  </div>
+
+  <p class="pt25" *ngIf="!attachments || attachments.length === 0">
+    No {{ multipleFiles ? 'files' : 'file' }} selected.
+  </p>
+
+  <div *ngIf="attachments && attachments.length > 0" class="attachment-files">
+    <table class="attachments-table-upload">
+      <thead>
+      <tr tabindex="0">
+        <th>File name</th>
+        <th>File size</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let attachment of attachments; let i = index" tabindex="0">
+        <td class="col-md-10 col-xs-10"><span>{{ attachment.name }}</span></td>
+        <td class="col-md-2 col-xs-2">{{ attachment.displayFileSize }}</td>
+        <td class="attachments-trash">
+          <button class="btn-small delete-attachment" (click)="onDeleteAttachment(i)">
+            <i class="bi bi-x"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</form>

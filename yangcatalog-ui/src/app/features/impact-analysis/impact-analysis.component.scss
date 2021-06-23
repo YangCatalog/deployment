@@ -1,0 +1,60 @@
+
+:host {
+  .form-inline {
+    input {
+      width: 50%;
+    }
+
+    label.checkbox {
+      margin-left: 10px;
+    }
+  }
+
+  label {
+    display: inline;
+
+
+
+    input[type=checkbox] {
+      width: 18px;
+      margin-right: 7px;
+    }
+  }
+
+  #impactAnalysisSubmit {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
+  .impact-vis-toolbar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 140px;
+
+  }
+
+  ul.vis-legend {
+    padding: 0;
+
+    li {
+      list-style-type: none;
+
+      label.checkbox {
+        cursor: pointer;
+      }
+    }
+  }
+
+
+  .node-context-menu {
+    background: white;
+    width: auto;
+    height: auto;
+    position: absolute;
+    border-radius: 5px;
+    padding: 9px;
+    box-shadow: 3px 3px 8px gray;
+  }
+
+}

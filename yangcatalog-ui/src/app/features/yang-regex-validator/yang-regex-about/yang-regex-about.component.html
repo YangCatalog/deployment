@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h3>About Regex Expression Validator</h3>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h3>Why?</h3>
+  <p>
+    The YANG W3C Regex Expression validator page was built for YANG developers to check if their expressions are valid.
+    There
+    are already many online regex checkers like regex101.com, but we did not find any that respects the YANG RFC nor
+    the W3C rules.
+  </p>
+  <h3>What?</h3>
+  <p>
+    The tool is a web GUI using two C programs in the backend: YANGRE and W3CGREP. You can use both of them clicking the appropriate button.
+  </p>
+
+  <p>
+    YANGRE requires patterns as you would write them in a YANG schema. YANGRE takes the pattern, creates a very small
+    YANG schema,
+    validates the schema and checks if the leaf of string type with the specified pattern(s) can have the provided value
+    (if it matches the patterns). So it actually checks what yanglint does in case the string is specified as leaf's
+    default value.
+  </p>
+  <p>
+    See
+    <a href="https://tools.ietf.org/html/rfc7950#section-9.4.5">RFC 7950 section 9.4.5</a> for details on the YANG
+    regular expressions.
+  </p>
+
+  <p> W3CGREP is simply checking the pattern based on W3C rules. </p>
+
+  <h3>Quoting</h3>
+  <p>
+    The YANGRE and W3C validators have different ways of dealing with quoting. As an example, W3CGREP will accept the
+    pattern
+    <b>[a-z]{{'{'}}3}</b>, while YANGRE will refuse it stating an error. This is correct per the RFC, since this is an
+    unquoted
+    string. For YANGRE to accept this pattern, you would need to put it into double quotes:
+    <b>"[a-z]{{'{'}}3}"</b> would be accepted.
+  </p>
+  <p>See
+    <a href="https://tools.ietf.org/html/rfc7950#section-6.1.3">RFC 7950 section 6.1.3</a> for information on quoting
+    for the YANGRE validator.</p>
+
+  <h3> API </h3>
+  <p>
+    The validators also have an
+    <a href="/yangre/v1">API</a>
+  </p>
+
+  <h3>Source code?</h3>
+  <ul>
+    <li>
+      <a href="https://github.com/CESNET/libyang">Libyang GitHub</a>
+    </li>
+    <li>
+      <a href="https://github.com/plewyllie/yangre-gui">Web GUI GitHub</a>
+    </li>
+  </ul>
+</div>

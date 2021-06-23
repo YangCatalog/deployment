@@ -1,0 +1,15 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
+  <div class="yc-row-padding">
+
+    <div class="yc-col">
+      <h2 class="flex-fill">YANG Definition for {{path}}</h2>
+      <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
+        {{ error['error'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+      </ngb-alert>
+
+
+      <pre [innerHTML]="resultStr" *ngIf="!error"></pre>
+
+    </div>
+  </div>
+</div>

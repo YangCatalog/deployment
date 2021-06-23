@@ -1,0 +1,340 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px">
+  <div class="yc-row-padding">
+    <div class="yc-col">
+
+      <h2><a routerLink="/yangvalidator/" *ngIf="apiOverview">YANG Validator</a><span *ngIf="!apiOverview">YANG Validator</span>
+      </h2>
+      <!--      <h3 *ngIf="rfcNumberValidation">Validating the IETF RFC specified by number</h3>-->
+      <!--      <h3 *ngIf="draftNameValidation">Validating the IETF Draft specified by name</h3>-->
+      <!--      <h3 *ngIf="filesValidation">Validating the uploaded Yang files</h3>-->
+      <!--      <h3 *ngIf="draftFileValidation">Validating the uploaded Draft/RFC document</h3>-->
+      <h3 *ngIf="apiOverview">API overview</h3>
+
+
+      <div class="files-validation-container" *ngIf="apiOverview">
+        <h4>Fetch, extract and validate YANG models using REST</h4>
+        <p>
+          The REST API described below allows you to perform the fetch, extract and validate steps provided using HTTP
+          POST
+        </p>
+        <p>
+          The URLs below accepts POST requests containing JSON and return their payload in JSON with the with the
+          Content-Type header set to application/json.
+        </p>
+        <p>
+          /yangvalidator/v2/draft
+        </p>
+        <p>
+          This URL allows you to fetch, extract and validate YANG modules that are part of currently published IETF
+          drafts. The body of the request consist of keys “draft“ and “latest“.
+        </p>
+        <p>
+          Use draftwith the canonical name of the draft, e.g. draft-ietf-netmod-ip-cfg-14. Remove the version number at
+          the end of the name to retrieve the most recent version published (e.g. draft-ietf-netmod-ip-cfg).
+        </p>
+        <p>
+          Latest is a boolean value which coresponds to a dependencies of module(s) that are inside of a draft. If set
+          to true each dependecy will be searched for in yangcatalog database and if found the latest revision will be
+          used. If set to False user will receive list of revisions for each module dependency that is available in the
+          yangcatalog with hash that needs to be used as an input in next POST request on path
+          /yangvalidator/v2/validate
+        </p>
+        <p>
+          Output of latest True or latest False with no missing modules is:
+        </p>
+        <p>
+          The response JSON consists of a list of objects (one per extracted YANG modules) with the name of the
+          extracted YANG module and the following content:
+        </p>
+        <ul>
+          <li>A xym object with the output of the xym extraction step</li>
+          <li>A pyang object with the output of the pyang validation step</li>
+          <li>A confdc object with the output of the confdc compiler step</li>
+          <li>A yanglint object with the output of the yanglint validation step</li>
+          <li>A yangdump object with the output of the yangdump-pro validation step</li>
+
+        </ul>
+        <p>
+          Output of latest False with some missing module dependencies from the draft:
+        </p>
+        <p>
+          We again receive a xym obect as with complete response. “modules-to-validate“ with “user-modules“ which needs
+          to be used in /yangvalidator/v2/validate POST request plus all the missing dependencies with available
+          revisions. Out of these dependencies we can choose which module we want to use as a dependency. And the last
+          value is “cache“ which needs to be again used in validate POST request.
+        </p>
+        <p>Example:</p>
+        <pre>
+POST /yangvalidator/v2/draft
+&#123;
+  "draft": "draft-ietf-netmod-sub-intf-vlan-model-06",
+  "latest": false
+}
+        </pre>
+        <p>Response:</p>
+        <pre>
+&#123;
+    "output":&#123;
+      "modules-to-validate":&#123;
+          "user-modules":[
+             "ietf-if-l3-vlan@2019-11-04.yang",
+             "ietf-flexible-encapsulation@2019-11-04.yang"
+          ]
+      },
+      "xym":&#123;
+          "time":"2021-05-26T07:56:00.402187+00:00",
+          "stdout":"\nExtracting 'ietf-if-l3-vlan@2019-11-04.yang'\n\nExtracting 'ietf-flexible-encapsulation@2019-11-04.yang'\n",
+          "stderr":"",
+          "name":"xym",
+          "version":"0.4.10",
+          "command":"xym.xym(source_id=\"https://tools.ietf.org/id/draft-ietf-netmod-sub-intf-vlan-model-06.txt\", dstdir=\"/var/yang/tmp/yangvalidator/yangvalidator-v2-cache-dGHvRmac\", srcdir=\"\", strict=True, strict_examples=False, debug_level=0, force_revision_regexp=True)"
+      },
+      "dependencies":&#123;
+          "missing":&#123;
+            "ietf-interfaces":[
+               "2018-02-20",
+               "2018-01-09",
+               "2013-12-23",
+               "2017-12-16",
+               "2017-08-17",
+               "2014-05-08"
+            ],
+            "iana-if-type":[
+               "2017-01-19",
+               "2019-04-04",
+               "2013-12-07",
+               "2012-06-05",
+               "2019-05-16",
+               "2013-07-04",
+               "2011-03-30",
+               "2011-09-07",
+               "2019-03-08",
+               "2014-05-08",
+               "2018-06-28",
+               "2014-09-24",
+               "2018-07-12",
+               "2013-04-17",
+               "2012-04-24",
+               "2014-01-15",
+               "2013-11-07",
+               "2013-04-18",
+               "2015-06-12"
+            ],
+            "ieee802-dot1q-types":[
+               "2020-06-04",
+               "2018-03-07"
+            ],
+            "ietf-if-extensions":[
+               "2020-07-29"
+            ],
+            "ietf-yang-types":[
+               "2013-07-15",
+               "2020-07-06",
+               "2021-02-22",
+               "2019-02-27",
+               "2019-03-11",
+               "2010-09-24"
+            ]
+         }
+      },
+      "cache":"yangvalidator-v2-cache-dGHvRmac"
+   }
+}
+
+        </pre>
+        <p>
+          After this step we can validate our yang files based on revisions that we will choose using the cache from
+          previous request to find all the modules that were defined in draft or rfc document
+        </p>
+        <pre>
+  POST /yangvalidator/v2/validate
+  &#123;
+    "modules-to-validate": &#123;
+      "user-modules": [
+        "ietf-if-l3-vlan@2019-11-04.yang",
+        "ietf-flexible-encapsulation@2019-11-04.yang"
+      ]
+    },
+    "cache": "yangvalidator-v2-cache-gTQJuxrJ",
+    "dependencies": &#123;
+      "repo-modules": [
+        "ietf-interfaces@2018-02-20.yang",
+        "iana-if-type@2013-04-18.yang",
+        "ieee802-dot1q-types@2018-03-07.yang",
+        "ietf-if-extensions@2020-07-29.yang",
+        "ietf-yang-types@2013-07-15.yang"
+        ]
+      }
+
+    }
+
+        </pre>
+
+        <pre>/yangvalidator/v2/rfc</pre>
+        <p>
+          This URL allows you to fetch, extract and validate YANG modules that are part of currently available IETF
+          RFCs. The body of the request consist of keys “rfc“ and “latest“.
+        </p>
+        <p>
+          RFC with the number of the RFC, e.g. 7223.
+        </p>
+        <p>
+          Latest works the same as with draft.
+        </p>
+
+        <pre>/yangvalidator/v2/draft-validator/&lt;yangvalidator-v2-cache-hash></pre>
+
+        <p>
+          This URL allows you to uplad a document that you are working on. It will extract and validate YANG modules
+          that are part of the document. Before this POST request is send we need to get
+          &lt;yangvalidator-v2-cache-hash> using another POST request on path /yangvalidator/v2/upload-files-setup with
+            json input containing “get-from-options“ and/or “latest“ boolean values.
+        </p>
+        <p>
+          As before latest means it will use the latest dependencies that yangcatalog has. If get-from-options is set to
+          true it will give user option to choose from revisions for each missing dependecy.
+        </p>
+        <p>Example:</p>
+        <pre>
+Presetup get from options
+POST /yangvalidator/v2/upload-files-setup
+&#123;
+  "get-from-options": true
+}</pre>
+        <p>Response</p>
+        <pre>
+&#123;
+          "output":&#123;
+      "cache":"yangvalidator-v2-cache-DkCduplH"
+   }
+}
+        </pre>
+
+        <p>
+          Now we can use that cache with uploaded files
+        </p>
+        <pre>POST /yangvalidator/v2/draft-validator/yangvalidator-v2-cache-DkCduplH</pre>
+        <p>Upload yang files as multipart form-data</p>
+
+        <p>Response is same as with validating draft document</p>
+
+        <pre>yangvalidator/v2/validator/&lt;yangvalidator-v2-cache></pre>
+        <p>
+          This URL may serve as well to upload yang files directly and validate them. Same as before we need to do the presetup and we can say we want latest modules like this:
+        </p>
+        <pre>
+POST /yangvalidator/v2/upload-files-setup
+          &#123;
+          "latest": true
+}
+        </pre>
+        <p>
+          Output will give us a cache which can be used in URL and we upload yang files again as multipart form-data
+        </p>
+        <pre>/api/versions</pre>
+        <p>
+          This URL returns the version strings for all involved components (validation application, xym, pyang, confdc, yanglint and yangdump-pro).
+        </p>
+
+
+
+      </div>
+
+
+      <div class="files-validation-container" *ngIf="!apiOverview"
+           [ngClass]="{'inactive': activeForm && activeForm !== 'files'}" (click)="setActiveForm('files')">
+        <p>I have one or multiple YANG files and I want to validate them </p>
+
+        <yc-validation-error [error]="filesError"></yc-validation-error>
+        <ngb-alert type="warning" [dismissible]="false"
+                   *ngIf="validationOutput && validationOutput.warning">{{ validationOutput.warning }}</ngb-alert>
+
+        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.txt', '.yang', '.zip']"
+                             #filesForm (click)="setActiveForm('files')"></yc-file-upload-form>
+        <button id="filesSubmit" class="btn btn-outline-primary mb-30" (click)="validateFiles()"
+                *ngIf="filesForm.attachments.length">
+          <div class="spinner-border text-primary" role="status" *ngIf="validatingFilesProgress"></div>
+          Validate
+        </button>
+      </div>
+
+      <hr *ngIf="!apiOverview">
+
+      <div class="files-validation-container" *ngIf="!apiOverview"
+           [ngClass]="{'inactive': activeForm && activeForm !== 'draft'}" (click)="setActiveForm('draft')">
+        <p>
+          I have the Internet Draft/RFC document and I want to validate it
+        </p>
+
+        <yc-validation-error [error]="draftError"></yc-validation-error>
+        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.*']" [multipleFiles]="false"
+                             #draftFileForm (click)="setActiveForm('draft')"></yc-file-upload-form>
+        <button id="draftFilesSubmit" class="btn btn-outline-primary mb-30" (click)="validateDraftFile()"
+                *ngIf="draftFileForm.attachments.length">
+          <div class="spinner-border text-primary" role="status" *ngIf="validatingDraftFileProgress"></div>
+          Validate
+        </button>
+      </div>
+
+      <hr *ngIf="!apiOverview">
+
+      <form [formGroup]="rfcNumberForm" *ngIf="!apiOverview"
+            [ngClass]="{'inactive': activeForm && activeForm !== 'number'}" (click)="setActiveForm('number')">
+        <div class="form-group" [customErrorMessages]="customErrorMessages">
+          <p>
+            I know the number of IETF RFC and I want to validate it
+          </p>
+          <yc-validation-error [error]="rfcError"></yc-validation-error>
+          <label class="control-label" for="rfcNumberInput">IETF RFC number</label>
+          <div class="form-inline">
+            <input id="rfcNumberInput" formControlName="rfcNumber" type="text" class="form-control"
+                   (click)="setActiveForm('number')" (blur)="setActiveForm('number')"
+                   placeholder="RFC number, e.g. 7223"/>
+            <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5"
+                    (click)="setActiveForm('number'); validateRfcNumber()">
+              <div class="spinner-border text-primary" role="status" *ngIf="validatingRfcNumberProgress"></div>
+              Validate
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <hr *ngIf="!apiOverview">
+
+      <form [formGroup]="draftNameForm" *ngIf="!apiOverview"
+            [ngClass]="{'inactive': activeForm && activeForm !== 'draftName'}" (click)="setActiveForm('draftName')">
+        <div class="form-group">
+          <p>
+            I know the name of IETF Draft and I want to validate it
+          </p>
+          <yc-validation-error [error]="draftNameError"></yc-validation-error>
+          <label class="control-label" for="rfcNumberInput">IETF Draft name</label>
+          <div class="form-inline">
+            <input id="draftNameInput" formControlName="draftName" type="text" class="form-control"
+                   (click)="setActiveForm('draftName')" (blur)="setActiveForm('draftName')"
+                   placeholder="Draft name, e.g. draft-ietf-netmod-syslog-model"/>
+            <button id="draftNameSubmit" class="btn btn-outline-primary px-ml-5"
+                    (click)="setActiveForm('draftName'); validateDraftName()">
+              <div class="spinner-border text-primary" role="status" *ngIf="validatingDraftNameProgress"></div>
+              Validate
+            </button>
+          </div>
+        </div>
+      </form>
+
+
+      <hr *ngIf="!apiOverview">
+
+      <a [routerLink]="'api'" *ngIf="!apiOverview">I want to use the REST API for validating the IETF RFCs >></a>
+
+
+      <div class="results-container" #validationResults>
+        <yc-validation-result [validationOutput]="validationOutput"
+                              *ngIf="validationOutput && !apiOverview"></yc-validation-result>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<yc-footer></yc-footer>

@@ -1,0 +1,44 @@
+
+a {
+  color: #0056b3 !important;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+
+}
+
+.form-inline {
+  input {
+    width: 50%;
+  }
+}
+
+h2, h3 {
+  display: inline;
+}
+
+h3 {
+  &::before {
+    content: ' >> ';
+  }
+}
+
+.form-group {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.files-validation-container {
+  padding-top: 30px;
+}
+
+.inactive {
+  opacity: 0.4;
+}
+
+.results-container {
+  padding-top: 150px;
+}

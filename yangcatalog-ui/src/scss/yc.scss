@@ -1,0 +1,116 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "yc-main.scss";
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+//@import "~ag-grid-community/dist/styles/ag-theme-material.css";
+@import "ag-theme-bootstrap.scss";
+
+h2 {
+  padding-bottom: 20px;
+}
+
+#myNavbar {
+  a {
+    color: black;
+  }
+}
+
+.tab-content {
+  padding-top: 25px;
+}
+
+.pt25 {
+  padding-top: 25px;
+}
+
+.has-error {
+  .control-label {
+    color: red;
+  }
+
+}
+
+button {
+  .spinner-border {
+    width: 14px;
+    height: 14px;
+    vertical-align: baseline;
+    margin-right: 10px;
+  }
+
+}
+
+label.radio {
+  span {
+    padding-left: 10px;
+  }
+}
+
+.px-ml-5 {
+  margin-left: 5px;
+}
+
+button i.bi {
+  padding-right: 2px;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+.tooltip-inner {
+  white-space: pre-line;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.alert-dismissible .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: .75rem 1.25rem;
+  color: inherit;
+  border: none !important;
+  background: none !important;
+  cursor: pointer !important;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
+
+ngb-alert button {
+  cursor: pointer !important;
+}
+
+.modal-header button {
+  background: none !important;
+  border: none !important;
+}
+
+.ag-cell-value {
+  font-size: 13px !important;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+.btn-no-focus:focus {
+  box-shadow: none !important;
+}

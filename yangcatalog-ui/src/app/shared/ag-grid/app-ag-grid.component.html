@@ -1,0 +1,22 @@
+<div id="grid-wrapper-{{tableId}}" class="grid-wrapper" #containerDiv>
+
+    <ag-grid-angular class="ag-theme-bootstrap grid-obj" [id]="tableId" [frameworkComponents]="frameworkComponents"
+                     [domLayout]="domLayout"
+                     [gridOptions]="gridOptions"
+                     [headerHeight]="headerHeight" [rowHeight]="rowHeight" [rowData]="rowData" [pagination]="pagination"
+                     [paginationPageSize]="25"
+                     [suppressHorizontalScroll]="suppressHorizontalScroll"
+                     [suppressPaginationPanel]="false" [columnDefs]="columnDefs"
+                     [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [suppressRowClickSelection]="true"
+                     (gridReady)="onGridReady($event)" (filterChanged)="saveFilterModel()"
+                     (rowDataChanged)="onRowDataChanged()"
+                     (gridSizeChanged)="onGridSizeChanged($event)" (selectionChanged)="onSelectionChanged($event)"
+                     (paginationChanged)="onPaginationChanged($event)" (rowClicked)="onRowClicked($event)"
+                     (sortChanged)="fitSize()"
+                     (cellMouseOver)="onCellMouseOver($event)" (cellMouseOut)="onCellMouseOut($event)"
+                     *ngIf="columnDefs">
+    </ag-grid-angular>
+
+
+
+</div>

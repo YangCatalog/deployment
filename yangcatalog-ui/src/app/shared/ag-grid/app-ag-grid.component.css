@@ -1,0 +1,57 @@
+.grid-wrapper {
+  width: 100%;
+  height: 100%;
+  /*overflow: hidden;*/
+}
+
+.grid-obj {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-paging {
+  height: 25px;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 13px;
+  padding: 0 2px;
+  margin-top: 17px;
+}
+
+.hidden-select {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+::ng-deep .page-number-select {
+  text-align: center;
+}
+
+.page-select-button,
+.items-per-page-select-button {
+  min-width: 0 !important;
+}
+
+.autoRefreshWrapper {
+  padding: 13px 38px 5px 0px;
+}
+
+.refreshing-interval-input {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 13px;
+  width: 228px;
+}
+
+.refreshing-interval-input input {
+  text-align: right;
+  width: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: gray;
+}
+
+::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  background-color: gray;
+}

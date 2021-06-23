@@ -1,0 +1,74 @@
+<div class="yc-container yc-app-container regex-validator" style="padding:128px 16px">
+  <div class="yc-row-padding">
+    <div class="yc-col">
+      <h2>Regex Expression Validator</h2>
+      <form [formGroup]="form">
+
+        <ngb-alert type="danger" (close)="onCloseError()" *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
+
+        <div class="pattern-row header-container" *ngIf="results">
+          <div class="form-inline" style="display: inline-flex">
+            <span class="flex-fill"></span>
+            <div class="engine-type" *ngIf="form.get('yangEngCheckbox').value">YANG validation</div>
+            <div class="engine-type" *ngIf="form.get('w3cEngCheckbox').value">W3C validation</div>
+          </div>
+        </div>
+        <div class=" form-group form-inline pattern-row" [customErrorMessages]="customPatternErrorMessages" [formGroup]="patternFormGroup" *ngFor="let patternFormGroup of this.form.get('patterns')['controls']; let i = index">
+            <div class="form-inline btn-group">
+              <label class="control-label" for="patternInput_{{i}}">Pattern {{i+1}}</label>
+              <div class="pattern-input-container">
+                <input id="patternInput_{{i}}" formControlName="pattern" type="text" class="form-control" placeholder="Example: [0-9a-fA-F]*"/>
+                <span class="btn invert-btn" (click)="onInvertMatchClick(i)" [ngClass]="{active: patternFormGroup.get('inverted').value}">
+                  {{ patternFormGroup.get('inverted').value ? 'Inverted match' : 'Invert match'}}
+                </span>
+              </div>
+
+
+              <ng-container *ngIf="!patternFormGroup.get('progress').value && (patternFormGroup.get('resultYang').value || patternFormGroup.get('resultW3c').value)">
+                <div class="engine-type" *ngIf="results && form.get('yangEngCheckbox').value">
+                  <button disabled class="btn status-btn btn-success" *ngIf="patternFormGroup.get('resultYang').value && patternFormGroup.get('resultYang').value['result'] === 0">Match</button>
+                  <button disabled class="btn status-btn btn-danger" *ngIf="patternFormGroup.get('resultYang').value && patternFormGroup.get('resultYang').value['result'] !== 0">No match</button>
+                </div>
+                <div class="engine-type" *ngIf="results && form.get('w3cEngCheckbox').value">
+                  <button disabled class="btn status-btn btn-success" *ngIf="patternFormGroup.get('resultW3c').value && patternFormGroup.get('resultW3c').value['result'] === 0">Match</button>
+                  <button disabled class="btn status-btn btn-danger" *ngIf="patternFormGroup.get('resultW3c').value && patternFormGroup.get('resultW3c').value['result'] !== 0">No match</button>
+                </div>
+              </ng-container>
+
+            </div>
+            <button id="addPatternBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Add pattern" (click)="addPattern(i)" ngbTooltip="Add one more pattern">
+              <i class="bi bi-plus-circle"></i>
+            </button>
+            <button id="removePatternBtn_{{i}}" class="btn btn-sm px-ml-5" aria-label="Remove pattern"
+                    [disabled]="this.form.get('patterns')['controls'].length === 1" (click)="removePattern(i)" ngbTooltip="Remove this pattern">
+              <i class="bi bi-dash-circle"></i>
+            </button>
+            <bfv-messages></bfv-messages>
+          </div>
+
+        <div class="form-group test-string">
+          <label for="testingStrTextarea">Test string</label>
+          <textarea class="form-control" id="testingStrTextarea" formControlName="testStr" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="yangEngCheckbox" class="checkbox"><input id="yangEngCheckbox" formControlName="yangEngCheckbox" type="checkbox"/><i class="skin"></i> <span> YANG Validation</span></label>
+        </div>
+        <div class="form-group">
+          <label for="w3cEngCheckbox" class="checkbox"><input id="w3cEngCheckbox" formControlName="w3cEngCheckbox" type="checkbox"/><i class="skin"></i> <span> W3C Validation</span></label>
+        </div>
+
+        <div class="submits">
+
+          <button id="yangValidateSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="onValidateClick()" [disabled]="form.invalid || !(form.get('yangEngCheckbox').value || form.get('w3cEngCheckbox').value)">
+            Validate
+          </button>
+          <button id="aboutBtn" class="btn px-ml-5 btn-outline-secondary search-submit" (click)="onAboutClick()" >
+            <i class="bi bi-question-circle"></i>
+            About
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

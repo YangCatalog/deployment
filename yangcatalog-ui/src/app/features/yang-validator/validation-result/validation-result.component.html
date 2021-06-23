@@ -1,0 +1,17 @@
+<h3>Validation Results</h3>
+
+<h4>XYM Extraction</h4>
+<pre>{{ validationOutput['xym'] ? validationOutput.xym['stderr'] || 'No warnings or errors' : 'No warnings or errors' }}</pre>
+
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel title="{{moduleName}}" *ngFor="let moduleName of validationOutput.getValidatedModules()">
+    <ng-template ngbPanelContent>
+      <h4>Pyang Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stderr'] || 'No warnings or errors' }}</pre>
+      <h4>Pyang Output</h4><pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stdout'] || 'No warnings or errors' }}</pre>
+      <h4>Confdc Output</h4><pre>{{ validationOutput.validationOutput[moduleName]['confd']['stderr'] || 'No warnings or errors' }}</pre>
+      <h4>Yanglint Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['yanglint']['stderr'] || 'No warnings or errors' }}</pre>
+      <h4>Yangdump-pro Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['yangdump-pro']['stderr'] || 'No warnings or errors' }}</pre>
+    </ng-template>
+  </ngb-panel>
+
+</ngb-accordion>

@@ -1,0 +1,186 @@
+// This file recreates the old "bootstrap" theme that was removed in v23, and re-implements it as a custom
+// theme extending ag-theme-base.
+
+// ag-grid.scss defines structural styles and should be imported first
+@import 'ag-grid.scss';
+
+$ag-icon-font-family: 'agGridClassic';
+
+@import 'ag-theme-base/sass/ag-theme-base.scss';
+
+.ag-theme-bootstrap {
+  @include ag-theme-base((
+    "borders": false,
+    "foreground-color": #000,
+    "background-color": #FFF,
+    "odd-row-background-color": #F2F2F2,
+    "input-disabled-background-color": #ebebeb,
+    "border-color": darkgrey,
+    "chip-background-color": #ecf0f1,
+    "header-cell-moving-background-color": #bebebe,
+    "control-panel-background-color": #f6f6f6,
+    "range-selection-highlight-color": rgba(#8F8, 0.4),
+    "value-change-delta-up-color": darkgreen,
+    "value-change-delta-down-color": darkred,
+    "value-change-value-highlight-background-color": #cec,
+    "input-border-color": #000,
+    "row-border-color": null,
+    "subheader-background-color": #ececec,
+    "selected-row-background-color": #bde2e5
+  ));
+
+  .ag-icon {
+    color: #333;
+  }
+
+  .ag-cell-focus {
+    border: none !important;
+  }
+
+  .ag-paging-panel {
+    justify-content: left;
+  }
+
+  .ag-paging-page-summary-panel .ag-paging-button {
+    position: relative;
+    overflow: hidden;
+    opacity: 1;
+    width: 22px;
+    padding-top: 5px;
+    margin-right: 10px;
+  }
+
+  .ag-paging-page-summary-panel .ag-paging-button.ag-disabled .ag-icon {
+    color: rgba(0, 0, 0, 0.38);
+    opacity: 0.38;
+  }
+  .ag-paging-page-summary-panel .ag-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .ag-paging-page-summary-panel span {
+    margin: 0 8px;
+  }
+
+  .ag-paging-page-summary-panel .ag-paging-button.ag-disabled button {
+    cursor: default;
+  }
+  .ag-paging-page-summary-panel .ag-paging-button button {
+    cursor: pointer;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+  }
+  .ag-paging-page-summary-panel .ag-paging-button button {
+    position: absolute;
+  }
+
+  .ag-icon {
+    display: block;
+    speak: none;
+    font-size: 18px;
+    color: #333;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  .ag-cell-value .highlight {
+    font-weight: bold;
+    background-color: yellow;
+  }
+
+  .ag-header-cell-label {
+    font-weight: bold;
+  }
+
+  .ag-header-row {
+    border-color: black;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+  }
+
+  .ag-row {
+    border-color: rgb(222, 226, 230) !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+  }
+
+  .ag-icon-tree-closed::before {
+    content: map-get($ag-theme-base-icons-font-codes, "contracted");
+  }
+
+  .ag-icon-tree-open::before {
+    content: map-get($ag-theme-base-icons-font-codes, "expanded");
+  }
+
+  .ag-tab {
+    border: 1px solid transparent;
+    padding: ag-param(grid-size) ag-param(grid-size) * 2;
+    margin: ag-param(grid-size);
+    margin-bottom: -1px; // shift down 1px to make tab background blend with area below
+  }
+
+  .ag-tabs-body {
+    margin: ag-param(grid-size) / 2 0;
+  }
+
+  .ag-icon {
+    margin: 1px 1px 2px 1px;
+  }
+
+  .ag-tab-selected {
+    background-color: ag-param(background-color);
+    border-color: ag-param(border-color);
+    border-bottom-color: transparent;
+  }
+
+  .ag-tabs-header {
+    background-color: ag-param(header-background-color);
+    border-bottom: 1px solid ag-param(border-color);
+  }
+
+  .ag-filter .ag-filter-apply-panel {
+    justify-content: flex-start;
+  }
+
+  .ag-menu-option-active {
+    background-color: ag-param(selected-row-background-color);
+  }
+
+  .ag-column-drop-cell {
+    border-radius: 0;
+  }
+
+  .ag-column-drop-cell-button:hover {
+    padding-left: 1px;
+  }
+
+  .ag-panel-title-bar-button-icon {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .ag-menu-option-part {
+    padding-top: ag-param(grid-size);
+    padding-bottom: ag-param(grid-size);
+  }
+
+  .ag-column-drop-vertical-title-bar {
+    margin-top: ag-param(grid-size);
+    margin-left: ag-param(grid-size);
+  }
+  .ag-column-drop-vertical-title {
+    margin-left: ag-param(grid-size);
+  }
+  .ag-column-drop-vertical-empty-message {
+    margin-left: ag-param(grid-size) * 3 + ag-param(icon-size)
+  }
+}
