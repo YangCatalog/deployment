@@ -49,7 +49,7 @@ services:
       - confd
       - mysql
       - backend
-    #  - elasticsearch
+      # - elasticsearch
       - rabbitmq
       - frontend
       - redis
@@ -58,26 +58,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    restart: always
-
-  yang-search:
-    container_name: yc-yang-search
-    build:
-      context: .
-      dockerfile: ./search/Dockerfile
-      args:
-        - YANG_ID=${YANG_ID}
-        - YANG_GID=${YANG_GID}
-        - CRON_MAIL_TO=${CRON_MAIL_TO}
-    volumes:
-      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - ${YANG_RESOURCES}:/var/yang:rw
-      - run:/var/run/yang
-    networks:
-      - mysql
-      - backend
- #     - elasticsearch
-      - frontend
     restart: always
 
   yangre:
@@ -111,7 +91,7 @@ services:
       - confd
       - mysql
       - backend
-#      - elasticsearch
+      # - elasticsearch
       - rabbitmq
       - redis
     restart: always
@@ -151,7 +131,8 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
-      - webroot:/usr/share/nginx/html/admin
+      - main-webroot:/usr/share/nginx/html
+      - admin-webroot:/usr/share/nginx/html/admin
       - downloadables:/usr/share/nginx/html/downloadables
       - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
@@ -166,9 +147,8 @@ services:
       - frontend
     depends_on:
       - backend
-      - yang-search
       - yangre
- #     - elasticsearch
+      # - elasticsearch
     restart: always
 
   admin-ui:
@@ -180,7 +160,25 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
     volumes:
-      - webroot:/usr/share/nginx/html/admin
+      - admin-webroot:/usr/share/nginx/html/admin
+      - ${YANG_RESOURCES}:/var/yang:rw
+    networks:
+      - mysql
+      - frontend
+    depends_on:
+      - frontend
+      - backend
+
+  yangcatalog-ui:
+    container_name: yc-yangcatalog-ui
+    build:
+      context: yangcatalog-ui
+      dockerfile: Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
+    volumes:
+      - main-webroot:/usr/share/nginx/html
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - mysql
@@ -206,26 +204,26 @@ services:
       - frontend
     restart: always
 
-#  elasticsearch:
-#    container_name: yc-elasticsearch
-#    build:
-#      context: elasticsearch
-#      dockerfile: Dockerfile
-#      args:
-#        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
-#        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
-#    environment:
-#      - bootstrap.memory_lock=true
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    volumes:
-#      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
-#      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-#    networks:
-#      - elasticsearch
-#    restart: always
+  # elasticsearch:
+  #   container_name: yc-elasticsearch
+  #   build:
+  #     context: elasticsearch
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+  #       - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+  #   environment:
+  #     - bootstrap.memory_lock=true
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+  #     - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+  #   networks:
+  #     - elasticsearch
+  #   restart: always
 
   rabbit:
     container_name: yc-rabbit
@@ -309,7 +307,8 @@ services:
         - redis
 
 volumes:
-  webroot:
+  main-webroot:
+  admin-webroot:
   run:
   mysql:
   nginx-conf:
@@ -325,8 +324,8 @@ networks:
     driver: bridge
   backend:
     driver: bridge
-#  elasticsearch:
-#    driver: bridge
+  # elasticsearch:
+  #   driver: bridge
   rabbitmq:
     driver: bridge
   redis:
