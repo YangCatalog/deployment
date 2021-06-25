@@ -1,0 +1,106 @@
+{
+  "current-module": "ietf-ipv6-unicast-routing@2018-03-13.yang",
+  "metadata": {
+    "name": "ietf-isis",
+    "revision": "2014-06-20",
+    "organization": "ietf",
+    "ietf": {
+      "ietf-wg": "isis"
+    },
+    "namespace": "urn:ietf:params:xml:ns:yang:ietf-isis",
+    "schema": "https://raw.githubusercontent.com/YangModels/yang/c2d4e0b5cf1d0b7da982cb95d29c57ee2fbed2f6/experimental/ietf-extracted-YANG-modules/ietf-isis@2014-06-20.yang",
+    "generated-from": "not-applicable",
+    "maturity-level": "initial",
+    "document-name": "draft-litkowski-isis-yang-isis-cfg-00.txt",
+    "author-email": "draft-litkowski-isis-yang-isis-cfg@ietf.org",
+    "reference": "https://datatracker.ietf.org/doc/draft-litkowski-isis-yang-isis-cfg/00",
+    "module-classification": "unknown",
+    "compilation-status": "failed",
+    "compilation-result": "https://yangcatalog.org/results/ietf-isis@2014-06-20_ietf.html",
+    "prefix": "isis",
+    "yang-version": "1.0",
+    "description": "The YANG module defines a generic configuration model for ISIS\ncommon across all of the vendor implementations.",
+    "contact": "WG Web: <https://datatracker.ietf.org/group/lsr/>\nWG List: <mailto:lsr@ietf.org>\n\nEditor: Stephane Litkowski\n<mailto:slitkows.ietf@gmail.com>\nAuthor: Derek Yeung\n<mailto:derek@arrcus.com>\nAuthor: Acee Lindem\n<mailto:acee@cisco.com>\nAuthor: Jeffrey Zhang\n<mailto:zzhang@juniper.net>\nAuthor: Ladislav Lhotka\n<mailto:llhotka@nic.cz>",
+    "module-type": "module",
+    "tree-type": "split",
+    "yang-tree": "https://yangcatalog.org/api/services/tree/ietf-isis@2014-06-20.yang",
+    "expired": true,
+    "dependencies": [
+      {
+        "name": "ietf-inet-types",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/master/standard/ietf/RFC/ietf-inet-types@2013-07-15.yang"
+      },
+      {
+        "name": "ietf-routing",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/master/standard/ietf/RFC/ietf-routing@2016-11-04.yang"
+      },
+      {
+        "name": "ietf-yang-types",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/master/standard/ietf/RFC/ietf-yang-types@2010-09-24.yang"
+      }
+    ],
+    "dependents": [
+      {
+        "name": "ietf-bier",
+        "revision": "2019-05-14",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-bier@2019-05-14.yang"
+      },
+      {
+        "name": "ietf-flex-algo",
+        "revision": "2019-04-26",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-flex-algo@2019-04-26.yang"
+      },
+      {
+        "name": "ietf-isis-bfd",
+        "revision": "2015-11-18",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-bfd@2015-11-18.yang"
+      },
+      {
+        "name": "ietf-isis-ppr",
+        "revision": "2019-07-07",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-ppr@2019-07-07.yang"
+      },
+      {
+        "name": "ietf-isis-remaining-lifetime",
+        "revision": "2020-05-06",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-remaining-lifetime@2020-05-06.yang"
+      },
+      {
+        "name": "ietf-isis-reverse-metric",
+        "revision": "2020-01-22",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-reverse-metric@2020-01-22.yang"
+      },
+      {
+        "name": "ietf-isis-sr",
+        "revision": "2020-01-09",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-sr@2020-01-09.yang"
+      },
+      {
+        "name": "ietf-isis-srv6",
+        "revision": "2019-10-23",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-isis-srv6@2019-10-23.yang"
+      },
+      {
+        "name": "ietf-pcep",
+        "revision": "2019-10-31",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-pcep@2019-10-31.yang"
+      },
+      {
+        "name": "ietf-rip",
+        "revision": "2018-02-03",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/ce30ff39d9fa7f3f525d1d6924a4e691ded98f69/experimental/ietf-extracted-YANG-modules/ietf-rip@2018-02-03.yang"
+      },
+      {
+        "name": "ietf-segment-routing",
+        "revision": "2015-02-27",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/c2d4e0b5cf1d0b7da982cb95d29c57ee2fbed2f6/experimental/ietf-extracted-YANG-modules/ietf-segment-routing@2015-02-27.yang"
+      }
+    ],
+    "derived-semantic-version": "1.0.0"
+  },
+  "revisions": [
+    "2018-03-13",
+    "2016-11-04",
+    "2015-05-25"
+  ]
+}
