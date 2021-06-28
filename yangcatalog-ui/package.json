@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build-prod": "ng build --prod",
+    "build-prod": "ng build --base-href / --deploy-url / --prod",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
