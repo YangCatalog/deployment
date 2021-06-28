@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: webroot-pv
-spec:  
+  name: admin-webroot-pv
+spec:
   capacity:
     storage: 10Gi
   volumeMode: Filesystem
@@ -11,10 +11,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   claimRef:
-    name: webroot-pvc
+    name: admin-webroot-pvc
     namespace: default
   local:
-    path: {{ .Values.YANG_VOLUMES }}/webroot
+    path: {{ .Values.YANG_VOLUMES }}/admin-webroot
   nodeAffinity:
     required:
       nodeSelectorTerms:

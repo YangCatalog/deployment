@@ -87,7 +87,7 @@ sudo patch /var/snap/microk8s/current/args/kube-controller-manager << EOF
 > --feature-gates="IPv6DualStack=true"
 > --service-cluster-ip-range=10.152.183.0/24,fd98::/108
 > --cluster-cidr=10.1.0.0/16,fd01::/64
-> 
+>
 EOF
 ```
 
@@ -167,14 +167,14 @@ kubectl patch -n kube-system daemonset/calico-node --patch-file=calico-node.patc
 ```
 
 * To find your `<IPV6_GLOBAL_INTF>` you need to issue `ifconfig` command that will list all the interfaces and search
-for one that contains something similar to following 
-  
+for one that contains something similar to following
+
 `inet6 2000::1  prefixlen 64  scopeid 0x0<global>`
 
 * `inet6` and `<global>` is an important part of the line.
 
 * If you are running it on local env for testing, and you don't have inet6 configured you can do following command.
-Please replace <INTF> with an interface that is used to access internet. 
+Please replace <INTF> with an interface that is used to access internet.
 
 `sudo ip a add 2000::1/64 dev <INTF>`
 
@@ -201,7 +201,7 @@ inet6 line
 
 `vim values.yaml`
 
-* Please create all volume directories (docs, downloadables, mysql, nginx-conf, run, webroot) under YANG_VOLUMES manually.
+* Please create all volume directories (admin-webroot, docs, downloadables, main-webroot, mysql, nginx-conf, run) under YANG_VOLUMES manually.
 * Please check if `/var/yang/conf/yangcatalog.conf` file points to correct elasticsearch IP
 
 ## 2. Run Helm Chart

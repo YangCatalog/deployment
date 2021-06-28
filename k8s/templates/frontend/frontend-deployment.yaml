@@ -50,7 +50,9 @@ spec:
           name: yangcatalog-conf-pv
           readOnly: true
         - mountPath: /usr/share/nginx/html/admin
-          name: webroot-pv
+          name: admin-webroot-pv
+        - mountPath: /usr/share/nginx/html
+          name: main-webroot-pv
         - mountPath: /usr/share/nginx/html/downloadables
           name: downloadables-pv
         - mountPath: /usr/share/nginx/html/slate
@@ -89,9 +91,12 @@ spec:
       - name: yangcatalog-conf-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf
-      - name: webroot-pv
+      - name: admin-webroot-pv
         persistentVolumeClaim:
-          claimName: webroot-pvc
+          claimName: admin-webroot-pvc
+      - name: main-webroot-pv
+        persistentVolumeClaim:
+          claimName: main-webroot-pvc
       - name: downloadables-pv
         persistentVolumeClaim:
           claimName: downloadables-pvc

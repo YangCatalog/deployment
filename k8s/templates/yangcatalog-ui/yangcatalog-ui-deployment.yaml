@@ -5,8 +5,8 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: admin-ui
-  name: admin-ui
+    io.kompose.service: yangcatalog-ui
+  name: yangcatalog-ui
 spec:
   backoffLimit: 6
   template:
@@ -17,23 +17,23 @@ spec:
       labels:
         io.kompose.network/frontend: "true"
         io.kompose.network/mysql: "true"
-        io.kompose.service: admin-ui
+        io.kompose.service: yangcatalog-ui
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_admin-ui:latest
-        name: admin-ui
+      - image: localhost:32000/yc_yangcatalog-ui:latest
+        name: yangcatalog-ui
         volumeMounts:
-        - mountPath: /usr/share/nginx/html/admin
-          name: admin-webroot-pv
+        - mountPath: /usr/share/nginx/html
+          name: main-webroot-pv
         - mountPath: /var/yang
           name: yang-resources-pv
       restartPolicy: OnFailure
       volumes:
-      - name: admin-webroot-pv
+      - name: main-webroot-pv
         persistentVolumeClaim:
-          claimName: admin-webroot-pvc
+          claimName: main-webroot-pvc
       - name: yang-resources-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}
