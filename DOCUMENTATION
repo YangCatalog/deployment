@@ -64,7 +64,7 @@ drwxrwxr-x 16 yang yang     4096 Jan  4 08:16 ../
 -rw-------  1 yang yang     1704 Dec 18 08:55 privkey.pem
 -rw-rw-r--  1 yang yang      330 Jul 27 12:48 rsync
 -rw-rw-r--  1 yang yang      361 Jul 27 12:48 rsyncd.conf
--rw-r--r--  1 yang yang  1708336 mar 22 20:17 yumapro-client-20.10-6.u1804.amd64.deb
+-rw-r--r--  1 yang yang  1717748 Jun 30 09:28 yumapro-client-20.10-9.u1804.amd64.deb
 
 14, In following crontab files set mailto variable - insert one or more mail addresses (separated by comma) to send mail as a result of running job:
 deployment/backend/crontab
