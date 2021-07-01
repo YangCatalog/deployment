@@ -4,9 +4,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/YangCatalog/backend.git
-[submodule "search"]
-	path = search
-	url = https://github.com/YangCatalog/search.git
 [submodule "yangre"]
 	path = yangre
 	url = https://github.com/YangCatalog/yangre.git
