@@ -26,7 +26,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@ng-bootstrap/ng-bootstrap": "6.1.0",
-    "@pt/pt-topology": "file:/usr/src/tmp/pt-topology-0.1.0.tgz",
+    "@pt/pt-topology": "file:./tmp/pt-topology-0.1.0.tgz",
     "bootstrap": "5.0.0-beta2",
     "bootstrap-icons": "1.4.0",
     "core-js": "^2.5.4",

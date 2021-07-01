@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, UrlSegment } from '@angular/router';
-import { StaticContentComponent } from './features/static-content/static-content.component';
-import { YangValidatorComponent } from './features/yang-validator/yang-validator.component';
-import { YangSearchComponent } from './features/yang-search/yang-search.component';
-import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AccountComponent } from './features/account/account/account.component';
+import { ImpactAnalysisComponent } from './features/impact-analysis/impact-analysis.component';
+import { PrivateComponent } from './features/private/private.component';
+import { YangCatalogComponent } from './features/static-content/yang-catalog/yang-catalog.component';
+import { YangStatsComponent } from './features/statistics/yang-stats.component';
 import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
+import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
+import { YangSearchComponent } from './features/yang-search/yang-search.component';
 import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
 import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
-import { YangStatsComponent } from './features/statistics/yang-stats.component';
-import { AccountComponent } from './features/account/account/account.component';
-import { PrivateComponent } from './features/private/private.component';
-import { ImpactAnalysisComponent } from './features/impact-analysis/impact-analysis.component';
+import { YangValidatorComponent } from './features/yang-validator/yang-validator.component';
 
 // todo: move child routes to child modules
 const routes: Routes = [
   {
     path: '',
-    component: StaticContentComponent,
+    component: YangCatalogComponent
   },
   {
     path: 'private-page',
