@@ -9,23 +9,28 @@ import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualis
 import { ClusteringService, PtTopologyService } from '@pt/pt-topology';
 import { CoreModule } from '../../core/core.module';
 import { NodeContextMenuComponent } from './impact-analysis-visualisation/node-context-menu/node-context-menu.component';
+import { ClusterContextMenuComponent } from './impact-analysis-visualisation/cluster-context-menu/cluster-context-menu.component';
+import { ImpactNodesListComponent } from './impact-analysis-visualisation/impact-nodes-list/impact-nodes-list.component';
+import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
 
 
 
 @NgModule({
-  declarations: [ImpactAnalysisComponent, ImpactAnalysisVisualisationComponent, NodeContextMenuComponent],
+  declarations: [ImpactAnalysisComponent, ImpactAnalysisVisualisationComponent, NodeContextMenuComponent, ClusterContextMenuComponent, ImpactNodesListComponent],
+  entryComponents: [ImpactNodesListComponent],
   providers: [PtTopologyService, ClusteringService],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgbAlertModule,
-        NgbNavModule,
-        TagInputModule,
-        NgbTypeaheadModule,
-        RouterModule,
-        CoreModule
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbAlertModule,
+    NgbNavModule,
+    TagInputModule,
+    NgbTypeaheadModule,
+    RouterModule,
+    CoreModule,
+    AppAgGridModule
 
-    ]
+  ]
 })
 export class ImpactAnalysisModule { }

@@ -1,3 +1,4 @@
+import { ImpactVisNodeModel } from './impact-vis-node-model';
 
 export class ImpactAnalysisModel {
   dependencies: ImpactAnalysisModel[];
@@ -36,6 +37,41 @@ export class ImpactAnalysisModel {
 
     this.dependencies.forEach(dep => result += dep.getOrganizationMembersCount(orgName));
     this.dependents.forEach(dep => result += dep.getOrganizationMembersCount(orgName));
+
+    return result;
+  }
+
+  getOrganizationMembers(orgName: string): ImpactVisNodeModel[] {
+
+    let result = [];
+    if (this.organization === orgName) {
+      result.push(this);
+    }
+
+    this.dependencies.forEach(dep => result = result.concat(dep.getOrganizationMembers(orgName)));
+    this.dependents.forEach(dep => result = result.concat(dep.getOrganizationMembers(orgName)));
+
+    return result;
+  }
+
+  getMaturityMembers(maturity: string): ImpactVisNodeModel[] {
+
+    let result = [];
+    if (this.maturity === maturity) {
+      result.push(this);
+    }
+
+    this.dependencies.forEach(dep => result = result.concat(dep.getMaturityMembers(maturity)));
+    this.dependents.forEach(dep => result = result.concat(dep.getMaturityMembers(maturity)));
+
+    return result;
+  }
+
+  getMaturityMembersCount(maturity: string): number {
+    let result = this.maturity === maturity ? 1 : 0;
+
+    this.dependencies.forEach(dep => result += dep.getMaturityMembersCount(maturity));
+    this.dependents.forEach(dep => result += dep.getMaturityMembersCount(maturity));
 
     return result;
   }

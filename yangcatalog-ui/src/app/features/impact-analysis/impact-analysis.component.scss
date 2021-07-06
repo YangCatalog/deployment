@@ -27,10 +27,9 @@
   }
 
   .impact-vis-toolbar {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    z-index: 99;
     width: 140px;
+    margin-top: 15px;
 
   }
 
