@@ -11,6 +11,9 @@ import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualis
 import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
 import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
 import { ActivatedRoute } from '@angular/router';
+import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImpactNodesListComponent } from './impact-analysis-visualisation/impact-nodes-list/impact-nodes-list.component';
 
 @Component({
   selector: 'yc-impact-analysis',
@@ -99,6 +102,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   contextMenuLeft: number = null;
   selectedNode: ImpactAnalysisModel;
   clusterByCompany = false;
+  clusterByMaturity = false;
+  selectedCluster: any;
 
 
   constructor(
@@ -106,6 +111,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     private dataService: ImpactAnalysisService,
     private svgService: SvgIconService,
     private clusteringService: ClusteringService,
+    private modalService: NgbModal,
     private route: ActivatedRoute) {
   }
 
@@ -127,7 +133,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   private initForm() {
     this.form = this.fb.group({
-      moduleName: [''],
+      moduleName: ['ietf-alarms'],
       allowRfc: [true],
       allowSubmodules: [true]
     });
@@ -339,7 +345,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   onClusterCompaniesToggle(clustered: boolean) {
     if (clustered) {
-      const organizations = this.organizations;
+      if (this.clusterByMaturity) {
+        this.clusterByMaturity = false;
+        this.onClusterMaturityToggle(false);
+      }
       this.organizations.forEach(organization => {
         const clusterOptionsByData = {
           joinCondition: (childOptions) => {
@@ -355,7 +364,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
             return clusterOptions;
           },
           clusterNodeProperties: {
-            id: 'cluster_' + organization,
+            id: 'cluster_org_' + organization,
             borderWidth: 3,
             shape: 'dot',
             color: this.orgColors[organization],
@@ -386,23 +395,100 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
     } else {
       this.organizations.forEach(org => {
-        this.visComponent.openCluster('cluster_' + org);
+        let membersCount = this.mainResult.getOrganizationMembersCount(org);
+        if (org === this.mainResult.organization) {
+          membersCount--;
+        }
+        if (membersCount > 1) {
+          this.visComponent.openCluster('cluster_org_' + org);
+        }
+      });
+    }
+
+  }
+
+  onClusterMaturityToggle(clustered: boolean) {
+    if (clustered) {
+      if (this.clusterByCompany) {
+        this.clusterByCompany = false;
+        this.onClusterCompaniesToggle(false);
+      }
+      this.maturities.forEach(maturity => {
+        const clusterOptionsByData = {
+          joinCondition: (childOptions) => {
+            return childOptions['maturity'] === maturity && childOptions['label'] !== this.mainResult.name;
+          },
+          releaseFunction: () => {
+            return {};
+          },
+          processProperties: (clusterOptions, childNodes, childEdges) => {
+            let totalMass = 0;
+            childNodes.forEach(childNode => totalMass += childNode.mass);
+            clusterOptions.mass = totalMass;
+            return clusterOptions;
+          },
+          clusterNodeProperties: {
+            id: 'cluster_mat_' + maturity,
+            borderWidth: 3,
+            shape: 'dot',
+            color: this.matColors[maturity],
+            size: 15 + Math.round(this.mainResult.getMaturityMembersCount(maturity) * 0.75),
+            label: `${maturity} (${this.mainResult.getMaturityMembersCount(maturity)})`,
+          },
+        };
+        this.visComponent.cluster(clusterOptionsByData);
+        this.visComponent.redraw();
+      });
+
+      this.organizations.forEach(org => {
+        if (!this.orgSelected[org]) {
+          this.onOrgToggle(true, org);
+        }
+      });
+      this.maturities.forEach(mat => {
+        if (!this.matSelected[mat]) {
+          this.onMatToggle(true, mat);
+        }
+      });
+      this.directions.forEach(dir => {
+        if (!this.dirSelected[dir]) {
+          this.onMatToggle(true, dir);
+        }
+      });
+      this.onMatMouseOut();
+
+    } else {
+      this.maturities.forEach(mat => {
+        let membersCount = this.mainResult.getMaturityMembersCount(mat);
+        if (mat === this.mainResult.maturity) {
+          membersCount--;
+        }
+        if (membersCount > 1) {
+          this.visComponent.openCluster('cluster_mat_' + mat);
+        }
       });
     }
 
   }
 
   onClickNode(event) {
+    this.selectedCluster = null;
+    this.selectedNode = null;
     this.contextMenuTop = event['pointer']['DOM']['y'];
     this.contextMenuLeft = event['pointer']['DOM']['x'];
     const clickedNodeId = event['nodes'][event['nodes'].length - 1];
-    this.selectedNode = this.mainResult.getNodeByName(clickedNodeId);
+    if (clickedNodeId.indexOf('cluster_') !== -1) {
+      this.selectedCluster = clickedNodeId;
+    } else {
+      this.selectedNode = this.mainResult.getNodeByName(clickedNodeId);
+    }
   }
 
   onClickCanvas() {
     this.contextMenuLeft = null;
     this.contextMenuTop = null;
     this.selectedNode = null;
+    this.selectedCluster = null;
   }
 
   onLoadMore() {
@@ -462,5 +548,24 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   rearrange() {
     this.visComponent.redraw();
+  }
+
+  onShowClusterNodesList(selectedClusterId: string) {
+    const modalNodeDetail: ImpactNodesListComponent = this.modalService.open(ImpactNodesListComponent, {
+      size: 'lg',
+    }).componentInstance;
+
+    if (selectedClusterId.indexOf('_org_') !== -1) {
+      modalNodeDetail.nodesList = this.mainResult.getOrganizationMembers(selectedClusterId.replace('cluster_org_', ''));
+    } else {
+      modalNodeDetail.nodesList = this.mainResult.getMaturityMembers(selectedClusterId.replace('cluster_mat_', ''));
+    }
+
+    this.selectedCluster = null;
+  }
+
+  onToolbarClick() {
+    this.selectedNode = null;
+    this.selectedCluster = null;
   }
 }

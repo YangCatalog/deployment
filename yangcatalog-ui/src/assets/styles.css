@@ -89,8 +89,13 @@ template {
 }
 a {
   background-color: transparent;
-  color: inherit;
+  color: #0a58ca !important;
 }
+
+#myNavbar a {
+  color: black !important;
+}
+
 a:active {
   outline-width: 0;
 }

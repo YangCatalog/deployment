@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Cluster Nodes List</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <yc-ag-grid tableId="nodesList"
+              domLayout="autoHeight"
+              [suppressHorizontalScroll]="false"
+              [pagination]="false"
+              [allColumnDefs]="colDefs"
+              [rowData]="nodesList">
+  </yc-ag-grid>
+
+</div>
+<div class="modal-footer">
+  <div class="flex-fill"></div>
+  <button type="button" id="cancelDepsSelectionBtn" class="btn btn-outline-dark" (click)="onCancelClick()">Close</button>
+</div>

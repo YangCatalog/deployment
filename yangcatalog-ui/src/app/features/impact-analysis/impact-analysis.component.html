@@ -32,20 +32,24 @@
       </form>
     </div>
     <div class="yc-col flex-fill yc-relative" >
-      <yc-impact-analysis-visualisation topologyId="yang-impact-analysis-vis"
-                                        [topologyData]="visData"
-                                        [topologyOptions]="visOptions"
-                                        (clickNode)="onClickNode($event)"
-                                        (clickCanvas)="onClickCanvas()"
-                                        *ngIf="visData"
-                                        #visComponent>
-      </yc-impact-analysis-visualisation>
+      <div class="vis-container" style="position: absolute; top: 0; left: 140px; width: calc(100% - 140px); height: 100%;">
+        <yc-impact-analysis-visualisation topologyId="yang-impact-analysis-vis"
+                                          [topologyData]="visData"
+                                          [topologyOptions]="visOptions"
+                                          (clickNode)="onClickNode($event)"
+                                          (clickCanvas)="onClickCanvas()"
+                                          *ngIf="visData"
+                                          #visComponent>
+        </yc-impact-analysis-visualisation>
+      </div>
 
       <div class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;" *ngIf="selectedNode">
         <yc-node-context-menu [node]="selectedNode" (loadMore)="onLoadMore()"></yc-node-context-menu>
       </div>
-
-      <div class="impact-vis-toolbar" *ngIf="visData">
+      <div class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;" *ngIf="selectedCluster">
+        <yc-cluster-context-menu [clusterId]="selectedCluster" (showNodes)="onShowClusterNodesList(selectedCluster)"></yc-cluster-context-menu>
+      </div>
+      <div class="impact-vis-toolbar" *ngIf="visData" (click)="onToolbarClick()">
         <strong>Cluster by</strong>
         <ul class="vis-legend">
           <li>
@@ -54,13 +58,19 @@
               <i class="skin"></i> <span>organization</span>
             </label>
           </li>
+          <li>
+            <label for="cluster_maturity" class="checkbox">
+              <input id="cluster_maturity" type="checkbox" [(ngModel)]="clusterByMaturity" (change)="onClusterMaturityToggle($event.target['checked'])" />
+              <i class="skin"></i> <span>maturity</span>
+            </label>
+          </li>
         </ul>
 
         <strong>Show Organizations</strong>
         <ul class="vis-legend">
           <li *ngFor="let org of organizations; let i=index">
             <label for="org_{{org}}" class="checkbox" (mouseout)="onOrgMouseOut()" (mousemove)="onOrgMouseMove(org)">
-              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByCompany" [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
+              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
               <i class="skin"></i> <span style="color: {{orgColors[org]}}">{{org}}</span>
             </label>
           </li>
@@ -69,7 +79,7 @@
         <ul class="vis-legend">
           <li *ngFor="let mat of maturities">
             <label for="mat_{{mat}}" class="checkbox" (mouseout)="onMatMouseOut()" (mousemove)="onMatMouseMove(mat)">
-              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByCompany" [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
+              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
               <i class="skin"></i> <span>{{mat}}</span>
             </label>
           </li>
@@ -78,7 +88,7 @@
         <ul class="vis-legend">
           <li *ngFor="let dir of directions">
             <label for="mat_{{dir}}" class="checkbox" (mouseout)="onDirMouseOut()" (mousemove)="onDirMouseMove(dir)">
-              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByCompany" [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
+              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
               <i class="skin"></i> <span>{{dir}}</span>
             </label>
           </li>
@@ -87,7 +97,9 @@
         <button id="rearrangeSubmit" class="btn btn-outline-primary px-ml-5" (click)="rearrange()">
           Rearrange graph
         </button>
+
       </div>
+
 
     </div>
   </div>
