@@ -1,19 +1,19 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, finalize, mergeMap, takeUntil } from 'rxjs/operators';
-import { ImpactAnalysisService } from './impact-analysis.service';
-import { environment } from '../../../environments/environment';
-import { ClusteringService, TopologyData } from '@pt/pt-topology';
-import { SvgIconService } from './impact-analysis-visualisation/svg-icon.service';
-import { ImpactVisNodeModel } from './impact-analysis-visualisation/models/impact-vis-node-model';
-import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualisation/impact-analysis-visualisation.component';
-import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
-import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClusteringService, TopologyData } from '@pt/pt-topology';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualisation/impact-analysis-visualisation.component';
 import { ImpactNodesListComponent } from './impact-analysis-visualisation/impact-nodes-list/impact-nodes-list.component';
 import { ImpactWarningsComponent } from './impact-analysis-visualisation/impact-warnings/impact-warnings.component';
+import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
+import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
+import { ImpactVisNodeModel } from './impact-analysis-visualisation/models/impact-vis-node-model';
+import { SvgIconService } from './impact-analysis-visualisation/svg-icon.service';
+import { ImpactAnalysisService } from './impact-analysis.service';
 
 @Component({
   selector: 'yc-impact-analysis',
@@ -69,6 +69,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   directions: string[] = ['dependencies', 'dependents'];
   dirSelected = {dependencies: true, dependents: true};
 
+  params = {}
+  queryParams = {
+    rfcs: 1,
+    show_subm: 1,
+    show_dir: 'both'
+  }
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
@@ -113,23 +119,101 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     private svgService: SvgIconService,
     private clusteringService: ClusteringService,
     private modalService: NgbModal,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit(): void {
     this.initForm();
 
-    this.route.params.pipe(
-      takeUntil(this.componentDestroyed)
-    ).subscribe(
-      params => {
-        if (params.hasOwnProperty('module')) {
-          this.form.get('moduleName').setValue(params['module']);
-          this.submitModuleName();
-        }
-      }
-    );
+    // this.route.params.pipe(
+    //   takeUntil(this.componentDestroyed)
+    // ).subscribe(
+    //   params => {
+    //     if (params.hasOwnProperty('module')) {
+    //       this.form.get('moduleName').setValue(params['module']);
+    //       this.submitModuleName();
+    //     }
+    //   }
+    // );
 
+    combineLatest([this.route.params, this.route.queryParams])
+      .pipe(map(results => ({params: results[0], query: results[1]})))
+      .subscribe(results => {
+        const queryParamsProperties = ['rfcs', 'show_subm', 'show_dir', 'orgtags']
+        queryParamsProperties.forEach(prop => {
+          if (results.query.hasOwnProperty(prop)) {
+            this.queryParams[prop] = results.query[prop]
+          }
+        });
+
+        if (results.params?.hasOwnProperty('module')) {
+          this.form.get('moduleName').setValue(results.params['module']);
+          this.params['module'] = results.params['module']
+          this.submitModuleName(true);
+        }
+      });
+  }
+
+  changeQueryParams() {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: {},
+      });
+  }
+
+  updateQueryParams() {
+    this.queryParams['rfcs'] = this.form.get('allowRfc').value ? 1 : 0;
+    this.queryParams['show_subm'] = this.form.get('allowSubmodules').value ? 1 : 0;
+
+    if ((this.dirSelected['dependencies'] === true && this.dirSelected['dependents'] === true) ||
+      (this.dirSelected['dependencies'] === false && this.dirSelected['dependents'] === false)) {
+      this.queryParams['show_dir'] = 'both'
+    } else if (this.dirSelected['dependencies']) {
+      this.queryParams['show_dir'] = 'dependencies'
+    } else if (this.dirSelected['dependents']) {
+      this.queryParams['show_dir'] = 'dependents'
+    }
+
+    const queryOrganizations = []
+    for (const org in this.orgSelected) {
+      if (this.orgSelected[org]) {
+        queryOrganizations.push(org)
+      }
+    }
+    this.queryParams['orgtags'] = queryOrganizations.join(',')
+  }
+
+  updateByQueryParams() {
+    this.form.get('allowRfc').setValue(this.queryParams['rfcs'] == 0 ? false : true);
+    this.form.get('allowSubmodules').setValue(this.queryParams['show_subm'] == 0 ? false : true);
+
+    switch (this.queryParams['show_dir']) {
+      case 'dependencies':
+        this.dirSelected = {dependencies: true, dependents: false};
+        const dependentsNodes = this.visData.nodes.filter(node => (node['isDependent'] && node['label'] !== this.mainResult.name));
+        dependentsNodes.forEach(node => node['hidden'] = true);
+        break
+      case 'dependents':
+        this.dirSelected = {dependencies: false, dependents: true};
+        const dependciesNodes = this.visData.nodes.filter(node => (node['isDependency'] && node['label'] !== this.mainResult.name));
+        dependciesNodes.forEach(node => node['hidden'] = true);
+        break
+      default:
+        this.dirSelected = {dependencies: true, dependents: true};
+        break
+    }
+
+    if (this.queryParams['orgtags']) {
+      const queryOrganizations = this.queryParams['orgtags'].split(',')
+      const nodes = this.visData.nodes.filter(node => !queryOrganizations.includes(node['organization'])  && node['label'] !== this.mainResult.name);
+      nodes.forEach(node => node['hidden'] = true);
+
+      const uncheckedOrgs = this.organizations.filter(org => !queryOrganizations.includes(org))
+      this.unselectOrganizations(uncheckedOrgs)
+    }
   }
 
   private initForm() {
@@ -190,7 +274,15 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
 
-  submitModuleName() {
+  unselectOrganizations(toUnselect: string[]): void {
+    for (const org in this.orgSelected) {
+      if (toUnselect.includes(org)) {
+        this.orgSelected[org] = false;
+      }
+    }
+  }
+
+  submitModuleName(fromURL = false) {
 
     this.showWarnings = true;
     this.mainResult = null;
@@ -203,6 +295,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.maturities = [];
     this.matColors = {};
 
+    let uncheckedOrgs = []
+    for (const org in this.orgSelected) {
+      if (!this.orgSelected[org]) {
+        uncheckedOrgs.push(org)
+      }
+    }
     const moduleNameArr = this.form.get('moduleName').value.split('@');
 
     this.dataService.getImpactAnalysis(
@@ -237,6 +335,17 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
           }
         });
 
+        if (this.params['module']) {
+          if (fromURL) {
+            this.updateByQueryParams();
+            // this.changeQueryParams();
+          }
+          else {
+            // this.unselectOrganizations(uncheckedOrgs);
+            // this.updateQueryParams();
+            this.changeQueryParams();
+          }
+        }
       },
       err => {
         console.error(err);
