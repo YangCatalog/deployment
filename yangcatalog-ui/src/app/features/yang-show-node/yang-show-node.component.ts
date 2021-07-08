@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { filter, merge, mergeMap, takeUntil } from 'rxjs/operators';
 import { YangSearchService } from '../yang-search/yang-search.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'yc-yang-show-node',
@@ -34,12 +33,12 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
       .pipe(
         filter(params => params.hasOwnProperty('node')),
         mergeMap(params => {
-            this.node = params['node'];
-            this.path = params['path'];
-            this.revision = params['revision'];
-            this.parseNodeDetails();
-            return this.dataService.getNodeDetails(this.node, this.path, this.revision);
-          }
+          this.node = params['node'];
+          this.path = params['path'];
+          this.revision = params['revision'];
+          this.parseNodeDetails();
+          return this.dataService.getNodeDetails(this.node, this.path, this.revision);
+        }
         ),
         merge(this.paramsSetManually.pipe((set) => {
           if (this.node) {
@@ -83,7 +82,11 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
           result += `${o[key]['value']} {\n\t\t...\n\t}\n`;
         } else {
           if (o[key]['value'].indexOf(' ') !== -1) {
-            result += `"${o[key]['value']}";\n`;
+            let value = o[key]['value'];
+            value = value.replace(/\</g, '&lt;');
+            value = value.replace(/\>/g, '&gt;');
+            value = value.replace(/\\n/g, '\n\t');
+            result += `"${value}";\n`;
           } else {
             result += `${o[key]['value']};\n`;
           }
@@ -93,9 +96,7 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
 
     result += `}`;
 
-
     this.resultStr = result;
-
   }
 
   private parseNodeDetails() {
