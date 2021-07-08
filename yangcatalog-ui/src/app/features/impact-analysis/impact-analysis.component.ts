@@ -104,6 +104,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   clusterByCompany = false;
   clusterByMaturity = false;
   selectedCluster: any;
+  showWarnings = true;
 
 
   constructor(
@@ -191,6 +192,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   submitModuleName() {
 
+    this.showWarnings = true;
     this.mainResult = null;
     this.errors = [];
     this.visData = null;
@@ -578,5 +580,9 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
     warningsComp.warnings = this.mainResult.warnings;
 
+  }
+
+  onCloseWarnings() {
+    this.showWarnings = false;
   }
 }

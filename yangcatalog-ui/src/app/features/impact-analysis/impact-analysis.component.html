@@ -25,7 +25,7 @@
           </div>
 
           <br *ngIf="mainResult">
-          <ngb-alert type="warning" (close)="onCloseError(i)" role="alert" *ngIf="mainResult">
+          <ngb-alert type="warning" (close)="onCloseWarnings()" role="alert" *ngIf="mainResult && showWarnings">
             Data has been loaded with some warnings. <a (click)="onShowWarningsClick()">Show warnings</a>
           </ngb-alert>
 
