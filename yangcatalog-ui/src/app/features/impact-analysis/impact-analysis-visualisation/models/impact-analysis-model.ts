@@ -9,6 +9,8 @@ export class ImpactAnalysisModel {
   organization: string;
   revision: string;
 
+  warnings: string[];
+
 
   constructor(data = {}) {
     this.document = data['document-name'];
@@ -17,8 +19,28 @@ export class ImpactAnalysisModel {
     this.organization = data['organization'];
     this.revision = data['revision'];
 
-    this.dependencies = data['dependencies'] ? data['dependencies'].map(dep => new ImpactAnalysisModel(dep)) : [];
-    this.dependents = data['dependents'] ? data['dependents'].map(dep => new ImpactAnalysisModel(dep)) : [];
+    this.dependencies = data['dependencies'] ? data['dependencies']
+      .filter(dep => !dep.hasOwnProperty('warning'))
+      .map(dep => new ImpactAnalysisModel(dep))
+      : [];
+    this.dependents = data['dependents'] ? data['dependents']
+      .filter(dep => !dep.hasOwnProperty('warning'))
+      .map(dep => new ImpactAnalysisModel(dep))
+      : [];
+
+    this.warnings = [];
+    this.warnings = this.warnings.concat(
+      data['dependencies'] ? data['dependencies']
+          .filter(dep => dep.hasOwnProperty('warning'))
+          .map(dep => dep['warning'])
+        : []
+    );
+    this.warnings = this.warnings.concat(
+      data['dependents'] ? data['dependents']
+          .filter(dep => dep.hasOwnProperty('warning'))
+          .map(dep => dep['warning'])
+        : []
+    );
   }
 
   getOrganisations(): string[] {

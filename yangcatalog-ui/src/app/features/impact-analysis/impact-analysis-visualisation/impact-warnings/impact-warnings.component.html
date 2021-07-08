@@ -1,0 +1,16 @@
+
+<div class="modal-body">
+
+  <yc-ag-grid tableId="warningsList"
+              domLayout="autoHeight"
+              [suppressHorizontalScroll]="false"
+              [pagination]="false"
+              [allColumnDefs]="colDefs"
+              [rowData]="warningsObjs">
+  </yc-ag-grid>
+
+</div>
+<div class="modal-footer">
+  <div class="flex-fill"></div>
+  <button type="button" id="cancelDepsSelectionBtn" class="btn btn-outline-dark" (click)="onCancelClick()">Close</button>
+</div>
