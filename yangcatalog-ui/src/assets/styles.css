@@ -90,6 +90,8 @@ template {
 a {
   background-color: transparent;
   color: #0a58ca !important;
+  cursor: pointer;
+
 }
 
 #myNavbar a {

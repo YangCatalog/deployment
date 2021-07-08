@@ -4,16 +4,16 @@ import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, mergeMap, takeUntil } from 'rxjs/operators';
 import { ImpactAnalysisService } from './impact-analysis.service';
 import { environment } from '../../../environments/environment';
-import { ClusteringService, Highlighting, TopologyData, TopologyEdge, TopologyNode } from '@pt/pt-topology';
+import { ClusteringService, TopologyData } from '@pt/pt-topology';
 import { SvgIconService } from './impact-analysis-visualisation/svg-icon.service';
 import { ImpactVisNodeModel } from './impact-analysis-visualisation/models/impact-vis-node-model';
 import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualisation/impact-analysis-visualisation.component';
 import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
 import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
 import { ActivatedRoute } from '@angular/router';
-import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImpactNodesListComponent } from './impact-analysis-visualisation/impact-nodes-list/impact-nodes-list.component';
+import { ImpactWarningsComponent } from './impact-analysis-visualisation/impact-warnings/impact-warnings.component';
 
 @Component({
   selector: 'yc-impact-analysis',
@@ -104,6 +104,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   clusterByCompany = false;
   clusterByMaturity = false;
   selectedCluster: any;
+  showWarnings = true;
 
 
   constructor(
@@ -133,7 +134,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   private initForm() {
     this.form = this.fb.group({
-      moduleName: ['ietf-alarms'],
+      moduleName: [''],
       allowRfc: [true],
       allowSubmodules: [true]
     });
@@ -191,6 +192,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   submitModuleName() {
 
+    this.showWarnings = true;
     this.mainResult = null;
     this.errors = [];
     this.visData = null;
@@ -213,6 +215,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       takeUntil(this.componentDestroyed)
     ).subscribe(
       impactResult => {
+        console.log(impactResult);
         this.mainResult = impactResult;
         this.addOrganizations(impactResult.getOrganisations());
         this.addMaturities(impactResult.getMaturities());
@@ -230,9 +233,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         impactResult['dependencies'].forEach(dep => {
           if (dep['name']) {
             this.visData.nodes.push(new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], true, false));
-            this.visData.links.push(new ImpactVisLinkModel(impactResult.name + '_' + dep.name, impactResult['name'], dep.name, 'rgba(0,0,0,1)', 'to'));
+            this.visData.links.push(new ImpactVisLinkModel(impactResult.name + '_' + dep.name, impactResult['name'], dep.name, 'rgba(0,0,0,1)', 'from'));
           }
         });
+
       },
       err => {
         console.error(err);
@@ -567,5 +571,18 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   onToolbarClick() {
     this.selectedNode = null;
     this.selectedCluster = null;
+  }
+
+  onShowWarningsClick() {
+    const warningsComp: ImpactWarningsComponent = this.modalService.open(ImpactWarningsComponent, {
+      size: 'lg',
+    }).componentInstance;
+
+    warningsComp.warnings = this.mainResult.warnings;
+
+  }
+
+  onCloseWarnings() {
+    this.showWarnings = false;
   }
 }

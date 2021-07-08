@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -18,15 +18,6 @@ export class ImpactAnalysisService extends DataService {
 
   getImpactAnalysis(moduleName: string, allowRfc: boolean, allowSubmodules: boolean, revision?: string): Observable<ImpactAnalysisModel> {
 
-    /*
-    'name': 'foo',
-    'revision': 'bar',
-    'organizations': ['foo', 'bar'],
-    'allow-rfc': true/false,
-    'allow-submodules': true/false,
-    'graph-direction': ['dependents', 'dependencies'] // tu nemoze byt nic ine len jedno z tohoto alebo oboje
-     */
-
     const input = {
       name: moduleName,
       organizations: [],
@@ -37,6 +28,7 @@ export class ImpactAnalysisService extends DataService {
     if (revision) {
       input['revision'] = revision;
     }
+
 
     return this.post('api/yang-search/v2/impact-analysis', input).pipe(
       map(impactData => new ImpactAnalysisModel(impactData))

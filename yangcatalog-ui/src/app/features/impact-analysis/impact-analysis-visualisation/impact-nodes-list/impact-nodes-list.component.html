@@ -9,9 +9,22 @@
   <yc-ag-grid tableId="nodesList"
               domLayout="autoHeight"
               [suppressHorizontalScroll]="false"
+              [defaultColDef]="defaultColDef"
               [pagination]="false"
               [allColumnDefs]="colDefs"
               [rowData]="nodesList">
+    <ng-template let-row #actionsColumnTemplate>
+      <a href="{{myBaseUrl}}/yang-search/module_details/{{row['name']}}@{{row['revision']}}">
+        <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{row['module-name']}}" border="0">
+        Module details</a><br>
+      <a href="{{myBaseUrl}}/yang-search/yang_tree/{{row['name']}}@{{row['revision']}}">
+        <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{row['name']}}" border="0">
+        Tree View</a><br>
+      <a href="{{myBaseUrl}}/yang-search/impact_analysis/{{row['name']}}@{{row['revision']}}">
+        <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{row['name']}}"
+             border="0">
+        Impact Analysis</a><br>
+    </ng-template>
   </yc-ag-grid>
 
 </div>

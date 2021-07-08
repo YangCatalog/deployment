@@ -12,12 +12,13 @@ import { NodeContextMenuComponent } from './impact-analysis-visualisation/node-c
 import { ClusterContextMenuComponent } from './impact-analysis-visualisation/cluster-context-menu/cluster-context-menu.component';
 import { ImpactNodesListComponent } from './impact-analysis-visualisation/impact-nodes-list/impact-nodes-list.component';
 import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
+import { ImpactWarningsComponent } from './impact-analysis-visualisation/impact-warnings/impact-warnings.component';
 
 
 
 @NgModule({
-  declarations: [ImpactAnalysisComponent, ImpactAnalysisVisualisationComponent, NodeContextMenuComponent, ClusterContextMenuComponent, ImpactNodesListComponent],
-  entryComponents: [ImpactNodesListComponent],
+  declarations: [ImpactAnalysisComponent, ImpactAnalysisVisualisationComponent, NodeContextMenuComponent, ClusterContextMenuComponent, ImpactNodesListComponent, ImpactWarningsComponent],
+  entryComponents: [ImpactNodesListComponent, ImpactWarningsComponent],
   providers: [PtTopologyService, ClusteringService],
   imports: [
     CommonModule,
