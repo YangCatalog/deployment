@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -67,14 +68,14 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   matColors = {};
 
   directions: string[] = ['dependencies', 'dependents'];
-  dirSelected = {dependencies: true, dependents: true};
+  dirSelected = { dependencies: true, dependents: true };
 
-  params = {}
+  params = {};
   queryParams = {
     rfcs: 1,
     show_subm: 1,
     show_dir: 'both'
-  }
+  };
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
@@ -120,100 +121,29 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     private clusteringService: ClusteringService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private location: Location) {
   }
 
   ngOnInit(): void {
     this.initForm();
 
-    // this.route.params.pipe(
-    //   takeUntil(this.componentDestroyed)
-    // ).subscribe(
-    //   params => {
-    //     if (params.hasOwnProperty('module')) {
-    //       this.form.get('moduleName').setValue(params['module']);
-    //       this.submitModuleName();
-    //     }
-    //   }
-    // );
-
     combineLatest([this.route.params, this.route.queryParams])
-      .pipe(map(results => ({params: results[0], query: results[1]})))
+      .pipe(map(results => ({ params: results[0], query: results[1] })))
       .subscribe(results => {
-        const queryParamsProperties = ['rfcs', 'show_subm', 'show_dir', 'orgtags']
+        const queryParamsProperties = ['rfcs', 'show_subm', 'show_dir', 'orgtags'];
         queryParamsProperties.forEach(prop => {
           if (results.query.hasOwnProperty(prop)) {
-            this.queryParams[prop] = results.query[prop]
+            this.queryParams[prop] = results.query[prop];
           }
         });
 
-        if (results.params?.hasOwnProperty('module')) {
+        if (results.params.hasOwnProperty('module')) {
+          this.params['module'] = results.params['module'];
           this.form.get('moduleName').setValue(results.params['module']);
-          this.params['module'] = results.params['module']
           this.submitModuleName(true);
         }
       });
-  }
-
-  changeQueryParams() {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: {},
-      });
-  }
-
-  updateQueryParams() {
-    this.queryParams['rfcs'] = this.form.get('allowRfc').value ? 1 : 0;
-    this.queryParams['show_subm'] = this.form.get('allowSubmodules').value ? 1 : 0;
-
-    if ((this.dirSelected['dependencies'] === true && this.dirSelected['dependents'] === true) ||
-      (this.dirSelected['dependencies'] === false && this.dirSelected['dependents'] === false)) {
-      this.queryParams['show_dir'] = 'both'
-    } else if (this.dirSelected['dependencies']) {
-      this.queryParams['show_dir'] = 'dependencies'
-    } else if (this.dirSelected['dependents']) {
-      this.queryParams['show_dir'] = 'dependents'
-    }
-
-    const queryOrganizations = []
-    for (const org in this.orgSelected) {
-      if (this.orgSelected[org]) {
-        queryOrganizations.push(org)
-      }
-    }
-    this.queryParams['orgtags'] = queryOrganizations.join(',')
-  }
-
-  updateByQueryParams() {
-    this.form.get('allowRfc').setValue(this.queryParams['rfcs'] == 0 ? false : true);
-    this.form.get('allowSubmodules').setValue(this.queryParams['show_subm'] == 0 ? false : true);
-
-    switch (this.queryParams['show_dir']) {
-      case 'dependencies':
-        this.dirSelected = {dependencies: true, dependents: false};
-        const dependentsNodes = this.visData.nodes.filter(node => (node['isDependent'] && node['label'] !== this.mainResult.name));
-        dependentsNodes.forEach(node => node['hidden'] = true);
-        break
-      case 'dependents':
-        this.dirSelected = {dependencies: false, dependents: true};
-        const dependciesNodes = this.visData.nodes.filter(node => (node['isDependency'] && node['label'] !== this.mainResult.name));
-        dependciesNodes.forEach(node => node['hidden'] = true);
-        break
-      default:
-        this.dirSelected = {dependencies: true, dependents: true};
-        break
-    }
-
-    if (this.queryParams['orgtags']) {
-      const queryOrganizations = this.queryParams['orgtags'].split(',')
-      const nodes = this.visData.nodes.filter(node => !queryOrganizations.includes(node['organization'])  && node['label'] !== this.mainResult.name);
-      nodes.forEach(node => node['hidden'] = true);
-
-      const uncheckedOrgs = this.organizations.filter(org => !queryOrganizations.includes(org))
-      this.unselectOrganizations(uncheckedOrgs)
-    }
   }
 
   private initForm() {
@@ -241,12 +171,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       debounceTime(200),
       distinctUntilChanged(),
       mergeMap(term => {
-          if (term.length > 2) {
-            return this.dataService.getModuleAutocomplete(term.toLowerCase());
-          } else {
-            return of([]);
-          }
+        if (term.length > 2) {
+          return this.dataService.getModuleAutocomplete(term.toLowerCase());
+        } else {
+          return of([]);
         }
+      }
       ),
       takeUntil(this.componentDestroyed)
     );
@@ -274,14 +204,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
 
-  unselectOrganizations(toUnselect: string[]): void {
-    for (const org in this.orgSelected) {
-      if (toUnselect.includes(org)) {
-        this.orgSelected[org] = false;
-      }
-    }
-  }
-
   submitModuleName(fromURL = false) {
 
     this.showWarnings = true;
@@ -295,13 +217,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.maturities = [];
     this.matColors = {};
 
-    let uncheckedOrgs = []
-    for (const org in this.orgSelected) {
-      if (!this.orgSelected[org]) {
-        uncheckedOrgs.push(org)
-      }
-    }
     const moduleNameArr = this.form.get('moduleName').value.split('@');
+    this.params['module'] = this.form.get('moduleName').value;
 
     this.dataService.getImpactAnalysis(
       moduleNameArr[0],
@@ -313,7 +230,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       takeUntil(this.componentDestroyed)
     ).subscribe(
       impactResult => {
-        console.log(impactResult);
         this.mainResult = impactResult;
         this.addOrganizations(impactResult.getOrganisations());
         this.addMaturities(impactResult.getMaturities());
@@ -335,16 +251,11 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
           }
         });
 
-        if (this.params['module']) {
-          if (fromURL) {
-            this.updateByQueryParams();
-            // this.changeQueryParams();
-          }
-          else {
-            // this.unselectOrganizations(uncheckedOrgs);
-            // this.updateQueryParams();
-            this.changeQueryParams();
-          }
+        if (fromURL) {
+          this.updateTopologyByQueryParams();
+        }
+        else {
+          this.updateURL();
         }
       },
       err => {
@@ -430,6 +341,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     } else {
       this.onOrgMouseOut();
     }
+    this.updateURL();
   }
 
   onMatToggle(checked, mat: string) {
@@ -454,6 +366,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     } else {
       this.onDirMouseOut();
     }
+    this.updateURL();
   }
 
   onClusterCompaniesToggle(clustered: boolean) {
@@ -693,5 +606,72 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   onCloseWarnings() {
     this.showWarnings = false;
+  }
+
+  updateURL() {
+    this.updateQueryParams();
+    const url = this.router.createUrlTree(
+      ['yang-search', 'impact_analysis', this.params['module']],
+      {
+        queryParams: this.queryParams
+      }).toString();
+
+    this.location.go(url);
+  }
+
+  updateQueryParams() {
+    this.queryParams['rfcs'] = this.form.get('allowRfc').value ? 1 : 0;
+    this.queryParams['show_subm'] = this.form.get('allowSubmodules').value ? 1 : 0;
+
+    if ((this.dirSelected['dependencies'] === true && this.dirSelected['dependents'] === true) ||
+      (this.dirSelected['dependencies'] === false && this.dirSelected['dependents'] === false)) {
+      this.queryParams['show_dir'] = 'both';
+    } else if (this.dirSelected['dependencies']) {
+      this.queryParams['show_dir'] = 'dependencies';
+    } else if (this.dirSelected['dependents']) {
+      this.queryParams['show_dir'] = 'dependents';
+    }
+
+    const queryOrganizations = [];
+    for (const org in this.orgSelected) {
+      if (this.orgSelected[org]) {
+        queryOrganizations.push(org);
+      }
+    }
+    this.queryParams['orgtags'] = queryOrganizations.length > 0 ? queryOrganizations.join(',') : null;
+  }
+
+  updateTopologyByQueryParams() {
+    this.form.get('allowRfc').setValue(this.queryParams['rfcs'] == 0 ? false : true);
+    this.form.get('allowSubmodules').setValue(this.queryParams['show_subm'] == 0 ? false : true);
+
+    switch (this.queryParams['show_dir']) {
+      case 'dependencies':
+        this.dirSelected = { dependencies: true, dependents: false };
+        const dependentsNodes = this.visData.nodes.filter(node => (node['isDependent'] && node['label'] !== this.mainResult.name));
+        dependentsNodes.forEach(node => node['hidden'] = true);
+        break;
+      case 'dependents':
+        this.dirSelected = { dependencies: false, dependents: true };
+        const dependciesNodes = this.visData.nodes.filter(node => (node['isDependency'] && node['label'] !== this.mainResult.name));
+        dependciesNodes.forEach(node => node['hidden'] = true);
+        break;
+      default:
+        this.dirSelected = { dependencies: true, dependents: true };
+        break;
+    }
+
+    if (this.queryParams['orgtags']) {
+      const queryOrganizations = this.queryParams['orgtags'].split(',');
+      const nodes = this.visData.nodes.filter(node => !queryOrganizations.includes(node['organization']) && node['label'] !== this.mainResult.name);
+      nodes.forEach(node => node['hidden'] = true);
+
+      const uncheckedOrgs = this.organizations.filter(org => !queryOrganizations.includes(org));
+      for (const org in this.orgSelected) {
+        if (uncheckedOrgs.includes(org)) {
+          this.orgSelected[org] = false;
+        }
+      }
+    }
   }
 }
