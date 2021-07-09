@@ -19,3 +19,6 @@
 [submodule "admin_ui"]
 	path = admin_ui
 	url = https://github.com/YangCatalog/admin_ui.git
+[submodule "yangcatalog-ui"]
+	path = yangcatalog-ui
+	url = git@github.com:YangCatalog/yangcatalog-ui.git
