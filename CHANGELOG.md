@@ -2,9 +2,17 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
-  * Bump mariaDB version to 1:10.5.10
+* ##### v4.0.0 - 2021-07-09
+
+  * yangcatalog-ui repository added as submodule of this repository
+  * YANG Search submodule discontinued - API moved under backend
+  * Pyang update to version 2.5.0 [deployment #85](https://github.com/YangCatalog/deployment/issues/85)
+  * YumaPro validator updated to version 20.10-9 [deployment #84](https://github.com/YangCatalog/deployment/issues/84)
+  * Bump mariaDB version to 1:10.5.11
+  * K8s conf files updated according to the new YANG Catalog UI
+  * NGINX conf files updated according to the new YANG Catalog UI
   * .dockerignore file added
-  * yang2.amsl.com mailname replaced by yangcatalog.org
+  * yang2.amsl.com mailname replaced by yangcatalog.org [#73](https://github.com/YangCatalog/deployment/issues/73)
 
 * ##### v3.2.1 - 2021-05-04
 
