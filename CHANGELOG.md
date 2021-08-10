@@ -2,12 +2,17 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v4.1.0 - 2021-08-10
+
+  * Bump mariaDB version to 1:10.5.12 [#91](https://github.com/YangCatalog/deployment/issues/91)
+  * NGINX conf files updated to support old URLs with .php [#87](https://github.com/YangCatalog/deployment/issues/87)
+
 * ##### v4.0.0 - 2021-07-09
 
   * yangcatalog-ui repository added as submodule of this repository
   * YANG Search submodule discontinued - API moved under backend
-  * Pyang update to version 2.5.0 [deployment #85](https://github.com/YangCatalog/deployment/issues/85)
-  * YumaPro validator updated to version 20.10-9 [deployment #84](https://github.com/YangCatalog/deployment/issues/84)
+  * Pyang update to version 2.5.0 [#85](https://github.com/YangCatalog/deployment/issues/85)
+  * YumaPro validator updated to version 20.10-9 [#84](https://github.com/YangCatalog/deployment/issues/84)
   * Bump mariaDB version to 1:10.5.11
   * K8s conf files updated according to the new YANG Catalog UI
   * NGINX conf files updated according to the new YANG Catalog UI
@@ -35,7 +40,7 @@
 
 * ##### v3.0.0 - 2021-02-10
 
-  * ConfD update [deployment #34](https://github.com/YangCatalog/deployment/issues/34)
+  * ConfD update [#34](https://github.com/YangCatalog/deployment/issues/34)
   * Update pyang to version 2.4.0 [deployment #36]( https://github.com/YangCatalog/deployment/issues/36)
   * Bump mariaDB version
   * DOCUMENTATION guide updated
