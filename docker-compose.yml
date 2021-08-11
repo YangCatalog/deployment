@@ -25,6 +25,8 @@ services:
   backend:
     container_name: yc-backend
     image: catalog_backend_api:latest
+    environment:
+      YANGCATALOG_CONFIG_PATH: ${YANGCATALOG_CONFIG_PATH}
     build:
       context: .
       dockerfile: ./backend/Dockerfile
