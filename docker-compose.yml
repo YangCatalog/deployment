@@ -34,6 +34,7 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
         - CRON_MAIL_TO=${CRON_MAIL_TO}
+        - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:rw
       - ${YANG_RESOURCES}:/var/yang:rw
