@@ -80,6 +80,8 @@ services:
   api-receiver:
     container_name: yc-api-receiver
     image: catalog_backend_api:latest
+    environment:
+      YANGCATALOG_CONFIG_PATH: ${YANGCATALOG_CONFIG_PATH}
     command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
@@ -101,6 +103,8 @@ services:
   api-recovery:
     container_name: yc-api-recovery
     image: catalog_backend_api:latest
+    environment:
+      YANGCATALOG_CONFIG_PATH: ${YANGCATALOG_CONFIG_PATH}
     command: bash -c "source bin/activate; python recovery/recovery.py --type load --protocol http --ip yc-confd"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
