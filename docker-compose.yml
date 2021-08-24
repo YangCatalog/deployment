@@ -197,6 +197,7 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
+        - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
