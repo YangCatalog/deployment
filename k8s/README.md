@@ -83,11 +83,10 @@ EOF
 
 ```commandline
 sudo patch /var/snap/microk8s/current/args/kube-controller-manager << EOF
-7a8,11
+7a8,10
 > --feature-gates="IPv6DualStack=true"
 > --service-cluster-ip-range=10.152.183.0/24,fd98::/108
 > --cluster-cidr=10.1.0.0/16,fd01::/64
->
 EOF
 ```
 

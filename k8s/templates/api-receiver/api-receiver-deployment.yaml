@@ -26,6 +26,7 @@ spec:
         io.kompose.network/rabbitmq: "true"
         io.kompose.network/elasticsearch: "true"
         io.kompose.network/tools-ieft-org: "true"
+        io.kompose.network/rsync: "true"
         io.kompose.service: api-receiver
     spec:
       securityContext:
