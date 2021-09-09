@@ -2,6 +2,11 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v4.2.0 - 2021-09-09
+
+  * rsync enabled in k8s for backend and api-receiver [#97](https://github.com/YangCatalog/deployment/issues/97)
+  * Pass YANGCATALOG_CONFIG_PATH to containers from .env file [#96](https://github.com/YangCatalog/deployment/issues/96)
+
 * ##### v4.1.0 - 2021-08-10
 
   * Bump mariaDB version to 1:10.5.12 [#91](https://github.com/YangCatalog/deployment/issues/91)
