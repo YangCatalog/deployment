@@ -2,6 +2,8 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+  * ConfD update to version 7.6 [#99](https://github.com/YangCatalog/deployment/issues/99)
+
 * ##### v4.2.0 - 2021-09-09
 
   * rsync enabled in k8s for backend and api-receiver [#97](https://github.com/YangCatalog/deployment/issues/97)

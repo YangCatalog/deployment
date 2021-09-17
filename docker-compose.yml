@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: ./confd/Dockerfile
+      args:
+        - CONFD_VERSION=${CONFD_VERSION}
     ports:
       - "8008:8008"
       - "8888:8888"
@@ -16,7 +18,7 @@ services:
     networks:
       - confd
     healthcheck:
-      test: ["CMD", "curl", "-f", "curl 'http://localhost:8008/restconf", "-u", "\"admin\":\"Y@ng_adm1n->(paSS)\"", "-i"]
+      test: ["CMD", "curl", "-f", "http://localhost:8008/restconf", "-u", "admin:${CONFD_PASSWORD}", "-i"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -198,6 +200,7 @@ services:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
         - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
+        - CONFD_VERSION=${CONFD_VERSION}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -281,6 +284,7 @@ services:
         - YANG_GID=${YANG_GID}
         - CRON_MAIL_TO=${CRON_MAIL_TO}
         - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
+        - CONFD_VERSION=${CONFD_VERSION}
     volumes:
       - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
