@@ -54,8 +54,6 @@ spec:
           name: nginx-results-pv
         - mountPath: /usr/share/nginx/html/stats
           name: nginx-stats-pv
-        - mountPath: /usr/share/nginx/html/slate
-          name: docs-pv
         - mountPath: /var/run/yang
           name: run-pv
         - mountPath: /var/run/mysqld
@@ -90,9 +88,6 @@ spec:
       - name: nginx-stats-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/nginx/stats
-      - name: docs-pv
-        persistentVolumeClaim:
-          claimName: docs-pvc
       - name: run-pv
         persistentVolumeClaim:
           claimName: run-pvc

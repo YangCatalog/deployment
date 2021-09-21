@@ -43,7 +43,6 @@ services:
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:rw
-      - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
       - mysql:/var/run/mysqld
       - nginx-conf:/etc/nginx:rw
@@ -312,6 +311,19 @@ services:
        - REDIS_REPLICATION_MODE=master
       networks:
         - redis
+
+  documentation:
+    container_name: yc-documentation
+    build:
+      context: backend/documentation
+      dockerfile: Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
+    volumes:
+      - docs:/usr/share/nginx/html/slate
+    depends_on:
+      - frontend
 
 volumes:
   main-webroot:
