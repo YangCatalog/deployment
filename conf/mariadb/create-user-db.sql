@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS yang_catalog.users (
   `LastName` varchar(255) DEFAULT NULL,
   `AccessRightsSdo` varchar(255) DEFAULT NULL,
   `AccessRightsVendor` varchar(255) DEFAULT NULL,
-  `RegistrationDatetime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `RegistrationDatetime` timestamp DEFAULT NULL,
   PRIMARY KEY (`Id`)
 );
 CREATE TABLE IF NOT EXISTS yang_catalog.users_temp (
@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS yang_catalog.users_temp (
   `AccessRightsSdo` varchar(255) DEFAULT NULL,
   `AccessRightsVendor` varchar(255) DEFAULT NULL,
   `Motivation` varchar(255) DEFAULT NULL,
-  `RegistrationDatetime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `RegistrationDatetime` timestamp DEFAULT NULL,
   PRIMARY KEY (`Id`)
 );
