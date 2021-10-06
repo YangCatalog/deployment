@@ -301,12 +301,10 @@ services:
   redis:
       container_name: yc-redis
       image: "redis:alpine"
-      command: redis-server #--requirepass sOmE_sEcUrE_pAsS
-     # ports:
-     #  - "6379:6379"
-      #volumes:
-      # - $PWD/redis-data:/var/lib/redis
-      #  - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+      command: redis-server
+      volumes:
+        - ${YANG_RESOURCES}/cache/redis:/data
+        # - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
       environment:
        - REDIS_REPLICATION_MODE=master
       networks:
