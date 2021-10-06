@@ -34,8 +34,8 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: redis-data-pv
-        volumes:
+      restartPolicy: Always
+      volumes:
         - name: redis-data-pv
           hostPath:
             path: {{ .Values.YANG_RESOURCES }}/cache/redis
-      restartPolicy: Always

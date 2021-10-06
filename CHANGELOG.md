@@ -2,7 +2,13 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v4.2.1 - 2021-10-06
+
+  * K8s: Redis template updated to use volume [#106](https://github.com/YangCatalog/deployment/issues/106)
+  * NGINX: Redirect yangvalidator.com directly to yangvalidator page [#104](https://github.com/YangCatalog/deployment/issues/104)
+  * K8s: template for documentation image added [#101](https://github.com/YangCatalog/deployment/issues/101)
   * ConfD update to version 7.6 [#99](https://github.com/YangCatalog/deployment/issues/99)
+  * doc repository removed [#98](https://github.com/YangCatalog/deployment/issues/98)
 
 * ##### v4.2.0 - 2021-09-09
 
