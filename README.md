@@ -24,7 +24,6 @@ The deployment uses several services via container images that are
 distributed by third parties, e.g. via DockerHub
 
 * elasticsearch
-* php-fpm (we derive an image that adds mysqli and ssmtp)
 * rabbitmq
 * mariadb
 * nginx (as the base image of the frontend container, which includes
@@ -107,10 +106,9 @@ submodules:
 * [backend](https://github.com/YangCatalog/backend) - the Yang Catalog
   API server
 * [search](https://github.com/YangCatalog/search) - the Yang search
-  Web application
+  Web application - repo DISCONTINUED
 * [web_root](https://github.com/YangCatalog/web_root) - static HTML,
   CSS etc. content
-* [doc](https://github.com/YangCatalog/doc) - not currently used
 * [yangre-gui](https://github.com/plewyllie/yangre-gui) - Peter
   Lewyllie's Yang Regular Expression checker
 * [yangvalidator](https://github.com/YangCatalog/bottle-yang-extractor-validator) - Carl
@@ -119,6 +117,7 @@ submodules:
   to analyze and validate yang files
 * [admin_ui](https://github.com/YangCatalog/admin_ui) - Admin frontend
   to monitor and manage yangcatalog.org
+* [yangcatalog-ui](https://github.com/YangCatalog/yangcatalog-ui) - Whole Yang Catalog frontend - Angular app
 
 `docker-compose.yml` is the actual "orchestration" that attempts to
 describe a complete (modulo ConfD) deployment of the Yang Catalog.
@@ -128,14 +127,14 @@ containers using bind mounts.
 
 ### .env variables
 
-Some of the following variables if changed here has to corespond with yangcatalog.conf file  
+Some of the following variables if changed here has to corespond with yangcatalog.conf file
 
 `COMPOSE_PROJECT_NAME=yc` - When running a docker-compose up command it will create
 a docker containers that have some specific name (like backend, frontend, yang-search...).
 This will add a prefix to these names so in this example we would have yc-backend, yc-frontend...
 
 `MYSQL_ROOT_PASSWORD=<ROOT PASSWORD>` - Password to get into mysql cli as a root or to make any
-changes as root. This password has to be used in any of these cases 
+changes as root. This password has to be used in any of these cases
 
 `MYSQL_DATABASE=yang_catalog` - Database name
 
@@ -185,7 +184,7 @@ elasticsearch is used to set permissions to specific user GID. It`s safe to use 
 
 `MYSQL_GID=1001` - GID created for mysql. It`s safe to use same GID as YANG_GID
 
-`YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved. 
+`YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved.
 
 `NGINX_FILES=yangcatalog-nginx*.conf` - NGINX config files used for NGINX. There is testing config file
 or production one with HTTPS. Read [documentation](./DOCUMENTATION) file to find out how to use this variable
