@@ -31,11 +31,11 @@ spec:
           value: master
         image: redis:alpine
         name: redis
-        volumeMounts:
-        - mountPath: /data
-          name: redis-data-pv
+        # volumeMounts:
+        # - mountPath: /data/dump.rdb
+        #   name: redis-data-pv
       restartPolicy: Always
-      volumes:
-        - name: redis-data-pv
-          hostPath:
-            path: {{ .Values.YANG_RESOURCES }}/cache/redis
+      # volumes:
+      #   - name: redis-data-pv
+      #     hostPath:
+      #       path: {{ .Values.YANG_RESOURCES }}/cache/redis/dump.rdb

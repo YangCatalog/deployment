@@ -15,6 +15,9 @@ services:
     volumes:
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
+      - ${CONFD_LOG}:/var/yang/logs
+      - ${YANG_RESOURCES}/cache/confd-cdb/A.cdb:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb/A.cdb
+      - ${YANG_RESOURCES}/cache/confd-cdb/C.cdb:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb/C.cdb
     networks:
       - confd
     healthcheck:
@@ -101,7 +104,7 @@ services:
   api-recovery:
     container_name: yc-api-recovery
     image: catalog_backend_api:latest
-    command: bash -c "source bin/activate; python recovery/recovery.py --type load --protocol http --ip yc-confd"
+    command: bash -c "source bin/activate; python recovery/recovery.py --type load"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -302,9 +305,9 @@ services:
       container_name: yc-redis
       image: "redis:alpine"
       command: redis-server
-      volumes:
-        - ${YANG_RESOURCES}/cache/redis:/data
-        # - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
+      # volumes:
+      #   - ${YANG_RESOURCES}/cache/redis/dump.rdb:/data/dump.rdb
+      #   - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
       environment:
        - REDIS_REPLICATION_MODE=master
       networks:

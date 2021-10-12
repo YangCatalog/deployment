@@ -8,10 +8,12 @@ MYSQL_PASSWORD: <MYSQL PASSWORD>
 MYSQL_VOLUME: /a/mysql
 RABBITMQ_USER: <RABBITMQ_USER>
 RABBITMQ_PASSWORD: <RABBITMQ PASSWORD>
-NGINX_LOG: /var/log/nginx
+NGINX_LOG: /var/yang/logs/nginx
 KEY_FILE: /home/yang/deployment/resources/yangcatalog.org.key
 CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
 CA_CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
 YANG_RESOURCES: /var/yang
 YANG_ID: 1016
 YANG_GID: 1016
+CONFD_LOG: /var/yang/logs/confd
+CONFD_VERSION: 7.6
