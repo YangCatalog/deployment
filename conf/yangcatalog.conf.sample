@@ -52,8 +52,6 @@ flask-secret-key=@FLASK_KEY@
 yang-catalog-token=@YANG_CATALOG_TOKEN@
 ; yang-catalog admin github user token for automatic pushing
 admin-token=@YANG_CATALOG_ADMIN_TOKEN@
-; mysql password
-mysql-password=@MARIADB_PASS@
 ; token to spark (Webex Teams)
 webex-access-token=@SPARK_TOKEN@
 ; secret for rabbitMq

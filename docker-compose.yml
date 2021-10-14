@@ -47,12 +47,10 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:rw
       - run:/var/run/yang
-      - mysql:/var/run/mysqld
       - nginx-conf:/etc/nginx:rw
       - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - confd
-      - mysql
       - backend
       # - elasticsearch
       - rabbitmq
@@ -94,7 +92,6 @@ services:
       - downloadables:/usr/share/nginx/html/downloadables
     networks:
       - confd
-      - mysql
       - backend
       # - elasticsearch
       - rabbitmq
@@ -142,13 +139,11 @@ services:
       - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
       - ${NGINX_LOG}:/var/log/nginx:rw
-      - mysql:/var/run/mysqld
       - ${YANG_RESOURCES}:/var/yang:rw
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
       - nginx-conf:/etc/nginx:rw
     networks:
-      - mysql
       - frontend
     depends_on:
       - backend
@@ -168,7 +163,6 @@ services:
       - admin-webroot:/usr/share/nginx/html/admin
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
-      - mysql
       - frontend
     depends_on:
       - frontend
@@ -186,7 +180,6 @@ services:
       - main-webroot:/usr/share/nginx/html
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
-      - mysql
       - frontend
     depends_on:
       - frontend
@@ -255,27 +248,6 @@ services:
       retries: 5
     restart: always
 
-  mariadb:
-    container_name: yc-mariadb
-    build:
-      context: mysql
-      dockerfile: Dockerfile
-      args:
-        - MYSQL_ID=${MYSQL_ID}
-        - MYSQL_GID=${MYSQL_GID}
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - ${MYSQL_VOLUME}:/var/lib/mysql:rw
-      - ./conf/mariadb:/docker-entrypoint-initdb.d:ro
-      - mysql:/var/run/mysqld
-    networks:
-      - mysql
-    restart: always
-
   sdo-analysis:
     container_name: yc-sdo-analysis
     build:
@@ -330,15 +302,12 @@ volumes:
   main-webroot:
   admin-webroot:
   run:
-  mysql:
   nginx-conf:
   docs:
   downloadables:
 
 networks:
   frontend:
-    driver: bridge
-  mysql:
     driver: bridge
   confd:
     driver: bridge
