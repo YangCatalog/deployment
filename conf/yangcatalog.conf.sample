@@ -23,12 +23,6 @@
 
 [DB-Section]
 
-;for access to local database used by all tools
-host=yc-mariadb
-name-search=yang
-name-users=yang_catalog
-user=yang
-
 ;for access to elasticsearch database used by all tools
 es-host=yc-elasticsearch
 es-port=9200
