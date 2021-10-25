@@ -15,9 +15,8 @@ services:
     volumes:
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
-      - ${CONFD_LOG}:/var/yang/logs
-      - ${YANG_RESOURCES}/cache/confd-cdb/A.cdb:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb/A.cdb
-      - ${YANG_RESOURCES}/cache/confd-cdb/C.cdb:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb/C.cdb
+      - ${CONFD_LOG}:/var/yang/logs       
+      - confd-cache:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb:rw
     networks:
       - confd
     healthcheck:
@@ -64,6 +63,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    depends_on:
+      - confd
 
   yangre:
     container_name: yc-yangre
@@ -243,9 +244,9 @@ services:
     labels:
       NAME: "rabbitmq1"
     volumes: []
-      #- "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
-      #- "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
-      #- "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
+      # - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+      # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
     networks:
       - rabbitmq
     healthcheck:
@@ -303,15 +304,23 @@ services:
 
   redis:
       container_name: yc-redis
-      image: "redis:alpine"
-      command: redis-server
-      # volumes:
-      #   - ${YANG_RESOURCES}/cache/redis/dump.rdb:/data/dump.rdb
-      #   - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
-      environment:
-       - REDIS_REPLICATION_MODE=master
+      build:
+        context: redis
+        dockerfile: Dockerfile
+        args:
+          - YANG_ID=${YANG_ID}
+          - YANG_GID=${YANG_GID}      
+      volumes:
+        - ${REDIS_VOLUME}:/data:rw
+        # - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
       networks:
         - redis
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+      restart: always
 
   documentation:
     container_name: yc-documentation
@@ -334,6 +343,7 @@ volumes:
   nginx-conf:
   docs:
   downloadables:
+  confd-cache:
 
 networks:
   frontend:

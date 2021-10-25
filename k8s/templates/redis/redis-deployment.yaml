@@ -24,18 +24,13 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - args:
-        - redis-server
-        env:
-        - name: REDIS_REPLICATION_MODE
-          value: master
-        image: redis:alpine
+      - image: localhost:32000/yc_redis:latest
         name: redis
-        # volumeMounts:
-        # - mountPath: /data/dump.rdb
-        #   name: redis-data-pv
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data-pv
       restartPolicy: Always
-      # volumes:
-      #   - name: redis-data-pv
-      #     hostPath:
-      #       path: {{ .Values.YANG_RESOURCES }}/cache/redis/dump.rdb
+      volumes:
+        - name: redis-data-pv
+          hostPath:
+            path: {{ .Values.REDIS_VOLUME }}
