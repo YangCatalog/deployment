@@ -23,11 +23,9 @@ Main repository to start up all the pieces of yang-catalog
 The deployment uses several services via container images that are
 distributed by third parties, e.g. via DockerHub
 
-* elasticsearch
-* rabbitmq
-* mariadb
-* nginx (as the base image of the frontend container, which includes
-  static content)
+* Elasticsearch
+* RabbitMQ
+* NGINX (as the base image of the frontend container, which includes static content)
 
 ## Basic Usage
 
@@ -46,7 +44,7 @@ various components of the Yang Catalog.
 
 The `docker-compose up` will start containers from these images, as
 well as from some third-party container images (e.g. RabbitMQ,
-MariaDB) and combine them into a functional local deployment
+Redis) and combine them into a functional local deployment
 of the Yang Catalog, which should be accessible on
 http://localhost
 
