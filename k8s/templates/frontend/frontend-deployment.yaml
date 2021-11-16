@@ -21,7 +21,6 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/frontend: "true"
-        io.kompose.network/mysql: "true"
         io.kompose.network/elasticsearch: "true"
         io.kompose.service: yc-frontend
     spec:
@@ -61,8 +60,6 @@ spec:
           name: run-pv
         - mountPath: /var/log/nginx
           name: nginx-log-pv
-        - mountPath: /var/run/mysqld
-          name: mysql-pv
         - mountPath: /var/yang
           name: yang-resources-pv
         - mountPath: /a/system/yangcatalog.org.key
@@ -109,9 +106,6 @@ spec:
       - name: nginx-log-pv
         hostPath:
           path: {{ .Values.NGINX_LOG }}
-      - name: mysql-pv
-        persistentVolumeClaim:
-          claimName: mysql-pvc
       - name: yang-resources-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}

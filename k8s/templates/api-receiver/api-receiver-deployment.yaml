@@ -22,7 +22,6 @@ spec:
       labels:
         io.kompose.network/backend: "true"
         io.kompose.network/confd: "true"
-        io.kompose.network/mysql: "true"
         io.kompose.network/rabbitmq: "true"
         io.kompose.network/elasticsearch: "true"
         io.kompose.network/tools-ieft-org: "true"

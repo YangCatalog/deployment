@@ -200,7 +200,7 @@ inet6 line
 
 `vim values.yaml`
 
-* Please create all volume directories (admin-webroot, docs, downloadables, main-webroot, mysql, nginx-conf, run) under YANG_VOLUMES manually.
+* Please create all volume directories (admin-webroot, docs, downloadables, main-webroot, nginx-conf, run) under YANG_VOLUMES manually.
 * Please check if `/var/yang/conf/yangcatalog.conf` file points to correct elasticsearch IP
 
 ## 2. Run Helm Chart
@@ -212,20 +212,6 @@ inet6 line
 `microk8s kubectl get pods`
 
 `microk8s kubectl get jobs`
-
-## 4. Setup MariaDB
-
-`microk8s kubectl cp 'table_users.sql' <mariadb_container_name>:/home/.`
-
-`microk8s kubectl cp 'table_users_temp.sql' <mariadb_container_name>:/home/.`
-
-`microk8s kubectl exec -it <mariadb_container_name> -- sh`
-
-`mysql -u root -p yang_catalog < /home/table_users.sql`
-
-`mysql -u root -p yang_catalog < /home/table_users_temp.sql`
-
-`exit`
 
 ## Setup Elasticsearch container (on localhost only)
 
