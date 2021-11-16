@@ -23,11 +23,9 @@ Main repository to start up all the pieces of yang-catalog
 The deployment uses several services via container images that are
 distributed by third parties, e.g. via DockerHub
 
-* elasticsearch
-* rabbitmq
-* mariadb
-* nginx (as the base image of the frontend container, which includes
-  static content)
+* Elasticsearch
+* RabbitMQ
+* NGINX (as the base image of the frontend container, which includes static content)
 
 ## Basic Usage
 
@@ -46,7 +44,7 @@ various components of the Yang Catalog.
 
 The `docker-compose up` will start containers from these images, as
 well as from some third-party container images (e.g. RabbitMQ,
-MariaDB) and combine them into a functional local deployment
+Redis) and combine them into a functional local deployment
 of the Yang Catalog, which should be accessible on
 http://localhost
 
@@ -133,19 +131,6 @@ Some of the following variables if changed here has to corespond with yangcatalo
 a docker containers that have some specific name (like backend, frontend, yang-search...).
 This will add a prefix to these names so in this example we would have yc-backend, yc-frontend...
 
-`MYSQL_ROOT_PASSWORD=<ROOT PASSWORD>` - Password to get into mysql cli as a root or to make any
-changes as root. This password has to be used in any of these cases
-
-`MYSQL_DATABASE=yang_catalog` - Database name
-
-`MYSQL_USER=yang` - yangcatalog specific user for mysql
-
-`MYSQL_PASSWORD=<MYSQL PASSWORD>` - Password to get into mysql cli as a yang user or to make any
-changes as yang user. This password has to be used in any of these cases. It can be same as root
-password although this is not recommended.
-
-`MYSQL_VOLUME=/var/yang/mysql` - where are all the mysql database files located
-
 `RABBITMQ_USER=<RABBITMQ_USER>` - rabbitmq username.
 
 `RABBITMQ_PASSWORD=<RABBITMQ PASSWORD>`  - rabbitmq username.
@@ -179,10 +164,6 @@ elasticsearch is used to set permissions to specific user GID. It`s safe to use 
 `YANG_ID=1016` - ID created for yang user
 
 `YANG_GID=1016` - GID created for yang user
-
-`MYSQL_ID=1001` - ID created for mysql. It`s safe to use same ID as YANG_GID
-
-`MYSQL_GID=1001` - GID created for mysql. It`s safe to use same GID as YANG_GID
 
 `YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved.
 

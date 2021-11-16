@@ -23,7 +23,6 @@ spec:
         io.kompose.network/backend: "true"
         io.kompose.network/confd: "true"
         io.kompose.network/frontend: "true"
-        io.kompose.network/mysql: "true"
         io.kompose.network/rabbitmq: "true"
         io.kompose.network/redis: "true"
         io.kompose.network/elasticsearch: "true"
@@ -56,8 +55,6 @@ spec:
           name: nginx-stats-pv
         - mountPath: /var/run/yang
           name: run-pv
-        - mountPath: /var/run/mysqld
-          name: mysql-pv
         - mountPath: /etc/nginx
           name: nginx-conf-pv
         - mountPath: /usr/share/nginx/html/downloadables
@@ -91,9 +88,6 @@ spec:
       - name: run-pv
         persistentVolumeClaim:
           claimName: run-pvc
-      - name: mysql-pv
-        persistentVolumeClaim:
-          claimName: mysql-pvc
       - name: nginx-conf-pv
         persistentVolumeClaim:
           claimName: nginx-conf-pvc

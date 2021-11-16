@@ -12,33 +12,15 @@ download yumapro-client ubuntu latest version (registration needed) from https:/
 5, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
 	$ docker-compose build
 
-6, Create directory for mysql ( for example I have this -> /a/mysql; or move it to <YANG_RESOURCES>/mysql ) and give it permission with user id and group as specified in .env file.
-	$ chown -R <MYSQL_ID>:<MYSQL_GID> <MYSQL_VOLUME>
-
-7, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
+6, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
 	$ sysctl -w vm.max_map_count=262144
 
-8, dump mysql tables only from the running server
-	$ mysqldump -u root -p yang_catalog users > table_users.sql
-	$ mysqldump -u root -p yang_catalog users_temp > table_users_temp.sql
-	# password is in /etc/yangcatalog/yangcatalog.conf under "Secrets-Section" and key "mysql-password"
-
-9, run the yangcatalog:
+7, run the yangcatalog:
 	$ docker-compose up -d
 While loading all the applications some of them might fail and restart couple of time - this is due to some of them being dependent on another ones.
 Just let it load for couple of minutes it should start everything without problems. Backend will start once the yc-api-recovery will exit with code 0. You can see the status code using "docker ps -a"
 
-10, restore data. Copy alldb.sql to mariadb docker container. and run following command inside of the container.
-	$ docker cp table_users.sql <container-id>:/home/.
-	$ docker cp table_users_temp.sql <container-id>:/home/.
-and import it to mysql
-	$ mysql -u root -p yang_catalog < /home/table_users.sql
-	$ mysql -u root -p yang_catalog < /home/table_users_temp.sql
-	# use the same password as above in number 7
-to get to the container use
-        $ docker exec -it <container-name-or-id> bash
-
-11, update logrotate so we don't have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
+8, update logrotate so we don't have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
     using vim or other prefered editor write following configuration to the created file:
     /var/lib/docker/containers/*/*.log {
       rotate 7
@@ -49,10 +31,10 @@ to get to the container use
       copytruncate
     }
 
-12, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
+9, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
     groups pick the group under which your instance is running, add new inbound rule and add the custom port to it.
 
-13, Resource directory contains following files:
+10, Resource directory contains following files:
 yang@ip-172-31-35-181:~/deployment/resources$ ll
 total 17112
 drwxrwxr-x  2 yang yang     4096 Jan 13 09:05 ./
@@ -66,7 +48,7 @@ drwxrwxr-x 16 yang yang     4096 Jan  4 08:16 ../
 -rw-rw-r--  1 yang yang      361 Jul 27 12:48 rsyncd.conf
 -rw-r--r--  1 yang yang  1717748 Jun 30 09:28 yumapro-client-20.10-9.u1804.amd64.deb
 
-14, In following crontab files set mailto variable - insert one or more mail addresses (separated by comma) to send mail as a result of running job:
+11, In following crontab files set mailto variable - insert one or more mail addresses (separated by comma) to send mail as a result of running job:
 deployment/backend/crontab
 deployment/sdo_analysis/crontab
 deployment/search/crontab
@@ -76,6 +58,6 @@ If new clean docker container with images want to be created first we need to ge
 2. to remove all the stoped containers use - $ docker rm $(docker ps -a -q)
 3. to remove all the created volumes use - $ docker volume prune
 4. to remove all the images use - $ docker rmi $(docker images -a -q) -f
-5. if you want to clean either mysql data or elasticsearch data remove everything from <MYSQL_VOLUME>, <ELASTICSEARCH_DATA> and <ELASTICSEARCH_LOG> folder
+5. if you want to clean either elasticsearch data, remove everything from <ELASTICSEARCH_DATA> and <ELASTICSEARCH_LOG> folder
 6. now we can build images using - $ docker-compose build
    and run our containers using  - $ docker-compose up -d
