@@ -10,9 +10,9 @@ metadata:
 spec:
   type: NodePort
   ipFamilies:
-    - IPv4
     - IPv6
-  ipFamilyPolicy: PreferDualStack
+    - IPv4
+  ipFamilyPolicy: RequireDualStack
   ports:
   - name: "80"
     port: 80
