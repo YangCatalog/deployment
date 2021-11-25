@@ -22,6 +22,7 @@ spec:
       labels:
         io.kompose.network/confd: "true"
         io.kompose.network/frontend: "true"
+        io.kompose.network/redis: "true"
         io.kompose.network/crontab: "true"
         io.kompose.network/rsync: "true"
         io.kompose.network/tools-ieft-org: "true"

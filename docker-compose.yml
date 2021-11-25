@@ -272,6 +272,7 @@ services:
     networks:
       - frontend
       - confd
+      - redis
     restart: always
 
   redis:
