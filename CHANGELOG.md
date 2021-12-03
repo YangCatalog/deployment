@@ -2,6 +2,14 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v4.3.0 - 2021-12-03
+
+  * Network between sdo-analysis and redis containers created [#110](https://github.com/YangCatalog/deployment/issues/110)
+  * Use volume for Redis .rdb backup file [#109](https://github.com/YangCatalog/deployment/issues/109)
+  * MariaDB completly removed from YANG Catalog [#108](https://github.com/YangCatalog/deployment/issues/108)
+  * Various K8s/Docker updates and improvements in config files
+  * Various healthcheck updates through solution [#107](https://github.com/YangCatalog/deployment/issues/107)
+
 * ##### v4.2.1 - 2021-10-06
 
   * K8s: Redis template updated to use volume [#106](https://github.com/YangCatalog/deployment/issues/106)
