@@ -197,7 +197,7 @@ confd-dir=/opt/confd
 confdc-exec=${confd-dir}/bin/confdc
 ; Complete list of all YANG modules location to be passed to confdc
 confdc-yangpath-ieee=${Directory-Section:modules-directory}/ieee.draft:${Directory-Section:modules-directory}/ieee.published:${Directory-Section:modules-directory}/ieee.1588.draft:${Directory-Section:modules-directory}/ieee.1588.published:${Directory-Section:modules-directory}/ieee.802.11.draft:${Directory-Section:modules-directory}/ieee.802.11.published:${Directory-Section:modules-directory}/ieee.802.1.draft:${Directory-Section:modules-directory}/ieee.802.1.published:${Directory-Section:modules-directory}/ieee.802.3.draft:${Directory-Section:modules-directory}/ieee.802.3.published:${Directory-Section:modules-directory}/ieee.802.draft:${Directory-Section:modules-directory}/ieee.802.published
-confdc-yangpath=${Directory-Section:modules-directory}/mef:${Directory-Section:modules-directory}/open-config-main:${Directory-Section:modules-directory}/YANG-rfc:${confdc-yangpath-ieee}
+confdc-yangpath=${Directory-Section:modules-directory}/mef:${Directory-Section:modules-directory}/openconfig-main:${Directory-Section:modules-directory}/iana:${Directory-Section:modules-directory}/YANG-rfc:${confdc-yangpath-ieee}
 
 [RabbitMQ-Section]
 
