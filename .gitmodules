@@ -7,9 +7,6 @@
 [submodule "yangre"]
 	path = yangre
 	url = https://github.com/YangCatalog/yangre.git
-[submodule "bottle-yang-extractor-validator"]
-	path = bottle-yang-extractor-validator
-	url = https://github.com/YangCatalog/bottle-yang-extractor-validator.git
 [submodule "sdo_analysis"]
 	path = sdo_analysis
 	url = https://github.com/YangCatalog/sdo_analysis.git
@@ -19,3 +16,6 @@
 [submodule "yangcatalog-ui"]
 	path = yangcatalog-ui
 	url = https://github.com/YangCatalog/yangcatalog-ui.git
+[submodule "yang-validator-extractor"]
+	path = yang-validator-extractor
+	url = https://github.com/YangCatalog/yang-validator-extractor

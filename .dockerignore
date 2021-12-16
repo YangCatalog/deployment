@@ -1,7 +1,6 @@
 **/.git
 **/node_modules
 **/dist
-**/*.md
 **/.gitignore
 .env
 DOCUMENTATION

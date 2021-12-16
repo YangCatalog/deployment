@@ -109,7 +109,7 @@ submodules:
   CSS etc. content
 * [yangre-gui](https://github.com/plewyllie/yangre-gui) - Peter
   Lewyllie's Yang Regular Expression checker
-* [yangvalidator](https://github.com/YangCatalog/bottle-yang-extractor-validator) - Carl
+* [yangvalidator](https://github.com/YangCatalog/yang-validator-extractor) - Carl
   Moberg's Yang validation application
 * [sdo_analysis](https://github.com/YangCatalog/sdo_analysis) - Scripts
   to analyze and validate yang files
