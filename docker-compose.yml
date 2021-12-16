@@ -191,7 +191,7 @@ services:
     image: yangvalidator:latest
     build:
       context: .
-      dockerfile: ./bottle-yang-extractor-validator/Dockerfile
+      dockerfile: ./yang-validator-extractor/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
