@@ -10,12 +10,9 @@ ENV PATH $PATH:$CONFD_DIR/bin
 RUN apt-get -y update && apt-get install -y openssh-client build-essential libssl-dev libssl1.0.0 \
   python3.6 python3-pip python3.6-venv curl && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip
-RUN pip3 install pyang==2.5.0
-
 COPY ./resources/confd-${CONFD_VERSION}.linux.x86_64.installer.bin /tmp
-#COPY ./confd-${CONFD_VERSION}.doc.tar.gz /tmp
-#COPY ./confd-${CONFD_VERSION}.examples.tar.gz /tmp
+# COPY ./confd-${CONFD_VERSION}.doc.tar.gz /tmp
+# COPY ./confd-${CONFD_VERSION}.examples.tar.gz /tmp
 RUN mkdir ${CONFD_DIR}
 RUN ${CONFD_DIR}.linux.x86_64.installer.bin ${CONFD_DIR}
 RUN mkdir -p ${CONFD_DIR}/examples.confd/confd-module-catalog
