@@ -38,8 +38,6 @@ spec:
           name: cert-file-pv
         - mountPath: /var/yang/logs
           name: confd-log-pv
-        - mountPath: /tmp/confd-{{ .Values.CONFD_VERSION }}/examples.confd/confd-module-catalog/confd-cdb
-          name: confd-cache-pv
       restartPolicy: Always
       volumes:
       - name: key-file-pv
@@ -51,6 +49,3 @@ spec:
       - name: confd-log-pv
         hostPath:
           path: {{ .Values.CONFD_LOG }}
-      - name: confd-cache-pv
-        persistentVolumeClaim:
-          claimName: confd-cache-pvc

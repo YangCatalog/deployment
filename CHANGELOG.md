@@ -1,6 +1,12 @@
 ## Deployment Release Notes
 
-* ##### vm.m.p - 2021-MM-DD
+* ##### vm.m.p - 2022-MM-DD
+
+* ##### v5.0.0 - 2022-02-02
+
+  * Pyang update to version 2.5.0 [#113](https://github.com/YangCatalog/deployment/issues/113)
+  * Dockerfiles added to .dockerignore file
+  * Docker healthchecks added for yangvalidator and yangre
 
 * ##### v4.3.0 - 2021-12-03
 

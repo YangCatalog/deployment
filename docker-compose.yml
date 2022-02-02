@@ -16,7 +16,6 @@ services:
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
       - ${CONFD_LOG}:/var/yang/logs       
-      - confd-cache:/tmp/confd-${CONFD_VERSION}/examples.confd/confd-module-catalog/confd-cdb:rw
     networks:
       - confd
     healthcheck:
@@ -325,7 +324,6 @@ volumes:
   nginx-conf:
   docs:
   downloadables:
-  confd-cache:
 
 networks:
   frontend:
