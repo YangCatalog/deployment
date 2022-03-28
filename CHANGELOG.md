@@ -2,9 +2,14 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.1.0 - 2022-03-28
+
+  * README.md file describing NGINX config created [#117](https://github.com/YangCatalog/deployment/issues/117)
+  * HTTP/2 PUSH functionality enabled [#114](https://github.com/YangCatalog/deployment/issues/114)
+
 * ##### v5.0.0 - 2022-02-02
 
-  * Pyang update to version 2.5.0 [#113](https://github.com/YangCatalog/deployment/issues/113)
+  * Pyang update to version 2.5.2 [#113](https://github.com/YangCatalog/deployment/issues/113)
   * Dockerfiles added to .dockerignore file
   * Docker healthchecks added for yangvalidator and yangre
 
