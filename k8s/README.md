@@ -92,8 +92,10 @@ EOF
 
 ```commandline
 sudo patch /var/snap/microk8s/current/args/kubelet << EOF
-16a17
+16a17,19
 > --feature-gates="IPv6DualStack=true"
+> --image-gc-high-threshold=50
+> --image-gc-low-threshold=45
 EOF
 ```
 
