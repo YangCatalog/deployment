@@ -95,9 +95,3 @@ discovery.type: single-node
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
-#
-# ---------------------------------- Security ----------------------------------
-#
-# https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-minimal-setup.html#security-minimal-setup
-xpack.security.enabled: false
-

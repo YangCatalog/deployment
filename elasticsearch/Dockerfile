@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.2
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.10.1
 ARG ELASTICSEARCH_ID
 ARG ELASTICSEARCH_GID
 ENV ELASTICSEARCH_ID "$ELASTICSEARCH_ID"
