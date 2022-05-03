@@ -21,13 +21,18 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_documentation:latest
+      - image: slatedocs/slate
         name: documentation
         volumeMounts:
-        - mountPath: /usr/share/nginx/html/slate
-          name: docs-pv
+        - mountPath: /srv/slate/source
+          name: docs-source-pv
+        - mountPath: /srv/slate/build
+          name: docs-build-pv
       restartPolicy: OnFailure
       volumes:
-      - name: docs-pv
+      - name: docs-source-pv
+        hostPath:
+          path: {{ .Values.DEPLOYMENT_SRC }}/backend/documentation/source/
+      - name: docs-build-pv
         persistentVolumeClaim:
           claimName: docs-pvc
