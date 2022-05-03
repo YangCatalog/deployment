@@ -1,6 +1,6 @@
 K8S_FILESYSTEM_NODE: ubuntu
 YANG_VOLUMES: /var/yang/volumes
-DEPLOYMENT_SRC: /home/<user>/projects/yc/deployment
+DEPLOYMENT_SRC: /home/<user>/deployment
 REDIS_VOLUME: /var/yang/redis
 RABBITMQ_USER: <RABBITMQ_USER>
 RABBITMQ_PASSWORD: <RABBITMQ PASSWORD>

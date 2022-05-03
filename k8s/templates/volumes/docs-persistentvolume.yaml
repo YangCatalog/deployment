@@ -4,7 +4,7 @@ metadata:
   name: docs-pv
 spec:  
   capacity:
-    storage: 10Gi
+    storage: 500Mi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany

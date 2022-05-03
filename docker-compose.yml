@@ -306,14 +306,10 @@ services:
 
   documentation:
     container_name: yc-documentation
-    build:
-      context: backend/documentation
-      dockerfile: Dockerfile
-      args:
-        - YANG_ID=${YANG_ID}
-        - YANG_GID=${YANG_GID}
+    image: slatedocs/slate
     volumes:
-      - docs:/usr/share/nginx/html/slate
+      - ./backend/documentation/source/:/srv/slate/source
+      - docs:/srv/slate/build
     depends_on:
       - frontend
 
