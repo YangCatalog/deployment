@@ -2,6 +2,15 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.2.0 - 2022-05-03
+
+  * Type checking fixes with pyright [#126](https://github.com/YangCatalog/deployment/issues/126)
+  * Pyang update to version 2.5.3 [#124](https://github.com/YangCatalog/deployment/issues/124)
+  * Official Slate image used for building documentation [#123](https://github.com/YangCatalog/deployment/issues/123)
+  * Elasticsearch updated to version 7.10 [#120](https://github.com/YangCatalog/deployment/issues/120)
+  * K8s garbage collection settings changed [#118](https://github.com/YangCatalog/deployment/issues/118)
+  * Pushing more resources using HTTP/2 Push [#114](https://github.com/YangCatalog/deployment/issues/114)
+
 * ##### v5.1.0 - 2022-03-28
 
   * README.md file describing NGINX config created [#117](https://github.com/YangCatalog/deployment/issues/117)
