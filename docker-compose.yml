@@ -246,6 +246,35 @@ services:
   #   networks:
   #     - elasticsearch
 
+  # matomo:
+  #   container_name: yc-matomo
+  #   image: matomo:4.10
+  #   restart: always
+  #   ports:
+  #     - 8384:80
+  #   environment:
+  #     - MATOMO_DATABASE_HOST=matomo-db
+  #     - MATOMO_DATABASE_TABLES_PREFIX=mat_
+  #     - MATOMO_DATABASE_USERNAME=matomo
+  #     - MATOMO_DATABASE_PASSWORD=matomo
+  #     - MATOMO_DATABASE_DBNAME=matomo
+  #   volumes:
+  #     - matomo:/var/www/html
+  #   links:
+  #     - matomo-db:matomo-db
+
+  # matomo-db:
+  #   container_name: yc-matomo-db
+  #   image: mariadb:10.7
+  #   restart: always
+  #   environment:
+  #     MYSQL_DATABASE: matomo
+  #     MYSQL_USER: matomo
+  #     MYSQL_PASSWORD: matomo
+  #     MYSQL_RANDOM_ROOT_PASSWORD: '1'
+  #   volumes:
+  #     - matomo-db:/var/lib/mysql
+ 
   rabbit:
     container_name: yc-rabbit
     image: "rabbitmq:3-management"
@@ -332,6 +361,8 @@ volumes:
   nginx-conf:
   docs:
   downloadables:
+  # matomo:
+  # matomo-db:
 
 networks:
   frontend:
