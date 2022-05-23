@@ -71,6 +71,7 @@ services:
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
+        - YANGLINT_VERSION=${YANGLINT_VERSION}
     volumes:
       - run:/var/run/yang
       - ${YANG_RESOURCES}:/var/yang:rw
