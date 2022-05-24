@@ -29,7 +29,7 @@ distributed by third parties, e.g. via DockerHub
 
 ## Basic Usage
 
-Create `conf/yangmodules.conf` from `conf/yangmodules.conf.sample`,
+Create `conf/yangcatalog.conf` from `conf/yangcatalog.conf.sample`,
 replacing values enclosed in `@...@` with your own.
 
 ```

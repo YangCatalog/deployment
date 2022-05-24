@@ -101,6 +101,7 @@ services:
       - backend
       # - elasticsearch
       - rabbitmq
+      - frontend
       - redis
     restart: always
 
@@ -275,7 +276,7 @@ services:
   #     MYSQL_RANDOM_ROOT_PASSWORD: '1'
   #   volumes:
   #     - matomo-db:/var/lib/mysql
- 
+
   rabbit:
     container_name: yc-rabbit
     image: "rabbitmq:3-management"
