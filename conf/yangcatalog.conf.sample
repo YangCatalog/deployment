@@ -103,7 +103,7 @@ api-port=8443
 protocol-confd=http
 ; port where ConfD runs
 confd-port=8008
-; ip address where confd runs
+; IP address where ConfD runs
 confd-ip=yc-confd
 ; ip text used in backend processes
 ip-text=localhost
@@ -111,6 +111,8 @@ ip-text=localhost
 ip=yc-frontend
 ; My own URI WEB_URL
 my-uri=${protocol-api}://${ip}
+; yangcatalog API prefix
+yangcatalog-api-prefix=${protocol-api}://${ip}/api
 ; Location of the web server document root WEB
 public-directory=/usr/share/nginx/html
 ; Location of the private (can be password protected) web server directory WEB_PRIVATE
@@ -144,6 +146,8 @@ nginx-conf=/etc/nginx
 var=/var/yang
 ; ietf RFC exception for new files messaging
 rfc-exceptions=${var}/ietf-exceptions/exceptions.dat
+; iana exceptions for new files
+iana-exceptions=${var}/ietf-exceptions/iana-exceptions.dat
 ; temp files directory
 temp=${var}/tmp
 ; log files directory
