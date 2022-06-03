@@ -188,7 +188,7 @@ modules-directory=${var}/yang/modules
 [Tool-Section]
 
 ; location of PYANG tool
-pyang-exec=/usr/bin/pyang
+pyang-exec=/usr/local/bin/pyang
 ; location of ConfD installation directory
 confd-dir=/opt/confd
 ; location of the ConfDc tool
