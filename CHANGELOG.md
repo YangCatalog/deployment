@@ -2,6 +2,14 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.3.0 - 2022-06-06
+
+  * yangcatalog.conf.sample file added [deployment #135](https://github.com/YangCatalog/deployment/issues/135)
+  * Setup Matomo for local development [deployment #133](https://github.com/YangCatalog/deployment/issues/133)
+  * Setup Kibana for local development [deployment #130](https://github.com/YangCatalog/deployment/issues/130)
+  * thesaurus.conf file updated [deployment #129](https://github.com/YangCatalog/deployment/issues/129)
+  * yanglint update to version v2.0.194 [deployment #127](https://github.com/YangCatalog/deployment/issues/127)
+
 * ##### v5.2.0 - 2022-05-03
 
   * Type checking fixes with pyright [#126](https://github.com/YangCatalog/deployment/issues/126)
