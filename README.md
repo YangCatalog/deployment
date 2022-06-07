@@ -176,5 +176,5 @@ set usename before any commit is done.
 `GIT_USER_EMAIL=bar@foo.com` - yangcatalog is pushing some data to github repository and it needs to
 set email address before any commit is done.
 
-`CRON_MAIL_TO=miroslav.kovac@pantheon.tech` - comma separated list of emails which are used
+`CRON_MAIL_TO=bar@foo.com` - comma separated list of emails which are used
 with cron jobs. If any cron job will fail it will send it to this comma separated list of email addresses.
