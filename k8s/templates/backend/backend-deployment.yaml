@@ -53,6 +53,8 @@ spec:
           name: nginx-results-pv
         - mountPath: /usr/share/nginx/html/stats
           name: nginx-stats-pv
+        - mountPath: /usr/share/nginx/html/drafts
+          name: nginx-drafts-pv          
         - mountPath: /var/run/yang
           name: run-pv
         - mountPath: /etc/nginx
@@ -85,6 +87,9 @@ spec:
       - name: nginx-stats-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/nginx/stats
+      - name: nginx-drafts-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/drafts          
       - name: run-pv
         persistentVolumeClaim:
           claimName: run-pvc
