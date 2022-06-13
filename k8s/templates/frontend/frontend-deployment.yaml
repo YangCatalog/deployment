@@ -44,6 +44,8 @@ spec:
           name: nginx-results-pv
         - mountPath: /usr/share/nginx/html/stats
           name: nginx-stats-pv
+        - mountPath: /usr/share/nginx/html/drafts
+          name: nginx-drafts-pv          
           readOnly: true
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv
@@ -85,6 +87,9 @@ spec:
       - name: nginx-stats-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/nginx/stats
+      - name: nginx-drafts-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/drafts          
       - name: yangcatalog-conf-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf

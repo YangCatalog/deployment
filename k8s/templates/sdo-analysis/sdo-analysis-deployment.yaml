@@ -50,6 +50,8 @@ spec:
           name: nginx-private-pv
         - mountPath: /usr/share/nginx/html/results
           name: nginx-results-pv
+        - mountPath: /usr/share/nginx/html/drafts
+          name: nginx-drafts-pv          
         - mountPath: /usr/share/nginx/html/downloadables
           name: downloadables-pv
       restartPolicy: Always
@@ -75,6 +77,9 @@ spec:
       - name: nginx-results-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/nginx/results
+      - name: nginx-drafts-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/drafts          
       - name: downloadables-pv
         persistentVolumeClaim:
           claimName: downloadables-pvc
