@@ -182,6 +182,10 @@ json-ytree=${var}/ytrees
 non-ietf-directory=${var}/nonietf
 ; all extracted RFC & drafts
 ietf-directory=${var}/ietf
+; ietf drafts
+ietf-drafts=${ietf-directory}/my-id-mirror
+; ietf rfcs
+ietf-rfcs=${ietf-directory/rfc
 ; symlink to all important directories with SDO yang files
 modules-directory=${var}/yang/modules
 
