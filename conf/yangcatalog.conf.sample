@@ -95,24 +95,28 @@ developers-email=your@email.com
 
 [Web-Section]
 
-; protocol where API runs
-protocol-api=http
-; port where API runs
+; protocol where the API runs
+api-protocol=http
+; port where the API runs
 api-port=8443
-; protocol where ConfD runs
-protocol-confd=http
-; port where ConfD runs
+; protocol where the ConfD runs
+confd-protocol=http
+; port where the ConfD runs
 confd-port=8008
-; IP address where ConfD runs
+; IP address where the ConfD runs (can be the name of the container) 
 confd-ip=yc-confd
-; ip text used in backend processes
-ip-text=localhost
-; ip address where yangcatalog runs
+; Domain name used to create URLs
+domain-name=localhost
+; IP address where the yangcatalog runs (can be the name of the container)
 ip=yc-frontend
-; My own URI WEB_URL
-my-uri=${protocol-api}://${ip}
+; yangcatalog WEB URL
+my-uri=${api-protocol}://${ip}
+; yangcatalog domain prefix
+domain-prefix=${api-protocol}://${domain-name}
 ; yangcatalog API prefix
-yangcatalog-api-prefix=${protocol-api}://${ip}/api
+yangcatalog-api-prefix=${api-protocol}://${ip}/api
+; ConfD database prefix
+confd-prefix=${confd-protocol}://${confd-ip}:${confd-port}
 ; Location of the web server document root WEB
 public-directory=/usr/share/nginx/html
 ; Location of the private (can be password protected) web server directory WEB_PRIVATE
@@ -185,7 +189,7 @@ ietf-directory=${var}/ietf
 ; ietf drafts
 ietf-drafts=${ietf-directory}/my-id-mirror
 ; ietf rfcs
-ietf-rfcs=${ietf-directory/rfc
+ietf-rfcs=${ietf-directory}/rfc
 ; symlink to all important directories with SDO yang files
 modules-directory=${var}/yang/modules
 
