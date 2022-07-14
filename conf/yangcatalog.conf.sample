@@ -160,8 +160,6 @@ logs=${var}/logs
 backup=${var}/backup
 ; create json backup of all yang modules directory
 cache=${var}/cache
-; users of yangsuite
-ys-users=/var/yang/yangsuite/users
 ; location of YangModels/yang cloned repository
 yang-models-dir=${var}/nonietf/yangmodels/yang
 ; all modules saved at one place with same name format <name>@revision.yang

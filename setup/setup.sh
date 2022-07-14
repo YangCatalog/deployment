@@ -27,9 +27,9 @@ done
 
 # Clone the directories that contain the YANG models
 cd $YANG_RESOURCES/nonietf/openconfig
-# git clone --recurse-submodules https://github.com/openconfig/public.git
+git clone --recurse-submodules https://github.com/openconfig/public.git
 cd $YANG_RESOURCES/nonietf/yangmodels
-# git clone --recurse-submodules https://github.com/YangModels/yang.git
+git clone --recurse-submodules https://github.com/YangModels/yang.git
 
 # yang-catalog@2018-04-03 module needs to be indexed to the Elasticsearch
 cd $YANG_RESOURCES
@@ -43,12 +43,6 @@ curl -X GET https://raw.githubusercontent.com/YangModels/yang/main/experimental/
 cd $cur_dir
 cp yang-catalog.json $YANG_RESOURCES/cache/confd/$(date +"%Y-%m-%d_00:00:00-UTC.json")
 
-# NOTE: UPDATE THIS WITH LOCATION OF YOUR CLONED YANG CATALOG DIRECTORY
-cd /home/slavino/Documents/deployment/conf
-cp yangcatalog.conf.dev $YANG_RESOURCES/conf/yangcatalog.conf
-
-chmod 755 $YANG_RESOURCES
-
 # Add yang user -> whole $YANG_RESOURCES tree structure needs to belong to user 'yang'
 groupadd -g 1001 -r yang
 useradd -r -g yang -u 1016 yang
@@ -56,9 +50,9 @@ chown -R yang:yang $YANG_RESOURCES
 
 # Pull RFCs and Draft files needed for sdo-analysis (this might take some time)
 cd $YANG_RESOURCES/ietf
-# rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::internet-drafts my-id-mirror
-# rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::id-archive my-id-archive-mirror
-# rsync -avlz --delete --delete-excluded --exclude=dummy.txt --exclude="std-*.txt" --exclude="bcp-*.txt" --exclude="rfc-retrieval.txt" --exclude="rfc-index*.txt" --exclude="RFCs_for_errata.txt" --exclude="rfc-ref.txt" --exclude="rfcxx00.txt" --exclude="*index*" --include="*.txt" --exclude="*" ftp.rfc-editor.org::rfcs rfc
+rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::internet-drafts my-id-mirror
+rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::id-archive my-id-archive-mirror
+rsync -avlz --delete --delete-excluded --exclude=dummy.txt --exclude="std-*.txt" --exclude="bcp-*.txt" --exclude="rfc-retrieval.txt" --exclude="rfc-index*.txt" --exclude="RFCs_for_errata.txt" --exclude="rfc-ref.txt" --exclude="rfcxx00.txt" --exclude="*index*" --include="*.txt" --exclude="*" ftp.rfc-editor.org::rfcs rfc
 
 chmod 755 $YANG_RESOURCES
 

@@ -1,57 +1,64 @@
-1, Go to conf directory and rename yangcatalog.conf.sample to yangcatalog.conf file move it to <YANG_RESOURCES>/conf directory and replace all the tokens, passwords, usernames and email adresses to what you are using.
+1, Run setup.sh script (as root) stored in setup directory to create basic tree structure needed for running YANG Catalog.
 
-2, Create copy of .env-dist file and name it .env in the root directory. The passwords needs to be equivalent to the ones in yangcatalog.conf file.The IDs and paths can and should be changed according to your directory tree.
+2, Go to conf directory and rename yangcatalog.conf.sample to yangcatalog.conf file move it to <YANG_RESOURCES>/conf directory.
+Replace all the tokens, passwords, usernames and email adresses which you want to use.
 
-3, Copy following files from ietf server:
+3, Create copy of .env-dist file and name it .env in this repository root directory.
+Passwords need to be equivalent to the ones in yangcatalog.conf file. 
+IDs and paths can be changed according to your directory tree structure.
+
+4, Copy following files from ietf server:
 /home/miroslav/confd/confd-<CONFD_VERSION>.linux.x86_64.installer.bin into deployment/resources/.
-/var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
+Optional: /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
 download yumapro-client ubuntu latest version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ and copy the .deb file into deployment/resources.
 
-4, If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. If not use nginx-testing.conf
+5, If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. If not use nginx-testing.conf
 
-5, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
+6, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
 	$ docker-compose build
 
-6, set max_map_count kernel setting because elasticsearch will fail otherwise. This needs to be done on host machine and not inside the docker container. Containers share the same kernel as the host OS and for that reason it's working.
+7, set max_map_count kernel setting because elasticsearch will fail otherwise. 
+This needs to be done on host machine and not inside the docker container - also this needs to be done everytime host machine is restarted.
+Containers share the same kernel as the host OS and for that reason it's working.
 	$ sysctl -w vm.max_map_count=262144
 
-7, run the yangcatalog:
+8, run the yangcatalog:
 	$ docker-compose up -d
 While loading all the applications some of them might fail and restart couple of time - this is due to some of them being dependent on another ones.
 Just let it load for couple of minutes it should start everything without problems. Backend will start once the yc-api-recovery will exit with code 0. You can see the status code using "docker ps -a"
 
-8, update logrotate so we don't have infinitely big log file. Create file at /etc/logrotate.d/ called docker-container.
-    using vim or other prefered editor write following configuration to the created file:
-    /var/lib/docker/containers/*/*.log {
-      rotate 7
-      daily
-      compress
-      missingok
-      delaycompress
-      copytruncate
-    }
+9, you are able to update logrotate so we don't have infinitely big log file. 
+logrotate configuration is stored in backend/yangcatalog-rotate file.
+During docker iamge build, this file is copied to /etc/logrotate.d/yangcatalog-rotate location
+Default configuration:
+  /var/yang/logs/*.log {
+  rotate 7
+  daily
+  compress
+  missingok
+  copytruncate
+  dateext
+  su yang yang
+}
 
-9, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security
-    groups pick the group under which your instance is running, add new inbound rule and add the custom port to it.
+10, make sure that 10837 port is opened since this is needed for rsync. On amazon instance you need to go to security groups pick the group under which your instance is running, add new inbound rule and add the custom port to it.
 
-10, Resource directory contains following files:
-yang@ip-172-31-35-181:~/deployment/resources$ ll
-total 17112
-drwxrwxr-x  2 yang yang     4096 Jan 13 09:05 ./
-drwxrwxr-x 16 yang yang     4096 Jan  4 08:16 ../
--rw-rw-r--  1 yang yang       40 Jul 27 12:48 .gitignore
--rwxr-xr-x  1 yang yang 16135830 sep 10 14:44 confd-7.6.linux.x86_64.installer.bin*
--rw-r--r--  1 yang yang     3513 Dec 18 08:54 fullchain.pem
--rw-rw-r--  1 yang yang     1470 Jul 27 12:48 main.cf
--rw-------  1 yang yang     1704 Dec 18 08:55 privkey.pem
--rw-rw-r--  1 yang yang      330 Jul 27 12:48 rsync
--rw-rw-r--  1 yang yang      361 Jul 27 12:48 rsyncd.conf
--rw-r--r--  1 yang yang  1717748 Jun 30 09:28 yumapro-client-20.10-9.u1804.amd64.deb
+11, Resource directory should contain following files:
+yang@ip-172-31-36-73:~/deployment/resources$ ll
+total 17476
+drwxrwxr-x  2 yang yang     4096 Feb 14 06:34 ./
+drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
+-rw-rw-r--  1 yang yang       40 Oct 12  2021 .gitignore
+-rwxr-xr-x  1 yang yang 16135830 Oct 12  2021 confd-7.6.linux.x86_64.installer.bin*
+-rw-r--r--  1 yang yang     5681 May 25 15:08 fullchain.pem
+-rw-rw-r--  1 yang yang     1472 Oct 12  2021 main.cf
+-rw-------  1 yang yang     1704 May 25 15:08 privkey.pem
+-rw-rw-r--  1 yang yang      330 Oct 12  2021 rsync
+-rw-rw-r--  1 yang yang      361 Oct 12  2021 rsyncd.conf
+-rw-rw-r--  1 yang yang  1717748 Oct 12  2021 yumapro-client-20.10-9.u1804.amd64.deb
 
-11, In following crontab files set mailto variable - insert one or more mail addresses (separated by comma) to send mail as a result of running job:
-deployment/backend/crontab
-deployment/sdo_analysis/crontab
-deployment/search/crontab
+
+12, To send mail as a result of running cronjobs insert one or more mail addresses (separated by comma) to <CRON_MAIL_TO> environment in your .env file. 
 
 If new clean docker container with images want to be created first we need to get rid of old files:
 1. to stop all the running  containers use - $ docker stop $(docker ps -a -q)
@@ -61,3 +68,15 @@ If new clean docker container with images want to be created first we need to ge
 5. if you want to clean either elasticsearch data, remove everything from <ELASTICSEARCH_DATA> and <ELASTICSEARCH_LOG> folder
 6. now we can build images using - $ docker-compose build
    and run our containers using  - $ docker-compose up -d
+
+After the first successful start, it is recommended to run cronjob-daily in sdo-analysis:
+1. $ docker exec -it yc-sdo-analysis bash
+2. $ cd bin/cronjobs
+3. $ su yang
+4. $ ./cronjob
+
+After the end of cronjob-daily (the first time it can take up to one hour), it is recommended to run the draftPullLocal.py script, which populates the basic set of modules into the databases:
+1. $ docker exec -it yc-backend bash
+2. $ cd ietfYangDraftPull
+3. $ su yang
+4. $ python3 draftPullLocal.py
