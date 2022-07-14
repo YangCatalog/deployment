@@ -29,7 +29,7 @@ Just let it load for couple of minutes it should start everything without proble
 
 9, you are able to update logrotate so we don't have infinitely big log file. 
 logrotate configuration is stored in backend/yangcatalog-rotate file.
-During docker iamge build, this file is copied to /etc/logrotate.d/yangcatalog-rotate location
+During docker image build, this file is copied to /etc/logrotate.d/yangcatalog-rotate location
 Default configuration:
   /var/yang/logs/*.log {
   rotate 7
