@@ -212,6 +212,7 @@ services:
       - run:/var/run/yang
     networks:
       - frontend
+      - matomo
     healthcheck:
       test: curl -f http://yc-frontend/yangvalidator/v2/ping
       interval: 30s
@@ -264,6 +265,8 @@ services:
   #     - MATOMO_DATABASE_DBNAME=matomo
   #   volumes:
   #     - matomo:/var/www/html
+  #   networks:
+  #     - matomo
   #   links:
   #     - matomo-db:matomo-db
 
@@ -271,6 +274,8 @@ services:
   #   container_name: yc-matomo-db
   #   image: mariadb:10.7
   #   restart: always
+  #   networks:
+  #     - matomo    
   #   environment:
   #     MYSQL_DATABASE: matomo
   #     MYSQL_USER: matomo
@@ -366,8 +371,8 @@ volumes:
   nginx-conf:
   docs:
   downloadables:
-  # matomo:
-  # matomo-db:
+  matomo:
+  matomo-db:
 
 networks:
   frontend:
@@ -381,4 +386,6 @@ networks:
   rabbitmq:
     driver: bridge
   redis:
+    driver: bridge
+  matomo:
     driver: bridge

@@ -210,3 +210,9 @@ host=yc-rabbit
 username=rabbitmq
 virtual-host=/
 port=5672
+
+[Matomo-Section]
+
+matomo-site-id=1
+matomo-api-url=http://yc-matomo/matomo.php
+matomo-track-user-id=True
