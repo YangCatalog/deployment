@@ -21,6 +21,7 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/frontend: "true"
+        io.kompose.network/tools-ieft-org: "true"
         io.kompose.service: yangre
     spec:
       securityContext:
