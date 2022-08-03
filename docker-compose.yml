@@ -55,6 +55,7 @@ services:
       - rabbitmq
       - frontend
       - redis
+      - matomo
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8008/api/healthcheck"]
       interval: 30s
@@ -78,6 +79,7 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - frontend
+      - matomo
     healthcheck:
       test: curl -f http://yc-frontend/yangre/v1/ping
       interval: 30s
@@ -320,7 +322,7 @@ services:
         - CONFD_VERSION=${CONFD_VERSION}
         - YANGLINT_VERSION=${YANGLINT_VERSION}
     volumes:
-      - ./sdo_analysis/bin/resources/IETF-draft-list-with-no-YANG-problem.txt:/etc/yangcatalog/IETF-draft-list-with-no-YANG-problem.txt:ro
+      - ./sdo_analysis/bin/resources/IETF-drafts-list-with-no-YANG-models.txt:/etc/yangcatalog/IETF-drafts-list-with-no-YANG-models.txt:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
@@ -381,8 +383,8 @@ networks:
     driver: bridge
   backend:
     driver: bridge
-  # elasticsearch:
-  #   driver: bridge
+  elasticsearch:
+    driver: bridge
   rabbitmq:
     driver: bridge
   redis:
