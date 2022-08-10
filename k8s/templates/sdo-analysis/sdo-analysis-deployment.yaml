@@ -34,9 +34,6 @@ spec:
       - image: localhost:32000/yc_sdo-analysis:latest
         name: sdo-analysis
         volumeMounts:
-        - mountPath: /etc/yangcatalog/IETF-drafts-list-with-no-YANG-models.txt
-          name: sdo-analysis-pv
-          readOnly: true
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv
           readOnly: true
@@ -56,9 +53,6 @@ spec:
           name: downloadables-pv
       restartPolicy: Always
       volumes:
-      - name: sdo-analysis-pv
-        hostPath:
-          path: {{ .Values.DEPLOYMENT_SRC }}/sdo_analysis/bin/resources/IETF-drafts-list-with-no-YANG-models.txt
       - name: yangcatalog-conf-pv
         hostPath:
           path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf

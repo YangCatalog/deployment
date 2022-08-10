@@ -13,7 +13,7 @@ apt autoremove -y
 # Create a basic tree structure inside $YANG_RESOURCES directory
 mkdir -p $YANG_RESOURCES
 cd $YANG_RESOURCES
-directories=("all_modules" "cache/confd" "commit_dir" "conf" "elasticsearch" "ietf" "ietf-exceptions" "logs/uwsgi" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
+directories=("all_modules" "cache/confd" "commit_dir" "conf" "elasticsearch" "ietf" "ietf-exceptions" "logs/uwsgi" "logs/elasticsearch" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
 for directory in ${directories[@]}; do
     mkdir -p $directory -m 755
 done

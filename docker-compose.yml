@@ -51,7 +51,7 @@ services:
     networks:
       - confd
       - backend
-      # - elasticsearch
+      - elasticsearch
       - rabbitmq
       - frontend
       - redis
@@ -102,7 +102,7 @@ services:
     networks:
       - confd
       - backend
-      # - elasticsearch
+      - elasticsearch
       - rabbitmq
       - frontend
       - redis
@@ -159,7 +159,7 @@ services:
     depends_on:
       - backend
       - yangre
-      # - elasticsearch
+      - elasticsearch
     restart: always
 
   admin-ui:
@@ -322,7 +322,6 @@ services:
         - CONFD_VERSION=${CONFD_VERSION}
         - YANGLINT_VERSION=${YANGLINT_VERSION}
     volumes:
-      - ./sdo_analysis/bin/resources/IETF-drafts-list-with-no-YANG-models.txt:/etc/yangcatalog/IETF-drafts-list-with-no-YANG-models.txt:ro
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
       - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw

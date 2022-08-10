@@ -1,20 +1,27 @@
 1, Run setup.sh script (as root) stored in setup directory to create basic tree structure needed for running YANG Catalog.
+  $ /bin/bash setup.sh
 
 2, Go to conf directory and rename yangcatalog.conf.sample to yangcatalog.conf file move it to <YANG_RESOURCES>/conf directory.
-Replace all the tokens, passwords, usernames and email adresses which you want to use.
+Replace all the tokens, passwords, usernames and email adresses which you want to use. 
+NOTE: Alternatively, you can ask another developer to provide this file.
 
 3, Create copy of .env-dist file and name it .env in this repository root directory.
 Passwords need to be equivalent to the ones in yangcatalog.conf file. 
 IDs and paths can be changed according to your directory tree structure.
+NOTE: Alternatively, you can ask another developer to provide this file.
 
-4, Copy following files from ietf server:
-/home/miroslav/confd/confd-<CONFD_VERSION>.linux.x86_64.installer.bin into deployment/resources/.
+4, Copy following files from IETF server:
+/home/yang/deployment/resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin into deployment/resources/.
+/home/yang/deployment/yangcatalog-ui/tmp into deployment/yangcatalog-ui/tmp
 Optional: /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
 download yumapro-client ubuntu latest version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ and copy the .deb file into deployment/resources.
+NOTE: Alternatively, you can ask another developer to provide these files.
 
-5, If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. If not use nginx-testing.conf
+5, Optional: If you want to use your ssl certificate share the path in .env file and set NGINX_FILES to yangcatalog-nginx*.conf. 
+If not use nginx-testing.conf
 
-6, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts. This process might take several minutes depending on your computer):
+6, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts.
+This process might take several minutes depending on your computer):
 	$ docker-compose build
 
 7, set max_map_count kernel setting because elasticsearch will fail otherwise. 
