@@ -22,6 +22,7 @@ If not use nginx-testing.conf
 
 6, Build the docker-compose file (This is necessarry only for the first time you build this application or if some changes were made to the scripts.
 This process might take several minutes depending on your computer):
+NOTE: Do NOT run docker and docker-compose command as sudo, see this post-install notes: https://docs.docker.com/engine/install/linux-postinstall/
 	$ docker-compose build
 
 7, set max_map_count kernel setting because elasticsearch will fail otherwise. 

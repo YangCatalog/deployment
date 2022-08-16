@@ -6,7 +6,7 @@ cur_dir=$(pwd)
 # Update and install basic apt packages
 set -ex
 apt update -y
-apt install -y git curl rsync docker
+apt install -y git curl rsync docker docker-compose
 apt upgrade -y
 apt autoremove -y
 

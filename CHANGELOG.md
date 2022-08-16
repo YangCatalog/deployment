@@ -2,6 +2,13 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.5.0 - 2022-08-16
+
+ * ConfD update to version 7.8 [#149](https://github.com/YangCatalog/deployment/issues/149)
+ * yanglint update to version v2.0.231 [#146](https://github.com/YangCatalog/deployment/issues/146)
+ * Changes in Matomo configuration [#133](https://github.com/YangCatalog/deployment/issues/133)
+ * New environment setup script created [#143](https://github.com/YangCatalog/deployment/issues/143)
+
 * ##### v5.4.0 - 2022-07-08
 
   * Multiple updates to the config files [#141](https://github.com/YangCatalog/deployment/issues/141)
