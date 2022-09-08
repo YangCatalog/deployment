@@ -36,6 +36,11 @@ cd $YANG_RESOURCES
 touch yang2_repo_cache.dat
 echo "{\"yang-catalog@2018-04-03/ietf\": \"/var/yang/all_modules/yang-catalog@2018-04-03.yang\"}" >yang2_repo_cache.dat
 
+# Add iana-if-types revisions in exception file
+cd $YANG_RESOURCES/ietf-exceptions
+touch iana-exceptions.dat
+echo "iana-if-type@2022-03-07.yang\niana-if-type@2022-08-17.yang" >iana-exceptions.dat
+
 # Make sure module yang-catalog@2018-04-03 is available
 cd $YANG_RESOURCES/all_modules
 curl -X GET https://raw.githubusercontent.com/YangModels/yang/main/experimental/ietf-extracted-YANG-modules/yang-catalog%402018-04-03.yang -o yang-catalog@2018-04-03.yang

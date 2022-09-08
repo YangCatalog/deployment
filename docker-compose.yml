@@ -159,7 +159,6 @@ services:
     depends_on:
       - backend
       - yangre
-      - elasticsearch
     restart: always
 
   admin-ui:
