@@ -1,7 +1,10 @@
-YANGCATALOG
-===========
+# YANG Catalog
 
-You can find official yangcatalog website in [here](https://yangcatalog.org).
+## Overview
+
+This repository contains configurations and scripts that tie all the individual components of YANG Catalog together. The components themselves are included as git submodules.
+
+You can find official yangcatalog website [here](https://yangcatalog.org).
 
 # Deployment
 Main repository to start up all the pieces of yang-catalog
