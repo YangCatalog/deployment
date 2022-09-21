@@ -130,8 +130,10 @@ containers using bind mounts.
 Some of the following variables if changed here has to corespond with yangcatalog.conf file
 
 `COMPOSE_PROJECT_NAME=yc` - When running a docker-compose up command it will create
-a docker containers that have some specific name (like backend, frontend, yang-search...).
+a docker containers that have some specific name (like backend, frontend...).
 This will add a prefix to these names so in this example we would have yc-backend, yc-frontend...
+
+`REDIS_VOLUME` - Directory where redis will store its `dump.rdb` file.
 
 `RABBITMQ_USER=<RABBITMQ_USER>` - rabbitmq username.
 
@@ -180,3 +182,13 @@ set email address before any commit is done.
 
 `CRON_MAIL_TO=bar@foo.com` - comma separated list of emails which are used
 with cron jobs. If any cron job will fail it will send it to this comma separated list of email addresses.
+
+`YANGCATALOG_CONFIG_FILE` - Path to global config file used by all YANG Catalog components.
+
+`CONFD_VERSION` - Verson of [ConfD](https://www.tail-f.com/management-agent/) to be used.
+
+`CONFD_PASSWORD` - Password for ConfD
+
+`CONFD_LOG` - Directory where ConfD will store log files.
+
+`YANGLINT_VERSION` - Version of [yanglint](https://github.com/CESNET/libyang) to be used.
