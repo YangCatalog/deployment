@@ -4,10 +4,10 @@
 
 This repository contains configurations and scripts that tie all the individual components of YANG Catalog together. The components themselves are included as git submodules.
 
-You can find official yangcatalog website [here](https://yangcatalog.org).
+You can find official YANG Catalog website [here](https://yangcatalog.org).
 
 # Deployment
-Main repository to start up all the pieces of yang-catalog
+Main repository to start up all the pieces of YANG Catalog
 
 ## Requirements
 
@@ -36,19 +36,18 @@ Create `conf/yangcatalog.conf` from `conf/yangcatalog.conf.sample`,
 replacing values enclosed in `@...@` with your own.
 
 ```
-git submodule init
-git submodule update
+git submodule update --init
 docker-compose build # not strictly necessary
 docker-compose up
 ```
 
 The `docker-compose build` should build container images for the
-various components of the Yang Catalog.
+various components of the YANG Catalog.
 
 The `docker-compose up` will start containers from these images, as
 well as from some third-party container images (e.g. RabbitMQ,
 Redis) and combine them into a functional local deployment
-of the Yang Catalog, which should be accessible on
+of the YANG Catalog, which should be accessible on
 http://localhost
 
 Make sure that you will start the elasticsearch Dockerfile as well
@@ -65,7 +64,7 @@ the elasticsearch manually using `docker run` command. Also es-host
 has to be set to elasticsearch instance IP (k8s setup) or
 `yc-elasticsearch` (docker-compose setup) and port to `9200`. In production
 we use AWS elasticsearch service. This instance runs on different server
-and are connected to yangcatalog server. For this the "es-aws" needs to be
+and are connected to YANG Catalog server. For this the "es-aws" needs to be
 set to `True` and es-host set to whatever URL AWS provides for elasticsearch.
 In AWS make sure that this URL is not opened for internet but is opened for
 the other instance that is running yangcatalog.org
@@ -76,21 +75,21 @@ All the logging is done to different files that should be located in
 one directory which is specified in yangcatalog.conf config file.
 Normally you would find this in /var/yang/logs. This directory is
 a volume shared with host system. All the logs can be checked and
-filtered using yangcatalog admin UI if you have access to that.
+filtered using YANG Catalog admin UI if you have access to that.
 
 ### ConfD
 
-The Yang Catalog requires ConfD, which is not open source and cannot
+The YANG Catalog requires ConfD, which is not open source and cannot
 be included here in the same way as the other components. In order
-for yangcatalog to be working you need to acquire confd since this
-is a beating heart of yangcatalog and contains all the metadata
+for YANG Catalog to be working you need to acquire confd since this
+is a beating heart of YANG Catalog and contains all the metadata
 about each module. Confd binary is copied to resources and each
 docker service that will need this will install it in its own
 container.
 
 ### Kubernetes support
 
-It is possible to deploy YANGCATALOG on Kubernetes by following this [guide](./k8s/README.md).
+It is possible to deploy YANG Catalog on Kubernetes by following this [guide](./k8s/README.md).
 
 ### OpenShift support
 
@@ -101,27 +100,27 @@ under the assumption that they _will_ run as root.
 
 ## Structure of the Repository
 
-Various open-source components of the Yang Catalog are imported as
+Various open-source components of the YANG Catalog are imported as
 submodules:
 
-* [backend](https://github.com/YangCatalog/backend) - the Yang Catalog
+* [backend](https://github.com/YangCatalog/backend) - the YANG Catalog
   API server
-* [search](https://github.com/YangCatalog/search) - the Yang search
+* [search](https://github.com/YangCatalog/search) - the YANG search
   Web application - repo DISCONTINUED
 * [web_root](https://github.com/YangCatalog/web_root) - static HTML,
   CSS etc. content
 * [yangre-gui](https://github.com/plewyllie/yangre-gui) - Peter
-  Lewyllie's Yang Regular Expression checker
+  Lewyllie's YANG Regular Expression checker
 * [yangvalidator](https://github.com/YangCatalog/yang-validator-extractor) - Carl
-  Moberg's Yang validation application
+  Moberg's YANG validation application
 * [sdo_analysis](https://github.com/YangCatalog/sdo_analysis) - Scripts
-  to analyze and validate yang files
+  to analyze and validate YANG files
 * [admin_ui](https://github.com/YangCatalog/admin_ui) - Admin frontend
   to monitor and manage yangcatalog.org
-* [yangcatalog-ui](https://github.com/YangCatalog/yangcatalog-ui) - Whole Yang Catalog frontend - Angular app
+* [yangcatalog-ui](https://github.com/YangCatalog/yangcatalog-ui) - Whole YANG Catalog frontend - Angular app
 
 `docker-compose.yml` is the actual "orchestration" that attempts to
-describe a complete (modulo ConfD) deployment of the Yang Catalog.
+describe a complete (modulo ConfD) deployment of the YANG Catalog.
 
 The `conf` directory contains a few files that are passed to the
 containers using bind mounts.
