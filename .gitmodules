@@ -1,6 +1,3 @@
-[submodule "web_root"]
-	path = web_root
-	url = https://github.com/YangCatalog/web_root.git
 [submodule "backend"]
 	path = backend
 	url = https://github.com/YangCatalog/backend.git
@@ -10,12 +7,6 @@
 [submodule "sdo_analysis"]
 	path = sdo_analysis
 	url = https://github.com/YangCatalog/sdo_analysis.git
-[submodule "admin_ui"]
-	path = admin_ui
-	url = https://github.com/YangCatalog/admin_ui.git
-[submodule "yangcatalog-ui"]
-	path = yangcatalog-ui
-	url = https://github.com/YangCatalog/yangcatalog-ui.git
 [submodule "yang-validator-extractor"]
 	path = yang-validator-extractor
 	url = https://github.com/YangCatalog/yang-validator-extractor
