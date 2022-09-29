@@ -1,5 +1,6 @@
 *~
-conf/yangcatalog.conf
+conf/yangcatalog.conf*
+!conf/yangcatalog.conf.sample
 .idea/*
 .env
 values.yaml

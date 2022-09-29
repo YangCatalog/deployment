@@ -107,17 +107,14 @@ submodules:
   API server
 * [search](https://github.com/YangCatalog/search) - the YANG search
   Web application - repo DISCONTINUED
-* [web_root](https://github.com/YangCatalog/web_root) - static HTML,
-  CSS etc. content
+* [frontend](https://github.com/YangCatalog/frontend) - Angular applications for 
+  YANG Catalog frontend and admin UI together with some static content
 * [yangre-gui](https://github.com/plewyllie/yangre-gui) - Peter
   Lewyllie's YANG Regular Expression checker
 * [yangvalidator](https://github.com/YangCatalog/yang-validator-extractor) - Carl
   Moberg's YANG validation application
 * [sdo_analysis](https://github.com/YangCatalog/sdo_analysis) - Scripts
   to analyze and validate YANG files
-* [admin_ui](https://github.com/YangCatalog/admin_ui) - Admin frontend
-  to monitor and manage yangcatalog.org
-* [yangcatalog-ui](https://github.com/YangCatalog/yangcatalog-ui) - Whole YANG Catalog frontend - Angular app
 
 `docker-compose.yml` is the actual "orchestration" that attempts to
 describe a complete (modulo ConfD) deployment of the YANG Catalog.
