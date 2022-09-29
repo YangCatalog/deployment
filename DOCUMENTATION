@@ -12,6 +12,7 @@ NOTE: Alternatively, you can ask another developer to provide this file.
 
 4, Copy following files from IETF server:
 /home/yang/deployment/resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin into deployment/resources/.
+NOTE: confd installer needs to be an executable file so use $ chmod +x confd-<CONFD_VERSION>.linux.x86_64.installer.bin
 /home/yang/deployment/yangcatalog-ui/tmp into deployment/yangcatalog-ui/tmp
 Optional: /var/yang into <YANG_RESOURCES> (change permissions ID and GID in .env folder <YANG_ID> <YANG_GID> to what you are using in host)
 download yumapro-client ubuntu latest version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ and copy the .deb file into deployment/resources.

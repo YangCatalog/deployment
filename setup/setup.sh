@@ -39,7 +39,7 @@ echo "{\"yang-catalog@2018-04-03/ietf\": \"/var/yang/all_modules/yang-catalog@20
 # Add iana-if-types revisions in exception file
 cd $YANG_RESOURCES/ietf-exceptions
 touch iana-exceptions.dat
-echo "iana-if-type@2022-03-07.yang\niana-if-type@2022-08-17.yang" >iana-exceptions.dat
+echo "iana-if-type@2022-03-07.yang\niana-if-type@2022-08-17.yang\niana-if-type@2022-08-24.yang" >iana-exceptions.dat
 
 # Make sure module yang-catalog@2018-04-03 is available
 cd $YANG_RESOURCES/all_modules
@@ -55,9 +55,9 @@ chown -R yang:yang $YANG_RESOURCES
 
 # Pull RFCs and Draft files needed for sdo-analysis (this might take some time)
 cd $YANG_RESOURCES/ietf
-rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::internet-drafts my-id-mirror
-rsync -avz --include 'draft-*.txt' --exclude '*' --delete rsync.ietf.org::id-archive my-id-archive-mirror
-rsync -avlz --delete --delete-excluded --exclude=dummy.txt --exclude="std-*.txt" --exclude="bcp-*.txt" --exclude="rfc-retrieval.txt" --exclude="rfc-index*.txt" --exclude="RFCs_for_errata.txt" --exclude="rfc-ref.txt" --exclude="rfcxx00.txt" --exclude="*index*" --include="*.txt" --exclude="*" ftp.rfc-editor.org::rfcs rfc
+rsync -avz --include 'draft-*.txt' --include 'draft-*.xml' --exclude '*' --delete rsync.ietf.org::internet-drafts my-id-mirror
+# rsync -avz --include 'draft-*.txt' --include 'draft-*.xml' --exclude '*' --delete rsync.ietf.org::id-archive my-id-archive-mirror
+rsync -avlz --delete --include="rfc[0-9]*.txt" --exclude="*" ftp.rfc-editor.org::rfcs rfc
 
 chmod 755 $YANG_RESOURCES
 
