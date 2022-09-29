@@ -42,7 +42,7 @@ flask-secret-key=@...@
 admin-token=@...@
 ; yang-catalog Github user token for automatic pushing
 yang-catalog-token=@...@
-; token to spark (Webex Teams)
+; token for Webex Teams
 webex-access-token=@...@
 ; secret for RabbitMQ
 rabbitmq-password=rabbitmq
@@ -77,6 +77,8 @@ repo-config-email=mirkovac@cisco.com
 threads=2
 ; is production server
 is-prod=False
+; whether to send emails about problematic drafts or not
+send_emails_about_problematic_drafts=False
 
 [Certs-Section]
 
