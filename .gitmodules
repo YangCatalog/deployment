@@ -19,3 +19,6 @@
 [submodule "yang-validator-extractor"]
 	path = yang-validator-extractor
 	url = https://github.com/YangCatalog/yang-validator-extractor
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:YangCatalog/frontend.git
