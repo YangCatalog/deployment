@@ -127,7 +127,7 @@ services:
     container_name: yc-frontend
     build:
       context: .
-      dockerfile: web_root/Dockerfile
+      dockerfile: frontend/Dockerfile
       args:
         - YANG_ID=${YANG_ID}
         - YANG_GID=${YANG_GID}
@@ -137,34 +137,29 @@ services:
       - "443:443"
       - "10873:873"
     volumes:
-      - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
       - ${YANG_RESOURCES}/nginx/compatibility:/usr/share/nginx/html/compatibility:rw
+      - ${YANG_RESOURCES}/nginx/drafts:/usr/share/nginx/html/drafts:rw
       - ${YANG_RESOURCES}/nginx/private:/usr/share/nginx/html/private:rw
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
-      - ${YANG_RESOURCES}/nginx/drafts:/usr/share/nginx/html/drafts:rw
-      - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:ro
-      - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
+      - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:rw
+      - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${NGINX_LOG}:/var/log/nginx:rw
+      - ${KEY_FILE}:/a/system/yangcatalog.org.key
+      - ${CERT_FILE}:/a/system/yangcatalog.org.crt
       - main-webroot:/usr/share/nginx/html
       - admin-webroot:/usr/share/nginx/html/admin
       - downloadables:/usr/share/nginx/html/downloadables
       - docs:/usr/share/nginx/html/slate
       - run:/var/run/yang
-      - ${NGINX_LOG}:/var/log/nginx:rw
-      - ${YANG_RESOURCES}:/var/yang:rw
-      - ${KEY_FILE}:/a/system/yangcatalog.org.key
-      - ${CERT_FILE}:/a/system/yangcatalog.org.crt
       - nginx-conf:/etc/nginx:rw
     networks:
       - frontend
-    depends_on:
-      - backend
-      - yangre
     restart: always
 
   admin-ui:
     container_name: yc-admin-ui
     build:
-      context: admin_ui
+      context: frontend/admin-ui
       dockerfile: Dockerfile
       args:
         - YANG_ID=${YANG_ID}
@@ -174,14 +169,11 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - frontend
-    depends_on:
-      - frontend
-      - backend
 
   yangcatalog-ui:
     container_name: yc-yangcatalog-ui
     build:
-      context: yangcatalog-ui
+      context: frontend/yangcatalog-ui
       dockerfile: Dockerfile
       args:
         - YANG_ID=${YANG_ID}
@@ -191,9 +183,6 @@ services:
       - ${YANG_RESOURCES}:/var/yang:rw
     networks:
       - frontend
-    depends_on:
-      - frontend
-      - backend
 
   yangvalidator:
     container_name: yc-yangvalidator
