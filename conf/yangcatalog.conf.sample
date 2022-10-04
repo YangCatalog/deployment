@@ -188,6 +188,8 @@ non-ietf-directory=${var}/nonietf
 ietf-directory=${var}/ietf
 ; ietf drafts
 ietf-drafts=${ietf-directory}/my-id-mirror
+; ietf archive drafts
+ietf-archive-drafts=${ietf-directory}/my-id-archive-mirror
 ; ietf rfcs
 ietf-rfcs=${ietf-directory}/rfc
 ; symlink to all important directories with SDO yang files
