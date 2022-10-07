@@ -12,4 +12,3 @@ YANG_RESOURCES: /var/yang
 YANG_ID: 1016
 YANG_GID: 1016
 CONFD_LOG: /var/yang/logs/confd
-CONFD_VERSION: 7.8

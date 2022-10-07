@@ -196,6 +196,7 @@ services:
         - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
         - CONFD_VERSION=${CONFD_VERSION}
         - YANGLINT_VERSION=${YANGLINT_VERSION}
+        - XYM_VERSION=${XYM_VERSION}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -309,6 +310,7 @@ services:
         - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
         - CONFD_VERSION=${CONFD_VERSION}
         - YANGLINT_VERSION=${YANGLINT_VERSION}
+        - XYM_VERSION=${XYM_VERSION}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
