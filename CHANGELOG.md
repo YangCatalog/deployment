@@ -2,6 +2,10 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.6.1 - 2022-10-10
+
+  * xym tool update to version 0.6.1 [#161](https://github.com/YangCatalog/deployment/issues/161)
+
 * ##### v5.6.0 - 2022-09-30
 
   * Frontend related repositories merged into one new repository [#154](https://github.com/YangCatalog/deployment/issues/154)
