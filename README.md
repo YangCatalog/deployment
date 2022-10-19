@@ -6,6 +6,8 @@ This repository contains configurations and scripts that tie all the individual 
 
 You can find official YANG Catalog website [here](https://yangcatalog.org).
 
+For accessing YANG Catalog's API directly, you can use [ycclient](https://github.com/earies/ycclient).
+
 # Deployment
 Main repository to start up all the pieces of YANG Catalog
 
