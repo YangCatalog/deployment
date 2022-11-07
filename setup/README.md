@@ -19,7 +19,6 @@ IDs and paths can be changed according to your directory tree structure.
    - ```/home/yang/deployment/resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin``` into the [deployment/resources](../resources) directory.<br>
    **NOTE: confd installer needs to be an executable file so run ```$ chmod +x resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin```**
    - ```/home/yang/deployment/yangcatalog-ui/tmp``` into the [deployment/frontend/yangcatalog-ui](../frontend/yangcatalog-ui) directory.
-   - **Optional**: copy ```/var/yang``` into ```<YANG_RESOURCES>``` (change ```<YANG_ID>``` and ```<YANG_GID>``` in the ```.env``` file to user ID and GID you are using in host)
 
 5. Download yumapro-client for the latest ubuntu version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ into the [deployment/resources](../resources) directory.
 <br>**NOTE: Alternatively, you can ask another developer to provide this file.**
@@ -30,7 +29,7 @@ IDs and paths can be changed according to your directory tree structure.
 ```$ docker-compose build```
 <br>**NOTE: Do NOT run docker and docker-compose command as sudo, see this post-install notes: https://docs.docker.com/engine/install/linux-postinstall/**
 
-8. Set ```max_map_count``` kernel setting using ```$ sysctl -w vm.max_map_count=262144``` because elasticsearch will fail otherwise.
+8. Set ```max_map_count``` kernel setting using ```$ sysctl -w vm.max_map_count=262144``` because Elasticsearch will fail otherwise.
 Containers share the same kernel as the host OS, so this needs to be done on host machine and not inside the docker container, this also needs to be done everytime host machine is restarted.
 
 9. Run the yangcatalog: ```$ docker-compose up -d```
@@ -92,5 +91,5 @@ drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
 2. To remove all the stopped containers use: ```$ docker rm $(docker ps -a -q)```
 3. To remove all the created volumes use: ```$ docker volume prune```
 4. To remove all the images use: ```$ docker rmi $(docker images -a -q) -f```
-5. If you want to clean either elasticsearch data, remove everything from ```<ELASTICSEARCH_DATA>``` and ```<ELASTICSEARCH_LOG>``` folders
+5. If you want to clean either Elasticsearch data, remove everything from ```<ELASTICSEARCH_DATA>``` and ```<ELASTICSEARCH_LOG>``` folders
 6. Now it's possible to build images using: ```$ docker-compose build``` and run the containers using: ```$ docker-compose up -d```. Or just alternatively: ```$ docker-compose up -d --build```
