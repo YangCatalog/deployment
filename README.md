@@ -62,11 +62,10 @@ instance is used instead
 
 Elasticsearch instance can be started in two different ways. Locally
 you can set "es-aws" in your yangcatalog.conf file to `False` and start
-the elasticsearch manually using `docker run` command. Also es-host
+the elasticsearch manually using `docker run` command. Also, es-host
 has to be set to elasticsearch instance IP (k8s setup) or
-`yc-elasticsearch` (docker-compose setup) and port to `9200`. In production
-we use AWS elasticsearch service. This instance runs on different server
-and are connected to YANG Catalog server. For this the "es-aws" needs to be
+`yc-elasticsearch` (docker-compose setup) and port to `9200`. We use AWS elasticsearch service in production.
+This instance runs on different server and is connected to YANG Catalog server. For this the "es-aws" needs to be
 set to `True` and es-host set to whatever URL AWS provides for elasticsearch.
 In AWS make sure that this URL is not opened for internet but is opened for
 the other instance that is running yangcatalog.org
@@ -171,12 +170,12 @@ elasticsearch is used to set permissions to specific user GID. It`s safe to use 
 `YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved.
 
 `NGINX_FILES=yangcatalog-nginx*.conf` - NGINX config files used for NGINX. There is testing config file
-or production one with HTTPS. Read [documentation](./DOCUMENTATION) file to find out how to use this variable
+or production one with HTTPS. Read [documentation](./setup/README.md) file to find out how to use this variable
 
-`GIT_USER_NAME=foo` - yangcatalog is pushing some data to github repository and it needs to
+`GIT_USER_NAME=foo` - yangcatalog is pushing some data to GitHub repository, and it needs to
 set usename before any commit is done.
 
-`GIT_USER_EMAIL=bar@foo.com` - yangcatalog is pushing some data to github repository and it needs to
+`GIT_USER_EMAIL=bar@foo.com` - yangcatalog is pushing some data to GitHub repository, and it needs to
 set email address before any commit is done.
 
 `CRON_MAIL_TO=bar@foo.com` - comma separated list of emails which are used
