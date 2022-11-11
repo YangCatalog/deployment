@@ -4,7 +4,7 @@ For matters which aren't mentioned in this file, refer to [PEP8](https://peps.py
 
 ## Linting tools
 To check linting we are using: [flake8](https://flake8.pycqa.org/en/latest/), [black](https://black.readthedocs.io/en/stable/), [isort](https://pycqa.github.io/isort/), and [pre-commit](https://pre-commit.com/).
-Corresponding configurations are added to the [backend](https://github.com/YangCatalog/backend), [sdo_analysis](https://github.com/YangCatalog/sdo_analysis), and [yang-validator-extractor](https://github.com/YangCatalog/yang-validator-extractor) repositories for now.
+Corresponding configurations are added to the [backend](https://github.com/YangCatalog/backend), [module-compilation](https://github.com/YangCatalog/module-compilation), and [yang-validator-extractor](https://github.com/YangCatalog/yang-validator-extractor) repositories for now.
 
 **Useful notes for flake8** (Other configuration details for every tool can be found in documentations):
 

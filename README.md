@@ -114,7 +114,7 @@ submodules:
   Lewyllie's YANG Regular Expression checker
 * [yangvalidator](https://github.com/YangCatalog/yang-validator-extractor) - Carl
   Moberg's YANG validation application
-* [sdo_analysis](https://github.com/YangCatalog/sdo_analysis) - Scripts
+* [module-compilation](https://github.com/YangCatalog/module-compilation) - Scripts
   to analyze and validate YANG files
 
 `docker-compose.yml` is the actual "orchestration" that attempts to

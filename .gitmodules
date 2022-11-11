@@ -4,9 +4,9 @@
 [submodule "yangre"]
 	path = yangre
 	url = https://github.com/YangCatalog/yangre.git
-[submodule "sdo_analysis"]
-	path = sdo_analysis
-	url = https://github.com/YangCatalog/sdo_analysis.git
+[submodule "module-compilation"]
+	path = module-compilation
+	url = https://github.com/YangCatalog/module-compilation.git
 [submodule "yang-validator-extractor"]
 	path = yang-validator-extractor
 	url = https://github.com/YangCatalog/yang-validator-extractor

@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: sdo-analysis
-  name: sdo-analysis
+    io.kompose.service: module-compilation
+  name: module-compilation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: sdo-analysis
+      io.kompose.service: module-compilation
   strategy:
     type: Recreate
   template:
@@ -26,13 +26,13 @@ spec:
         io.kompose.network/crontab: "true"
         io.kompose.network/rsync: "true"
         io.kompose.network/tools-ieft-org: "true"
-        io.kompose.service: sdo-analysis
+        io.kompose.service: module-compilation
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yc_sdo-analysis:latest
-        name: sdo-analysis
+      - image: localhost:32000/yc_module-compilation:latest
+        name: module-compilation
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv
