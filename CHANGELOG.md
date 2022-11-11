@@ -2,6 +2,14 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.7.0 - 2022-11-11
+  
+  * sdo_analysis repository renamed to module-compilation [#154](https://github.com/YangCatalog/deployment/issues/154)
+  * xym tool update to version 0.6.2
+  * yanglint update to version v2.1.4 [#169](https://github.com/YangCatalog/deployment/issues/169)
+  * DOCUMENTATION file reworked into the README.md for setup directory [#167](https://github.com/YangCatalog/deployment/issues/167)
+  * STYLEGUIDE.md file created [#163](https://github.com/YangCatalog/deployment/issues/163)
+
 * ##### v5.6.1 - 2022-10-10
 
   * xym tool update to version 0.6.1 [#161](https://github.com/YangCatalog/deployment/issues/161)
