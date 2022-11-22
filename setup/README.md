@@ -61,10 +61,10 @@ Default configuration:
 drwxrwxr-x  2 yang yang     4096 Feb 14 06:34 ./
 drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
 -rw-rw-r--  1 yang yang       40 Oct 12  2021 .gitignore
--rwxr-xr-x  1 yang yang 16981950 Aug 10 12:43 confd-7.8.linux.x86_64.installer.bin*
--rw-r--r--  1 yang yang     5681 May 25 15:08 fullchain.pem
+-rwxr-xr-x  1 yang yang 17811628 Nov 22 08:00 confd-8.0.linux.x86_64.installer.bin*
+-rw-r--r--  1 yang yang     5677 Nov 11 15:56 fullchain.pem
 -rw-rw-r--  1 yang yang     1472 Oct 12  2021 main.cf
--rw-------  1 yang yang     1704 May 25 15:08 privkey.pem
+-rw-------  1 yang yang     1704 Nov 11 15:57 privkey.pem
 -rw-rw-r--  1 yang yang      330 Oct 12  2021 rsync
 -rw-rw-r--  1 yang yang      361 Oct 12  2021 rsyncd.conf
 -rw-rw-r--  1 yang yang  1717748 Oct 12  2021 yumapro-client-20.10-9.u1804.amd64.deb
