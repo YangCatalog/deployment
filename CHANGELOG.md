@@ -1,6 +1,10 @@
 ## Deployment Release Notes
 
-* ##### vm.m.p - 2022-MM-DD
+* ##### vm.m.p - 2023-MM-DD
+
+* ##### v5.8.0 - 2022-12-20
+
+  * ConfD update to version 8.0 [#174](https://github.com/YangCatalog/deployment/issues/174)
 
 * ##### v5.7.0 - 2022-11-11
   
