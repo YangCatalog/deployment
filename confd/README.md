@@ -1,4 +1,4 @@
-# confd-module-catalog
+# ConfD database
 
 An example implementation of the [draft-openconfig-netmod-model-catalog](https://tools.ietf.org/html/draft-openconfig-netmod-model-catalog-01) using the Tail-f/Cisco [ConfD](https://developer.cisco.com/site/confD/downloads/) management agent.
 
@@ -17,7 +17,7 @@ Then use the `Makefile` in this repository to `start`, `stop` ConfD as well as t
 $ make all start
 ```
 
-This should give you a running instance of ConfD with the catalog YANG modules loaded. You can now use the REST interface to query, update and delete data in the catalog. The `load.sh` script will put some initial data (pulled from the IETF and IEEE repositories) into the running server for you to play with:
+This should give you a running instance of ConfD with the YANG catalog modules loaded. You can now use the REST interface to query, update and delete data in the catalog. The `load.sh` script will put some initial data (pulled from the IETF and IEEE repositories) into the running server for you to play with:
 
 ```
 $ ./load.sh
@@ -42,21 +42,24 @@ To stop ConfD and reset the environment (clean the database):
 $ make stop clean
 ```
 
-## Using docker
+## Using Docker
 
-Make sure to have docker installed, then build the image using `docker build`. It should look something like:
+Make sure to have Docker installed, then build the image using `docker build`. It should look something like:
 ```
-$ docker build -t module-catalog .
-Sending build context to Docker daemon 59.05 MB
+$ docker-compose build confd
+Building confd
+Sending build context to Docker daemon    499MB
+
 [...]
+
 Successfully built e016a812c983
 $
 ```
 
-Then run the image using `docker run` along the following lines:
+Then run the image using `docker-compose up -d confd` along the following lines:
 ```
-$ docker run -P -d module-catalog
-8b0b2d8fd1e83b36cea148f872a0ab09709db8362e6b4b40a8225a2d98bb090d
+$ docker-compose up -d confd
+Creating yc-confd ... done
 $
 ```
 
@@ -71,13 +74,21 @@ EXPOSE 2024
 Inspect the port mapping using the `docker ps -l` command:
 ```
 $ docker ps -l
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                                                                NAMES
-193d5ab031d5        module-catalog      "/usr/bin/make start_"   7 minutes ago       Up 7 minutes        0.0.0.0:32783->2022/tcp, 0.0.0.0:32782->2024/tcp, 0.0.0.0:32781->8008/tcp, 0.0.0.0:32780->8888/tcp   admiring_mahavira
+CONTAINER ID   IMAGE      COMMAND                  CREATED              STATUS                             PORTS                                                                                                      NAMES
+750e8d787735   yc_confd   "/usr/bin/make start…"   About a minute ago   Up 59 seconds (health: starting)   2022/tcp, 0.0.0.0:8008->8008/tcp, :::8008->8008/tcp, 2024/tcp, 0.0.0.0:8888->8888/tcp, :::8888->8888/tcp   yc-confd
 ```
 
-In this case, the web UI is available on localhost, ports 32776 (no SSL) and 32775 (SSL). The NETCONF server is available on ports 32778 (SSH) and 32777 (TCP). Running the following command will dump the content of the `organizations` subtree in JSON:
+## Admin password change
 
-```
-$ curl -u admin:admin -H "Accept: application/vnd.yang.data+json" http://127.0.0.1:32777/api/config/organizations?deep
-```
+If you want to change password you need to:
+1. exec to the running container `docker exec -it yc-confd bash`
+2. use command `confd_cli -u admin -C` to use `confd_cli`
+3. inside `confd_cli` use command `aaa authentication users user admin change-password` to change password
+4. you will be prompted to enter old password then new password (twice)
+
+After successfully changing your password, you should run command `show running-config aaa authentication users user admin`
+to display hashed password stored for `admin` user. This password should have format `$1$<salt>$<hash>` and should be stored
+to the `yangcatalog_aaa_init.xml` file.
+Admin password is loaded from this file at the start of ConfD - for the first
+time you can create password in format `$0$<plain_text_password>`.
 

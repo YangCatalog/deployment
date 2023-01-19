@@ -47,9 +47,9 @@ webex-access-token=@...@
 ; secret for RabbitMQ
 rabbitmq-password=rabbitmq
 ; credentials to ConfD
-confd-credentials="user password"
+confd-credentials="admin admin"
 ; password for elasticsearch
-elk-secret="user password"
+elk-secret="admin admin"
 ; oidc client ID
 client-id=@...@
 ; oidc client secret

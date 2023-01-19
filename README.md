@@ -183,9 +183,11 @@ with cron jobs. If any cron job will fail it will send it to this comma separate
 
 `YANGCATALOG_CONFIG_FILE` - Path to global config file used by all YANG Catalog components.
 
-`CONFD_VERSION` - Verson of [ConfD](https://www.tail-f.com/management-agent/) to be used.
+`CONFD_VERSION` - Version of [ConfD](https://www.tail-f.com/management-agent/) to be used.
 
-`CONFD_PASSWORD` - Password for ConfD
+`CONFD_PASSWORD` - Password for ConfD database.
+
+`CONFD_PASSWORD_HASH` - Hashed password for ConfD admin in format `$1$<salt>$<hash>` or `$0$<password>`.
 
 `CONFD_LOG` - Directory where ConfD will store log files.
 
