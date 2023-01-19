@@ -6,7 +6,7 @@
           <name>admin</name>
           <uid>9000</uid>
           <gid>100</gid>
-          <password>$1$RGJ8tsnI$E2VNesTIbracvhhlDJize/</password>
+          <password>CONFD_ADMIN_PASSWORD</password>
           <ssh_keydir>/var/confd/homes/admin/.ssh</ssh_keydir>
           <homedir>/var/confd/homes/admin</homedir>
         </user>

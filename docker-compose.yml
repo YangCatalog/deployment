@@ -9,6 +9,7 @@ services:
       dockerfile: ./confd/Dockerfile
       args:
         - CONFD_VERSION=${CONFD_VERSION}
+        - CONFD_ADMIN_PASSWORD=${CONFD_ADMIN_PASSWORD}
     ports:
       - "8008:8008"
       - "8888:8888"
@@ -122,6 +123,7 @@ services:
       - redis
     depends_on:
       - confd
+      - backend
 
   frontend:
     container_name: yc-frontend
