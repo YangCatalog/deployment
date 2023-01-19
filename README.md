@@ -187,7 +187,7 @@ with cron jobs. If any cron job will fail it will send it to this comma separate
 
 `CONFD_PASSWORD` - Password for ConfD database.
 
-`CONFD_ADMIN_PASSWORD` - Hashed password for ConfD admin in format `$1$<salt>$<hash>`.
+`CONFD_PASSWORD_HASH` - Hashed password for ConfD admin in format `$1$<salt>$<hash>` or `$0$<password>`.
 
 `CONFD_LOG` - Directory where ConfD will store log files.
 

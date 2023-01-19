@@ -1,9 +1,9 @@
 FROM ubuntu:20.04
 
 ARG CONFD_VERSION
-ARG CONFD_ADMIN_PASSWORD
+ARG CONFD_PASSWORD_HASH
 
-ENV CONFD_ADMIN_PASSWORD "$CONFD_ADMIN_PASSWORD"
+ENV CONFD_PASSWORD_HASH "$CONFD_PASSWORD_HASH"
 ENV CONFD_VERSION "$CONFD_VERSION"
 ENV CONFD_DIR /tmp/confd-${CONFD_VERSION}
 ENV PATH $PATH:$CONFD_DIR/bin
@@ -20,7 +20,7 @@ RUN mkdir -p ${CONFD_DIR}/examples.confd/confd-module-catalog
 COPY ./confd/Makefile ./confd/*.yang ./confd/confd.conf ./confd/*.xml ${CONFD_DIR}/examples.confd/confd-module-catalog/
 COPY ./confd/docroot ${CONFD_DIR}/examples.confd/confd-module-catalog/docroot
 WORKDIR ${CONFD_DIR}/examples.confd/confd-module-catalog
-RUN sed -i "s|CONFD_ADMIN_PASSWORD|${CONFD_ADMIN_PASSWORD}|g" yangcatalog_aaa_init.xml
+RUN sed -i "s|CONFD_PASSWORD_HASH|${CONFD_PASSWORD_HASH}|g" yangcatalog_aaa_init.xml
 RUN make all
 CMD [ "/usr/bin/make", "start_foreground" ]
 

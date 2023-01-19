@@ -9,7 +9,7 @@ services:
       dockerfile: ./confd/Dockerfile
       args:
         - CONFD_VERSION=${CONFD_VERSION}
-        - CONFD_ADMIN_PASSWORD=${CONFD_ADMIN_PASSWORD}
+        - CONFD_PASSWORD_HASH=${CONFD_PASSWORD_HASH}
     ports:
       - "8008:8008"
       - "8888:8888"
