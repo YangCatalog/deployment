@@ -1,6 +1,9 @@
 ## Deployment Release Notes
 
-* ##### vm.m.p - 2023-MM-DD
+* ##### v5.9.0 - 2023-01-26
+
+  * Load ConfD hashed password from env file [#179](https://github.com/YangCatalog/deployment/issues/179)
+  * YumaPro validator updated to version 21.10-12 [#178](https://github.com/YangCatalog/deployment/issues/178)
 
 * ##### v5.8.0 - 2022-12-20
 
