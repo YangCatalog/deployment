@@ -127,6 +127,8 @@ private-directory=${public-directory}/private
 result-html-dir=${public-directory}/results
 ; Downloadable files in www directory
 downloadables-directory=${public-directory}/downloadables
+; drafts' and RFC files' code snippets
+code-snippets-directory=${downloadables-directory}/code-snippets
 ; Where the diff files and trees output will be stored
 save-diff-dir=${public-directory}/compatibility
 ; url to forked Github repository by yang-catalog user
