@@ -42,6 +42,8 @@ flask-secret-key=@...@
 admin-token=@...@
 ; yang-catalog Github user token for automatic pushing
 yang-catalog-token=@...@
+; Github secret key used to signing
+secret-key=@...@
 ; token for Webex Teams
 webex-access-token=@...@
 ; secret for RabbitMQ
