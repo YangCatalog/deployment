@@ -145,6 +145,7 @@ services:
       - ${YANG_RESOURCES}/nginx/results:/usr/share/nginx/html/results:rw
       - ${YANG_RESOURCES}/nginx/stats:/usr/share/nginx/html/stats:rw
       - ${YANG_RESOURCES}/nginx/YANG-modules:/usr/share/nginx/html/YANG-modules:rw
+      - ${YANG_RESOURCES}/all_modules:/usr/share/nginx/html/all_modules:ro
       - ${YANG_RESOURCES}/nginx/notifications:/usr/share/nginx/html/notifications:rw
       - ${NGINX_LOG}:/var/log/nginx:rw
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
