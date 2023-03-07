@@ -47,6 +47,11 @@ spec:
         - mountPath: /usr/share/nginx/html/drafts
           name: nginx-drafts-pv          
           readOnly: true
+        - mountPath: /usr/share/nginx/html/all_modules
+          name: nginx-all-modules-pv
+          readOnly: true
+        - mountPath: /usr/share/nginx/html/notifications
+          name: nginx-notifications-pv
         - mountPath: /usr/share/nginx/html/admin
           name: admin-webroot-pv
         - mountPath: /usr/share/nginx/html
@@ -86,7 +91,13 @@ spec:
           path: {{ .Values.YANG_RESOURCES }}/nginx/stats
       - name: nginx-drafts-pv
         hostPath:
-          path: {{ .Values.YANG_RESOURCES }}/nginx/drafts          
+          path: {{ .Values.YANG_RESOURCES }}/nginx/drafts
+      - name: nginx-all-modules-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/all_modules
+      - name: nginx-notifications-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/nginx/notifications
       - name: admin-webroot-pv
         persistentVolumeClaim:
           claimName: admin-webroot-pvc
