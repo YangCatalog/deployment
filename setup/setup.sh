@@ -13,7 +13,7 @@ apt autoremove -y
 # Create a basic tree structure inside $YANG_RESOURCES directory
 mkdir -p $YANG_RESOURCES
 cd $YANG_RESOURCES
-directories=("all_modules" "cache/confd" "commit_dir" "conf" "elasticsearch" "ietf" "ietf-exceptions" "logs/uwsgi" "logs/elasticsearch" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
+directories=("all_modules" "cache/redis-json" "commit_dir" "conf" "elasticsearch" "ietf" "ietf-exceptions" "logs/uwsgi" "logs/elasticsearch" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
 for directory in ${directories[@]}; do
     mkdir -p $directory -m 755
 done
@@ -44,9 +44,9 @@ echo "iana-if-type@2022-03-07.yang\niana-if-type@2022-08-17.yang\niana-if-type@2
 # Make sure module yang-catalog@2018-04-03 is available
 cd $YANG_RESOURCES/all_modules
 curl -X GET https://raw.githubusercontent.com/YangModels/yang/main/experimental/ietf-extracted-YANG-modules/yang-catalog%402018-04-03.yang -o yang-catalog@2018-04-03.yang
-# Store file to the cache/confd to be able to load it at the start of yc-api-recovery
+# Store file to the cache/redis-json to be able to load it at the start of yc-api-recovery
 cd $cur_dir
-cp yang-catalog.json $YANG_RESOURCES/cache/confd/$(date +"%Y-%m-%d_00:00:00-UTC.json")
+cp yang-catalog.json $YANG_RESOURCES/cache/redis-json/$(date +"%Y-%m-%d_00:00:00-UTC.json")
 
 # Add yang user -> whole $YANG_RESOURCES tree structure needs to belong to user 'yang'
 groupadd -g 1001 -r yang

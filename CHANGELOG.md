@@ -2,7 +2,7 @@
 
 * ##### v5.10.0 - 2023-03-07
 
-  * xym tool update to version 0.6.2 [#183](https://github.com/YangCatalog/deployment/issues/183)
+  * xym tool update to version 0.7.0 [#183](https://github.com/YangCatalog/deployment/issues/183)
   * 2 new values added to the config files
   * Content of 2 new directories exposed and accessible by API now
 

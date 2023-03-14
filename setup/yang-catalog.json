@@ -1,49 +1,50 @@
 {
   "yang-catalog:catalog": {
-    "modules": {
-      "module": [
-        {
-          "name": "yang-catalog",
-          "revision": "2018-04-03",
-          "organization": "ietf",
-          "ietf": {
-            "ietf-wg": "netmod"
+    "modules": [
+      {
+        "name": "yang-catalog",
+        "revision": "2018-04-03",
+        "organization": "ietf",
+        "ietf": {
+          "ietf-wg": "netmod"
+        },
+        "namespace": "urn:ietf:params:xml:ns:yang:yang-catalog",
+        "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/yang-catalog@2018-04-03.yang",
+        "generated-from": "not-applicable",
+        "maturity-level": "initial",
+        "document-name": "draft-clacla-netmod-model-catalog-03.txt",
+        "author-email": "draft-clacla-netmod-model-catalog@ietf.org",
+        "reference": "https://datatracker.ietf.org/doc/draft-clacla-netmod-model-catalog/03",
+        "module-classification": "unknown",
+        "compilation-status": "unknown",
+        "compilation-result": "",
+        "prefix": "yc",
+        "yang-version": "1.1",
+        "description": "This module contains metadata pertinent to each YANG module, as\nwell as a list of vendor implementations for each module.  The\nstructure is laid out in such a way as to make it possible to\nlocate metadata and vendor implementation on a per-module basis\nas well as obtain a list of available modules for a given\nvendor's platform and specific software release.",
+        "contact": "Benoit Claise <bclaise@cisco.com>\n\nJoe Clarke <jclarke@cisco.com>",
+        "module-type": "module",
+        "tree-type": "nmda-compatible",
+        "yang-tree": "http://localhost/api/services/tree/yang-catalog@2018-04-03.yang",
+        "expired": true,
+        "dependencies": [
+          {
+            "name": "ietf-inet-types",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-inet-types@2021-02-22.yang"
           },
-          "namespace": "urn:ietf:params:xml:ns:yang:yang-catalog",
-          "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/yang-catalog@2018-04-03.yang",
-          "generated-from": "not-applicable",
-          "maturity-level": "initial",
-          "document-name": "draft-clacla-netmod-model-catalog-03.txt",
-          "author-email": "draft-clacla-netmod-model-catalog@ietf.org",
-          "reference": "https://datatracker.ietf.org/doc/draft-clacla-netmod-model-catalog/03",
-          "module-classification": "unknown",
-          "compilation-status": "unknown",
-          "compilation-result": "",
-          "prefix": "yc",
-          "yang-version": "1.1",
-          "description": "This module contains metadata pertinent to each YANG module, as\nwell as a list of vendor implementations for each module.  The\nstructure is laid out in such a way as to make it possible to\nlocate metadata and vendor implementation on a per-module basis\nas well as obtain a list of available modules for a given\nvendor's platform and specific software release.",
-          "contact": "Benoit Claise <bclaise@cisco.com>\n\nJoe Clarke <jclarke@cisco.com>",
-          "module-type": "module",
-          "tree-type": "nmda-compatible",
-          "yang-tree": "http://localhost/api/services/tree/yang-catalog@2018-04-03.yang",
-          "expired": true,
-          "dependencies": [
-            {
-              "name": "ietf-inet-types",
-              "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-inet-types@2021-02-22.yang"
-            },
-            {
-              "name": "ietf-yang-library",
-              "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-yang-library@2018-10-16.yang"
-            },
-            {
-              "name": "ietf-yang-types",
-              "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-yang-types@2021-11-07.yang"
-            }
-          ],
-          "derived-semantic-version": "4.0.0"
-        }
-      ]
+          {
+            "name": "ietf-yang-library",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-yang-library@2018-10-16.yang"
+          },
+          {
+            "name": "ietf-yang-types",
+            "schema": "https://raw.githubusercontent.com/YangModels/yang/196bd41c74578667591e9333bf6b96cf2947fd75/experimental/ietf-extracted-YANG-modules/ietf-yang-types@2021-11-07.yang"
+          }
+        ],
+        "derived-semantic-version": "1.0.0"
+      }
+    ],
+    "vendors": {
+      "vendor": []
     }
   }
 }

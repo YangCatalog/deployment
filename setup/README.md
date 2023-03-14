@@ -37,7 +37,13 @@ While loading all the applications some of them might fail and restart a couple 
 Just let it load for a couple of minutes, and it should start everything without problems.
 The ```yc-backend``` container will start once the ```yc-api-recovery``` container will exit with code 0. You can see the status code using ```$ docker ps -a```
 
-10. **Optional**: You can update logrotate in order to not have infinitely big log files. 
+10. Execute to the `yc-backend` container using command `docker exec -it yc-backend bash` and run 2 following commands:
+```
+python3 elasticsearchIndexing/create_indices.py
+python3 sandbox/create_admin.py
+```
+
+11. **Optional**: You can update logrotate in order to not have infinitely big log files. 
 logrotate configuration is stored in the [backend/yangcatalog-rotate](../backend/yangcatalog-rotate) file.
 During docker image build, this file is copied to the ```/etc/logrotate.d/yangcatalog-rotate``` location.
 Default configuration:
@@ -53,10 +59,10 @@ Default configuration:
 }
 ```
 
-11. Make sure that 10837 port is opened since this is needed for rsync using: ```$ lsof -i -P -n | grep '*:10873 (LISTEN)'``` 
+12.  Make sure that 10837 port is opened since this is needed for rsync using: ```$ lsof -i -P -n | grep '*:10873 (LISTEN)'``` 
 <br>**NOTE: On the Amazon instance you need to go to security groups pick the group under which your instance is running, add a new inbound rule and add the custom port to it.**
 
-12. The [resources](../resources) directory should contain the following files:
+13.  The [resources](../resources) directory should contain the following files:
 ```
 drwxrwxr-x  2 yang yang     4096 Feb 14 06:34 ./
 drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
@@ -71,15 +77,15 @@ drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
 ```
 
 
-13. To send mails about the results of the running cronjobs, insert one or more mail addresses (separated by comma) to the ```<CRON_MAIL_TO>``` environment variable in your ```.env``` file.
+14. To send mails about the results of the running cronjobs, insert one or more mail addresses (separated by comma) to the ```<CRON_MAIL_TO>``` environment variable in your ```.env``` file.
 
-14. After the first successful start, it is recommended to run cronjob-daily in the ```sdo-analysis``` container:
+15. After the first successful start, it is recommended to run cronjob-daily in the ```sdo-analysis``` container:
     - ```$ docker exec -it yc-sdo-analysis bash```
     - ```$ cd bin/cronjobs```
     - ```$ su yang```
     - ```$ ./cronjob```
 
-15. After the end of cronjob-daily (the first time it can take up to one hour), it is recommended to run the [draftPullLocal.py](../backend/ietfYangDraftPull/draftPullLocal.py) script, which populates the basic set of modules into the databases:
+16. After the end of cronjob-daily (the first time it can take up to one hour), it is recommended to run the [draftPullLocal.py](../backend/ietfYangDraftPull/draftPullLocal.py) script, which populates the basic set of modules into the databases:
     - ```$ docker exec -it yc-backend bash```
     - ```$ cd ietfYangDraftPull```
     - ```$ su yang```
