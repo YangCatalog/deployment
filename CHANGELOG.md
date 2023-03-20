@@ -1,5 +1,10 @@
 ## Deployment Release Notes
 
+* ##### v5.10.1 - 2023-03-20
+
+  * README.md file describing deployment to PROD created [#185](https://github.com/YangCatalog/deployment/issues/185)
+  * setup.sh script and corresponding README.md file updated
+
 * ##### v5.10.0 - 2023-03-07
 
   * xym tool update to version 0.7.0 [#183](https://github.com/YangCatalog/deployment/issues/183)
