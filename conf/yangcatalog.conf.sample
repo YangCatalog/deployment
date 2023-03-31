@@ -166,6 +166,8 @@ logs=${var}/logs
 backup=${var}/backup
 ; create json backup of all yang modules directory
 cache=${var}/cache
+; path to file where latest version of XYM used for modules extraction in the module-compilation container is written
+modules-extraction-latest-xym-version=${cache}/latest_xym_version_for_modules_extraction.txt
 ; location of YangModels/yang cloned repository
 yang-models-dir=${var}/nonietf/yangmodels/yang
 ; all modules saved at one place with same name format <name>@revision.yang
