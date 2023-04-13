@@ -1,5 +1,18 @@
 # Kubernetes PROD Deployment
 
+## Pulling the latest changes
+
+Docker images on the production are always builded from the `master` branch.
+It is therefore necessary to pull the latest changes before the actual build.
+To pull the latest changes, run the following Git commands
+in the directory where [deployment](https://github.com/YangCatalog/deployment) repository is cloned (e.g. `/home/yang/deployment`).
+```
+git checkout master
+git submodule update --init
+```
+
+## Building latest Docker images
+
 This directory contains 3 shell scripts that are used when deploying the code to the production.
 
 As with the DEV environment, it is necessary to first build Docker images using the command `docker-compose build`.
@@ -31,3 +44,15 @@ and then [pushed](https://docs.docker.com/engine/reference/commandline/push/) to
 ```
 ./k8-deploy.sh
 ```
+
+## Rollback procedure
+
+Rarely, it may happen that after deploying latest changes, something does not work as intended and it is necessary to do the rollback.
+For this reason we are [tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging) = giving tags to every release commit.
+The format we use is `v.<major>.<minor>.<patch>` so for example: `v5.9.0`
+You can simply use following git commands to go back to specific release:
+```
+git checkout tags/v5.9.0
+git submodule update --init
+```
+NOTE: change the tag accordingly and run `docker-compose build` command to rebuild Docker images again.
