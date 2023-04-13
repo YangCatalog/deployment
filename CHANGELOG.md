@@ -1,5 +1,10 @@
 ## Deployment Release Notes
 
+* ##### v5.11.0 - 2023-04-13
+
+  * Rollback procedure description added to the README.md file
+  * New value added to the config files
+
 * ##### v5.10.1 - 2023-03-20
 
   * README.md file describing deployment to PROD created [#185](https://github.com/YangCatalog/deployment/issues/185)
