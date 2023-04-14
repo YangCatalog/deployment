@@ -8,6 +8,7 @@ To pull the latest changes, run the following Git commands
 in the directory where [deployment](https://github.com/YangCatalog/deployment) repository is cloned (e.g. `/home/yang/deployment`).
 ```
 git checkout master
+git pull
 git submodule update --init
 ```
 
@@ -18,6 +19,14 @@ This directory contains 3 shell scripts that are used when deploying the code to
 As with the DEV environment, it is necessary to first build Docker images using the command `docker-compose build`.
 However, unlike the DEV environment where `docker-compose up -d` is used to start containers,
 we need to run these scripts in specific order.
+
+
+All k8 scripts need to be run from kubescripts directory of deployment repository.
+```
+cd /home/yang/deployment/kubescripts
+```
+
+After that run the scripts in this exact order.
 
 `k8-push-images.sh`
 
@@ -44,6 +53,26 @@ and then [pushed](https://docs.docker.com/engine/reference/commandline/push/) to
 ```
 ./k8-deploy.sh
 ```
+
+If everything is okay, you will see something like:
+```
+NAME                                  READY   STATUS      RESTARTS   AGE
+rabbit-645ccf97b6-l2fdq               1/1     Running     0          64m
+confd-6699f9bc74-btwj2                1/1     Running     0          64m
+redis-8dd96b995-wfbpb                 1/1     Running     0          64m
+admin-ui-pqg26                        0/1     Completed   0          64m
+yangcatalog-ui-j62b4                  0/1     Completed   0          64m
+documentation-mh2tx                   0/1     Completed   0          64m
+api-recovery-z5rkp                    0/1     Completed   0          64m
+module-compilation-85c7b5bb4c-jdskp   1/1     Running     0          64m
+backend-7799b75d6d-kz4rd              1/1     Running     0          64m
+yangvalidator-57f4dcbc6f-mzg4h        1/1     Running     0          64m
+yangre-7dd97bfc7-8r7cp                1/1     Running     0          64m
+api-receiver-7c7cdcc58f-6dqn4         1/1     Running     0          64m
+frontend-69d8749d56-b5vfh             1/1     Running     0          64m
+```
+
+After that you can just Ctrl+C to exit and your deployment is complete!
 
 ## Rollback procedure
 
