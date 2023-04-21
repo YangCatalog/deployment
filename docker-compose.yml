@@ -65,6 +65,7 @@ services:
     restart: always
     depends_on:
       - confd
+      - redis
 
   yangre:
     container_name: yc-yangre
@@ -122,7 +123,6 @@ services:
       - backend
       - redis
     depends_on:
-      - confd
       - backend
 
   frontend:
@@ -215,36 +215,36 @@ services:
       retries: 5      
     restart: always
 
-  # elasticsearch:
-  #   container_name: yc-elasticsearch
-  #   build:
-  #     context: elasticsearch
-  #     dockerfile: Dockerfile
-  #     args:
-  #       - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
-  #       - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
-  #   environment:
-  #     - bootstrap.memory_lock=true
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   volumes:
-  #     - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
-  #     - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-  #   networks:
-  #     - elasticsearch
-  #   restart: always
+#  elasticsearch:
+#     container_name: yc-elasticsearch
+#     build:
+#       context: elasticsearch
+#       dockerfile: Dockerfile
+#       args:
+#         - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+#         - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+#     environment:
+#       - bootstrap.memory_lock=true
+#     ulimits:
+#       memlock:
+#         soft: -1
+#         hard: -1
+#     volumes:
+#       - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+#       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+#     networks:
+#       - elasticsearch
+#     restart: always
 
-  # kibana:
-  #   container_name: yc-kibana
-  #   depends_on:
-  #     - elasticsearch
-  #   image: kibana:7.10.1
-  #   ports:
-  #     - '5601:5601'
-  #   networks:
-  #     - elasticsearch
+#  kibana:
+#     container_name: yc-kibana
+#     depends_on:
+#       - elasticsearch
+#     image: kibana:7.10.1
+#     ports:
+#       - '5601:5601'
+#     networks:
+#       - elasticsearch
 
   # matomo:
   #   container_name: yc-matomo
