@@ -1,5 +1,10 @@
 ## Deployment Release Notes
 
+* ##### v5.11.1 - 2023-05-03
+
+  * No need to push yc-documentation container [#188](https://github.com/YangCatalog/deployment/issues/188)
+  * Improvements to README.md file describing deployment [#185](https://github.com/YangCatalog/deployment/issues/185)
+
 * ##### v5.11.0 - 2023-04-13
 
   * Rollback procedure description added to the README.md file
