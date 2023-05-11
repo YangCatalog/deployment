@@ -92,7 +92,7 @@ services:
   api-receiver:
     container_name: yc-api-receiver
     image: catalog_backend_api:latest
-    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang; python api/receiver.py"
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang -c 'python api/receiver.py'"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
