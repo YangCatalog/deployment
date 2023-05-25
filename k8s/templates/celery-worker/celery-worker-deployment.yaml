@@ -31,11 +31,13 @@ spec:
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
+        runAsUser: {{ .Values.YANG_ID }}
+        runAsGroup: {{ .Values.YANG_GID }}
       containers:
       - image: localhost:32000/catalog_backend_api:latest
         name: celery-worker
         command: ["/bin/bash"]
-        args: ["-c", "chown -R yang:yang /var/run/yang; celery -A jobs.celery:celery_app worker -l INFO"]
+        args: ["-c", "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"]
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv

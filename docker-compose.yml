@@ -92,17 +92,10 @@ services:
 
   celery-worker:
     container_name: yc-celery-worker
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
-      args:
-        - YANG_ID=${YANG_ID}
-        - YANG_GID=${YANG_GID}
-        - CRON_MAIL_TO=${CRON_MAIL_TO}
-        - YANGCATALOG_CONFIG_PATH=${YANGCATALOG_CONFIG_PATH}
+    image: catalog_backend_api:latest
     restart: always
     user: '${YANG_ID}:${YANG_GID}'
-    command: celery -A jobs.celery:celery_app worker -l INFO
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
