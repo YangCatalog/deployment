@@ -66,6 +66,7 @@ services:
     depends_on:
       - confd
       - redis
+      - rabbit
 
   yangre:
     container_name: yc-yangre
@@ -89,10 +90,12 @@ services:
       retries: 5      
     restart: always
 
-  api-receiver:
-    container_name: yc-api-receiver
+  celery-worker:
+    container_name: yc-celery-worker
     image: catalog_backend_api:latest
-    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang -c 'python api/receiver.py'"
+    restart: always
+    user: '${YANG_ID}:${YANG_GID}'
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
@@ -108,7 +111,10 @@ services:
       - rabbitmq
       - frontend
       - redis
-    restart: always
+    depends_on:
+      - backend
+      - rabbit
+      - redis
 
   api-recovery:
     container_name: yc-api-recovery

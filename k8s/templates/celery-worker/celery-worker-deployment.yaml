@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -c
     kompose.version: 1.21.0 (992df58d8)
   labels:
-    io.kompose.service: api-receiver
-  name: api-receiver
+    io.kompose.service: celery-worker
+  name: celery-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: api-receiver
+      io.kompose.service: celery-worker
   strategy:
     type: Recreate
   template:
@@ -27,15 +27,17 @@ spec:
         io.kompose.network/redis: "true"
         io.kompose.network/tools-ieft-org: "true"
         io.kompose.network/rsync: "true"
-        io.kompose.service: api-receiver
+        io.kompose.service: celery-worker
     spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
+        runAsUser: {{ .Values.YANG_ID }}
+        runAsGroup: {{ .Values.YANG_GID }}
       containers:
       - image: localhost:32000/catalog_backend_api:latest
-        name: api-receiver
+        name: celery-worker
         command: ["/bin/bash"]
-        args: ["-c", "chown -R yang:yang /var/run/yang; service postfix start; su yang -c 'python api/receiver.py'"]
+        args: ["-c", "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"]
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
           name: yangcatalog-conf-pv
