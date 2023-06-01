@@ -29,7 +29,7 @@ IDs and paths can be changed according to your directory tree structure.
 ```$ docker-compose build```
 <br>**NOTE: Do NOT run docker and docker-compose command as sudo, see this post-install notes: https://docs.docker.com/engine/install/linux-postinstall/**
 
-8. Set ```max_map_count``` kernel setting using ```$ sysctl -w vm.max_map_count=262144``` because Elasticsearch will fail otherwise.
+8. Set ```max_map_count``` kernel setting using ```$ sysctl -w vm.max_map_count=262144``` because OpenSearch will fail otherwise.
 Containers share the same kernel as the host OS, so this needs to be done on host machine and not inside the docker container, this also needs to be done everytime host machine is restarted.
 
 9. Run the yangcatalog: ```$ docker-compose up -d```
@@ -39,7 +39,7 @@ The ```yc-backend``` container will start once the ```yc-api-recovery``` contain
 
 10. Execute to the `yc-backend` container using command `docker exec -it yc-backend bash` and run 2 following commands:
 ```
-python3 elasticsearchIndexing/create_indices.py
+python3 opensearch_indexing/create_indices.py
 python3 sandbox/create_admin.py
 ```
 
@@ -97,5 +97,5 @@ drwxrwxr-x 16 yang yang     4096 Jul  8 06:43 ../
 2. To remove all the stopped containers use: ```$ docker rm $(docker ps -a -q)```
 3. To remove all the created volumes use: ```$ docker volume prune```
 4. To remove all the images use: ```$ docker rmi $(docker images -a -q) -f```
-5. If you want to clean either Elasticsearch data, remove everything from ```<ELASTICSEARCH_DATA>``` and ```<ELASTICSEARCH_LOG>``` folders
+5. If you want to clean either OpenSearch data, remove everything from ```<OPENSEARCH_DATA>``` and ```<OPENSEARCH_LOG>``` folders
 6. Now it's possible to build images using: ```$ docker-compose build``` and run the containers using: ```$ docker-compose up -d```. Or just alternatively: ```$ docker-compose up -d --build```

@@ -21,7 +21,7 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       labels:
         io.kompose.network/frontend: "true"
-        io.kompose.network/elasticsearch: "true"
+        io.kompose.network/opensearch: "true"
         io.kompose.service: yc-frontend
     spec:
       securityContext:

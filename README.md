@@ -28,7 +28,7 @@ Main repository to start up all the pieces of YANG Catalog
 The deployment uses several services via container images that are
 distributed by third parties, e.g. via DockerHub
 
-* Elasticsearch
+* OpenSearch
 * RabbitMQ
 * NGINX (as the base image of the frontend container, which includes static content)
 
@@ -52,21 +52,21 @@ Redis) and combine them into a functional local deployment
 of the YANG Catalog, which should be accessible on
 http://localhost
 
-Make sure that you will start the elasticsearch Dockerfile as well
-since in production environment this is not used and an AWS elasticsearch
+Make sure that you will start the OpenSearch Dockerfile as well
+since in production environment this is not used and an AWS OpenSearch
 instance is used instead
 
 ## Status
 
-### Elasticsearch
+### OpenSearch
 
-Elasticsearch instance can be started in two different ways. Locally
-you can set "es-aws" in your yangcatalog.conf file to `False` and start
-the elasticsearch manually using `docker run` command. Also, es-host
-has to be set to elasticsearch instance IP (k8s setup) or
-`yc-elasticsearch` (docker-compose setup) and port to `9200`. We use AWS elasticsearch service in production.
-This instance runs on different server and is connected to YANG Catalog server. For this the "es-aws" needs to be
-set to `True` and es-host set to whatever URL AWS provides for elasticsearch.
+OpenSearch instance can be started in two different ways. Locally
+you can set "os-aws" in your yangcatalog.conf file to `False` and start
+ OpenSearch manually using `docker run` command. Also, os-host
+has to be set to the OpenSearch's instance IP (k8s setup) or
+`yc-opensearch` (docker-compose setup) and port to `9200`. We use AWS's OpenSearch service in production.
+This instance runs on different server and is connected to the YANG Catalog server. For this the "os-aws" option needs to be
+set to `True` and os-host set to whatever URL AWS provides for OpenSearch.
 In AWS make sure that this URL is not opened for internet but is opened for
 the other instance that is running yangcatalog.org
 
@@ -137,13 +137,11 @@ This will add a prefix to these names so in this example we would have yc-backen
 
 `RABBITMQ_PASSWORD=<RABBITMQ PASSWORD>`  - rabbitmq username.
 
-`ELASTICSEARCH_DATA=/var/lib/elasticsearch` - This is only used with local elasticsearch. If AWS
-elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
-variable is used to specify where elasticsearch indexed data should be saved
+`OPENSEARCH_DATA=/var/lib/opensearch` - If local OpenSearch is used this
+variable is used to specify where OpenSearch indexed data should be saved
 
-`ELASTICSEARCH_LOG=/var/log/elasticsearch`  - This is only used with local elasticsearch. If AWS
-elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
-variable is used to specify where elasticsearch logs should be saved
+`OPENSEARCH_LOG=/var/log/opensearch`  - If local OpenSearch is used this
+variable is used to specify where OpenSearch logs should be saved
 
 `NGINX_LOG=/var/log/nginx` - Where do we save nginx logs
 
@@ -156,12 +154,11 @@ If None exists just use any path
 `CA_CERT_FILE=/home/yang/deployment/resources/yangcatalog.org.crt` - ca_certificate file for HTTPS protocol.
 If None exists just use any path
 
-`ELASTICSEARCH_ID=1001` - This is only used with local elasticsearch. If AWS
-elasticsearch is used this variables can be set to anything. If local elasticsearch is used this
+`OPENSEARCH_ID=1001` - If local OpenSearch is used this
 variable is used to set permissions to specific user ID. It`s safe to use same ID as YANG_ID
 
-`ELASTICSEARCH_GID=1001` - This is only used with local elasticsearch. If AWS
-elasticsearch is used to set permissions to specific user GID. It`s safe to use same GID as YANG_GID
+`OPENSEARCH_GID=1001` - If local OpenSearch is used this
+variable is used to set permissions to specific group ID. It`s safe to use same ID as YANG_GID
 
 `YANG_ID=1016` - ID created for yang user
 
