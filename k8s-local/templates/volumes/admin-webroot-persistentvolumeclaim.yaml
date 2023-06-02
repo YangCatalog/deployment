@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: admin-webroot-pvc
+  name: admin-webroot-pvc
+spec:
+  storageClassName: "local-storage"
+  volumeName: admin-webroot-pv
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

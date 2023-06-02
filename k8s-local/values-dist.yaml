@@ -1,0 +1,14 @@
+K8S_FILESYSTEM_NODE: ubuntu
+YANG_VOLUMES: /var/yang/volumes
+DEPLOYMENT_SRC: /home/<user>/deployment
+REDIS_VOLUME: /var/yang/redis
+RABBITMQ_USER: <RABBITMQ_USER>
+RABBITMQ_PASSWORD: <RABBITMQ PASSWORD>
+NGINX_LOG: /var/yang/logs/nginx
+KEY_FILE: /home/yang/deployment/resources/yangcatalog.org.key
+CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
+CA_CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
+YANG_RESOURCES: /var/yang
+YANG_ID: 1016
+YANG_GID: 1016
+CONFD_LOG: /var/yang/logs/confd

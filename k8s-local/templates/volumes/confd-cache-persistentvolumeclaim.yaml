@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: confd-cache-pvc
+  name: confd-cache-pvc
+spec:
+  storageClassName: "local-storage"
+  volumeName: confd-cache-pv
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Mi

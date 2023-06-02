@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: documentation
+  name: documentation
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/frontend: "true"
+        io.kompose.service: documentation
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: docker.io/slatedocs/slate
+        name: documentation
+        volumeMounts:
+        - mountPath: /srv/slate/source
+          name: docs-source-pv
+        - mountPath: /srv/slate/build
+          name: docs-build-pv
+      restartPolicy: OnFailure
+      volumes:
+      - name: docs-source-pv
+        hostPath:
+          path: {{ .Values.DEPLOYMENT_SRC }}/backend/documentation/source/
+      - name: docs-build-pv
+        persistentVolumeClaim:
+          claimName: docs-pvc

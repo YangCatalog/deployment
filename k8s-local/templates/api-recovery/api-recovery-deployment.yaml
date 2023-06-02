@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  name: api-recovery
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.network/backend: "true"
+        io.kompose.network/confd: "true"
+        io.kompose.network/redis: "true"
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.YANG_GID }}
+      containers:
+      - image: docker.io/library/catalog_backend_api:latest
+        name: api-recovery
+        command: ["/bin/bash"]
+        args: ["-c", "source bin/activate; python recovery/recovery.py --load"]
+        volumeMounts:
+        - mountPath: /etc/yangcatalog/yangcatalog.conf
+          name: yangcatalog-conf-pv
+          readOnly: true
+        - mountPath: /var/yang
+          name: yang-resources-pv
+        - mountPath: /var/run/yang
+          name: run-pv
+        imagePullPolicy: Never
+      restartPolicy: OnFailure
+      volumes:
+      - name: yangcatalog-conf-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}/conf/yangcatalog.conf
+      - name: yang-resources-pv
+        hostPath:
+          path: {{ .Values.YANG_RESOURCES }}
+      - name: run-pv
+        persistentVolumeClaim:
+          claimName: run-pvc
