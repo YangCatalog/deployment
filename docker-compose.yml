@@ -16,7 +16,7 @@ services:
     volumes:
       - ${KEY_FILE}:/a/system/yangcatalog.org.key
       - ${CERT_FILE}:/a/system/yangcatalog.org.crt
-      - ${CONFD_LOG}:/var/yang/logs       
+      - ${CONFD_LOG}:/var/yang/logs
     networks:
       - confd
     healthcheck:
@@ -87,7 +87,7 @@ services:
       test: curl -f http://yc-frontend/yangre/v1/ping
       interval: 30s
       timeout: 10s
-      retries: 5      
+      retries: 5
     restart: always
 
   celery-worker:
@@ -218,39 +218,39 @@ services:
       test: curl -f http://yc-frontend/yangvalidator/v2/ping
       interval: 30s
       timeout: 10s
-      retries: 5      
+      retries: 5
     restart: always
 
-#  elasticsearch:
-#     container_name: yc-elasticsearch
-#     build:
-#       context: elasticsearch
-#       dockerfile: Dockerfile
-#       args:
-#         - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
-#         - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
-#     environment:
-#       - bootstrap.memory_lock=true
-#     ulimits:
-#       memlock:
-#         soft: -1
-#         hard: -1
-#     volumes:
-#       - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
-#       - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
-#     networks:
-#       - elasticsearch
-#     restart: always
+  elasticsearch:
+    container_name: yc-elasticsearch
+    build:
+      context: elasticsearch
+      dockerfile: Dockerfile
+      args:
+        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
+        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+    environment:
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
+      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+    networks:
+      - elasticsearch
+    restart: always
 
-#  kibana:
-#     container_name: yc-kibana
-#     depends_on:
-#       - elasticsearch
-#     image: kibana:7.10.1
-#     ports:
-#       - '5601:5601'
-#     networks:
-#       - elasticsearch
+  #  kibana:
+  #     container_name: yc-kibana
+  #     depends_on:
+  #       - elasticsearch
+  #     image: kibana:7.10.1
+  #     ports:
+  #       - '5601:5601'
+  #     networks:
+  #       - elasticsearch
 
   # matomo:
   #   container_name: yc-matomo
@@ -296,9 +296,6 @@ services:
     labels:
       NAME: "rabbitmq1"
     volumes: []
-      # - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
-      # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
-      # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
     networks:
       - rabbitmq
     healthcheck:
@@ -337,24 +334,24 @@ services:
     restart: always
 
   redis:
-      container_name: yc-redis
-      build:
-        context: redis
-        dockerfile: Dockerfile
-        args:
-          - YANG_ID=${YANG_ID}
-          - YANG_GID=${YANG_GID}      
-      volumes:
-        - ${REDIS_VOLUME}:/data:rw
-        # - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
-      networks:
-        - redis
-      healthcheck:
-        test: ["CMD", "redis-cli", "ping"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-      restart: always
+    container_name: yc-redis
+    build:
+      context: redis
+      dockerfile: Dockerfile
+      args:
+        - YANG_ID=${YANG_ID}
+        - YANG_GID=${YANG_GID}
+    volumes:
+      - ${REDIS_VOLUME}:/data:rw
+      # - ${YANG_RESOURCES}/conf/redis.conf:/etc/yangcatalog/redis.conf:ro
+    networks:
+      - redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
 
   documentation:
     container_name: yc-documentation
@@ -374,6 +371,7 @@ volumes:
   downloadables:
   matomo:
   matomo-db:
+
 
 networks:
   frontend:

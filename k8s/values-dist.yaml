@@ -5,10 +5,14 @@ REDIS_VOLUME: /var/yang/redis
 RABBITMQ_USER: <RABBITMQ_USER>
 RABBITMQ_PASSWORD: <RABBITMQ PASSWORD>
 NGINX_LOG: /var/yang/logs/nginx
-KEY_FILE: /home/yang/deployment/resources/yangcatalog.org.key
-CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
-CA_CERT_FILE: /home/yang/deployment/resources/yangcatalog.org.crt
+KEY_FILE: /home/<user>/deployment/resources/yangcatalog.org.key
+CERT_FILE: /home/<user>/deployment/resources/yangcatalog.org.crt
+CA_CERT_FILE: /home/<user>/deployment/resources/yangcatalog.org.crt
 YANG_RESOURCES: /var/yang
 YANG_ID: 1016
-YANG_GID: 1016
+YANG_GID: 1001
 CONFD_LOG: /var/yang/logs/confd
+IP_FAMILY_POLICY: RequireDualStack
+IP_FAMILIES: [IPv6, IPv4]
+DOCKER_REGISTRY: localhost:32000
+IMAGE_PULL_POLICY: IfNotPresent

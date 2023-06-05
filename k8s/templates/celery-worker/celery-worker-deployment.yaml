@@ -34,7 +34,8 @@ spec:
         runAsUser: {{ .Values.YANG_ID }}
         runAsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/catalog_backend_api:latest
+      - image: {{ .Values.DOCKER_REGISTRY }}/catalog_backend_api:latest
+        imagePullPolicy: {{ .Values.IMAGE_PULL_POLICY }}
         name: celery-worker
         command: ["/bin/bash"]
         args: ["-c", "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"]

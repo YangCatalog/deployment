@@ -9,10 +9,8 @@ metadata:
   name: yc-frontend
 spec:
   type: NodePort
-  ipFamilies:
-    - IPv6
-    - IPv4
-  ipFamilyPolicy: RequireDualStack
+  ipFamilies: {{ .Values.IP_FAMILIES }}
+  ipFamilyPolicy: {{ .Values.IP_FAMILY_POLICY }}
   ports:
   - name: "80"
     port: 80
