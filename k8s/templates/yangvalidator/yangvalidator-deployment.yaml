@@ -28,7 +28,8 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/yangvalidator:latest
+      - image: {{ .Values.DOCKER_REGISTRY }}/yangvalidator:latest
+        imagePullPolicy: {{ .Values.IMAGE_PULL_POLICY }}
         name: yangvalidator
         volumeMounts:
         - mountPath: /etc/yangcatalog/yangcatalog.conf
