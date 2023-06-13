@@ -87,7 +87,7 @@ services:
       test: curl -f http://yc-frontend/yangre/v1/ping
       interval: 30s
       timeout: 10s
-      retries: 5      
+      retries: 5
     restart: always
 
   celery-worker:
@@ -218,29 +218,29 @@ services:
       test: curl -f http://yc-frontend/yangvalidator/v2/ping
       interval: 30s
       timeout: 10s
-      retries: 5      
+      retries: 5
     restart: always
 
-  # opensearch:
-  #   container_name: yc-opensearch
-  #   build:
-  #     context: opensearch
-  #     dockerfile: Dockerfile
-  #     args:
-  #       - OPENSEARCH_ID=${OPENSEARCH_ID}
-  #       - OPENSEARCH_GID=${OPENSEARCH_GID}
-  #   environment:
-  #     - bootstrap.memory_lock=true
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   volumes:
-  #     - ${OPENSEARCH_LOG}:/var/log/opensearch
-  #     - ${OPENSEARCH_DATA}:/var/lib/opensearch
-  #   networks:
-  #     - opensearch
-  #   restart: always
+  opensearch:
+    container_name: yc-opensearch
+    build:
+      context: opensearch
+      dockerfile: Dockerfile
+      args:
+        - OPENSEARCH_ID=${OPENSEARCH_ID}
+        - OPENSEARCH_GID=${OPENSEARCH_GID}
+    environment:
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${OPENSEARCH_LOG}:/var/log/opensearch
+      - ${OPENSEARCH_DATA}:/var/lib/opensearch
+    networks:
+      - opensearch
+    restart: always
   
 #  kibana:
 #     container_name: yc-kibana
@@ -296,9 +296,6 @@ services:
     labels:
       NAME: "rabbitmq1"
     volumes: []
-      # - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
-      # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
-      # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
     networks:
       - rabbitmq
     healthcheck:
@@ -374,6 +371,7 @@ volumes:
   downloadables:
   matomo:
   matomo-db:
+
 
 networks:
   frontend:

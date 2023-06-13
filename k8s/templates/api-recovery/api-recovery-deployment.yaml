@@ -20,7 +20,8 @@ spec:
       securityContext:
         fsGroup: {{ .Values.YANG_GID }}
       containers:
-      - image: localhost:32000/catalog_backend_api:latest
+      - image: {{ .Values.DOCKER_REGISTRY }}/catalog_backend_api:latest
+        imagePullPolicy: {{ .Values.IMAGE_PULL_POLICY }}
         name: api-recovery
         command: ["/bin/bash"]
         args: ["-c", "source bin/activate; python recovery/recovery.py --load"]

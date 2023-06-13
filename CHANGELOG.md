@@ -1,5 +1,9 @@
 ## Deployment Release Notes
 
+* ##### v5.12.0 - 2023-05-31
+
+  * Replaced api-receiver with celery-worker [#195](https://github.com/YangCatalog/deployment/issues/195)
+
 * ##### v5.11.1 - 2023-05-03
 
   * No need to push yc-documentation container [#188](https://github.com/YangCatalog/deployment/issues/188)
