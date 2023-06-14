@@ -21,6 +21,7 @@ spec:
         kompose.cmd: kompose convert -c
         kompose.version: 1.21.0 (992df58d8)
       labels:
+        date: "{{ now | unixEpoch }}"
         io.kompose.network/rabbitmq: "true"
         io.kompose.service: yc-rabbit
     spec:
