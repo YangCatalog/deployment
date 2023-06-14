@@ -31,7 +31,7 @@ IDs and paths can be changed according to your directory tree structure.
 ```$ docker-compose build```
 <br>**NOTE: Do NOT run docker and docker-compose command as sudo, see this post-install notes: https://docs.docker.com/engine/install/linux-postinstall/**
 
-8. Set ```max_map_count``` kernel setting using ```$ sysctl -w vm.max_map_count=262144``` because Elasticsearch will fail otherwise.
+8. Set ```max_map_count``` kernel setting using ```$ sudo sysctl -w vm.max_map_count=262144``` because Elasticsearch will fail otherwise.
 Containers share the same kernel as the host OS, so this needs to be done on host machine and not inside the docker container, this also needs to be done everytime host machine is restarted.
 
 9. Run the yangcatalog: ```$ docker-compose up -d```
