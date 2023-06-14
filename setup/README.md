@@ -10,6 +10,8 @@ The simple command line command from the [deployment](..) directory for this ste
 Then replace all the tokens, passwords, usernames and email addresses which you want to use.
 <br>**NOTE: Alternatively, you can ask another developer to provide this file.**
 
+While we are in [conf](../conf) directory, you can also copy [redis_databases.json](../conf/redis_databases.json) to your ```redis-dir``` directory from [yangcatalog.conf](../conf/yangcatalog.conf.sample). Without this file redis related code won't work correctly.
+
 3. Create a copy of the [.env-dist](../.env-dist) file and name it ```.env``` in the [deployment](..) directory.
 Passwords need to be equivalent to the ones in the ```<YANG_RESOURCES>/yangcatalog.conf``` file. 
 IDs and paths can be changed according to your directory tree structure.
