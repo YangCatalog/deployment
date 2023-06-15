@@ -17,10 +17,10 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         kompose.cmd: kompose convert -c
         kompose.version: 1.21.0 (992df58d8)
       labels:
-        date: "{{ now | unixEpoch }}"
         io.kompose.network/tools-ieft-org: "true"
         io.kompose.network/rsync: "true"
         io.kompose.network/frontend: "true"
