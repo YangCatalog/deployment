@@ -203,7 +203,7 @@ inet6 line
 `vim values.yaml`
 
 * Please create all volume directories (admin-webroot, docs, downloadables, main-webroot, nginx-conf, run) under YANG_VOLUMES manually.
-* Please check if `/var/yang/conf/yangcatalog.conf` file points to correct elasticsearch IP
+* Please check if `/var/yang/conf/yangcatalog.conf` file points to correct OpenSearch IP
 
 ## 2. Run Helm Chart
 
@@ -215,11 +215,11 @@ inet6 line
 
 `microk8s kubectl get jobs`
 
-## Setup Elasticsearch container (on localhost only)
+## Setup OpenSearch container (on localhost only)
 
 `sudo sysctl -w vm.max_map_count=262144`
 
-`docker exec -it <elasticsearch_container_name> sh`
+`docker exec -it <opensearch_container_name> sh`
 
 `curl -X PUT 'http://localhost:9200/_settings' -H 'Content-Type: application/json' -d '{ "index": { "blocks": { "read_only_allow_delete": "false" } } }'`
 

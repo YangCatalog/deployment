@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: elasticsearch
+  name: opensearch
 spec:
   podSelector:
     matchLabels:
-      io.kompose.network/elasticsearch: "true"
+      io.kompose.network/opensearch: "true"
   policyTypes:
     - Ingress
     - Egress

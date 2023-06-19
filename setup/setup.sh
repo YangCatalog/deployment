@@ -13,7 +13,7 @@ apt autoremove -y
 # Create a basic tree structure inside $YANG_RESOURCES directory
 mkdir -p $YANG_RESOURCES
 cd $YANG_RESOURCES
-directories=("all_modules" "cache/redis-json" "commit_dir" "conf" "elasticsearch" "ietf" "ietf-exceptions" "logs/uwsgi" "logs/elasticsearch" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
+directories=("all_modules" "cache/redis-json" "commit_dir" "conf" "opensearch" "ietf" "ietf-exceptions" "logs/uwsgi" "logs/opensearch" "nginx" "nonietf/openconfig" "nonietf/yangmodels" "redis" "tmp" "ytrees")
 for directory in ${directories[@]}; do
     mkdir -p $directory -m 755
 done
@@ -31,7 +31,7 @@ git clone --recurse-submodules https://github.com/openconfig/public.git
 cd $YANG_RESOURCES/nonietf/yangmodels
 git clone --recurse-submodules https://github.com/YangModels/yang.git
 
-# yang-catalog@2018-04-03 module needs to be indexed to the Elasticsearch
+# yang-catalog@2018-04-03 module needs to be indexed to OpenSearch
 cd $YANG_RESOURCES
 touch yang2_repo_cache.dat
 echo "{\"yang-catalog@2018-04-03/ietf\": \"/var/yang/all_modules/yang-catalog@2018-04-03.yang\"}" >yang2_repo_cache.dat

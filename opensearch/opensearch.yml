@@ -1,15 +1,3 @@
-# ======================== Elasticsearch Configuration =========================
-#
-# NOTE: Elasticsearch comes with reasonable defaults for most settings.
-#       Before you set out to tweak and tune the configuration, make sure you
-#       understand what are you trying to accomplish and the consequences.
-#
-# The primary way of configuring a node is via this file. This template lists
-# the most important settings you may want to configure for a production cluster.
-#
-# Please consult the documentation for further information on configuration options:
-# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
-#
 # ---------------------------------- Cluster -----------------------------------
 #
 # Use a descriptive name for your cluster:
@@ -20,7 +8,7 @@ cluster.name: yangcatalog
 #
 # Use a descriptive name for the node:
 #
-node.name: elasticsearch
+node.name: opensearch
 #
 # Add custom attributes to the node:
 #
@@ -30,15 +18,15 @@ node.name: elasticsearch
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-path.data: /var/lib/elasticsearch
+path.data: /var/lib/opensearch
 #
 # Path to log files:
 #
-path.logs: /var/log/elasticsearch
+path.logs: /var/log/opensearch
 #
 # Path to snapshots
 #
-path.repo: /var/lib/elasticsearch/backup
+path.repo: /var/lib/opensearch/backup
 #
 # ----------------------------------- Memory -----------------------------------
 #
@@ -50,13 +38,15 @@ path.repo: /var/lib/elasticsearch/backup
 # on the system and that the owner of the process is allowed to use this
 # limit.
 #
-# Elasticsearch performs poorly when the system is swapping the memory.
+# Opensearch performs poorly when the system is swapping the memory.
 #
 # ---------------------------------- Network -----------------------------------
 #
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 network.host: 0.0.0.0
+network.bind_host: 0.0.0.0
+http.host: 0.0.0.0
 #
 # Set a custom port for HTTP:
 #
@@ -69,13 +59,13 @@ http.port: 9200
 # Pass an initial list of hosts to perform discovery when this node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-# discovery.seed_hosts: ["elasticsearch", "elasticsearch"]
+# discovery.seed_hosts: ["opensearch", "opensearch"]
 #
 # Bootstrap the cluster using an initial set of master-eligible nodes:
 #
-# cluster.initial_master_nodes: ["elasticsearch"]
+# cluster.initial_master_nodes: ["opensearch"]
 #
-# Specifies whether Elasticsearch should form a 'multiple-node' or 'single-node' cluster. 
+# Specifies whether OpenSearch should form a 'multiple-node' or 'single-node' cluster. 
 # Default is set to 'multi-node'.
 #
 discovery.type: single-node
@@ -95,3 +85,6 @@ discovery.type: single-node
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+
+plugins.security.disabled: true
+

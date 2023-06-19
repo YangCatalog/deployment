@@ -52,7 +52,7 @@ services:
     networks:
       - confd
       - backend
-      - elasticsearch
+      - opensearch
       - rabbitmq
       - frontend
       - redis
@@ -107,7 +107,7 @@ services:
     networks:
       - confd
       - backend
-      - elasticsearch
+      - opensearch
       - rabbitmq
       - frontend
       - redis
@@ -221,14 +221,14 @@ services:
       retries: 5
     restart: always
 
-  elasticsearch:
-    container_name: yc-elasticsearch
+  opensearch:
+    container_name: yc-opensearch
     build:
-      context: elasticsearch
+      context: opensearch
       dockerfile: Dockerfile
       args:
-        - ELASTICSEARCH_ID=${ELASTICSEARCH_ID}
-        - ELASTICSEARCH_GID=${ELASTICSEARCH_GID}
+        - OPENSEARCH_ID=${OPENSEARCH_ID}
+        - OPENSEARCH_GID=${OPENSEARCH_GID}
     environment:
       - bootstrap.memory_lock=true
     ulimits:
@@ -236,21 +236,21 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ${ELASTICSEARCH_LOG}:/var/log/elasticsearch
-      - ${ELASTICSEARCH_DATA}:/var/lib/elasticsearch
+      - ${OPENSEARCH_LOG}:/var/log/opensearch
+      - ${OPENSEARCH_DATA}:/var/lib/opensearch
     networks:
-      - elasticsearch
+      - opensearch
     restart: always
-
-  #  kibana:
-  #     container_name: yc-kibana
-  #     depends_on:
-  #       - elasticsearch
-  #     image: kibana:7.10.1
-  #     ports:
-  #       - '5601:5601'
-  #     networks:
-  #       - elasticsearch
+  
+#  kibana:
+#     container_name: yc-kibana
+#     depends_on:
+#       - opensearch
+#     image: kibana:7.10.1
+#     ports:
+#       - '5601:5601'
+#     networks:
+#       - opensearch
 
   # matomo:
   #   container_name: yc-matomo
@@ -380,7 +380,7 @@ networks:
     driver: bridge
   backend:
     driver: bridge
-  elasticsearch:
+  opensearch:
     driver: bridge
   rabbitmq:
     driver: bridge
