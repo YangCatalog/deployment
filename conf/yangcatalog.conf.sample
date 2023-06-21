@@ -23,10 +23,10 @@
 
 [DB-Section]
 
-; for access to Elasticsearch database used by all tools
-es-host=yc-elasticsearch
-es-port=9200
-es-aws=False
+; for access to OpenSearch database used by all tools
+opensearch-host=yc-opensearch
+opensearch-port=9200
+opensearch-aws=False
 
 ; for access to Redis database used by all tools
 redis-host=yc-redis
@@ -50,8 +50,8 @@ webex-access-token=@...@
 rabbitmq-password=rabbitmq
 ; credentials to ConfD
 confd-credentials="admin admin"
-; password for elasticsearch
-elk-secret="admin admin"
+; password for opensearch
+opensearch-secret="admin admin"
 ; oidc client ID
 client-id=@...@
 ; oidc client secret
@@ -61,14 +61,14 @@ client-secret=@...@
 
 ; for debug purposes
 debug=True
-; whether to call ES indexing or not
+; whether to call OpenSearch indexing or not
 notify-index=True
 ; username of repo owner
 repository-username=yang-catalog
-; name of the Elasticsearch repostiory to save snapshots
-elk-repo-name=yangcatalog_snapshots
-; Elasticsearch request timeout value (in seconds)
-elk-request-timeout=60
+; name of the OpenSearch repostiory to save snapshots
+opensearch-repo-name=yangcatalog_snapshots
+; OpenSearch request timeout value (in seconds)
+opensearch-request-timeout=60
 ; whether we run API under uwsgi
 uwsgi=True
 ; repo config name
