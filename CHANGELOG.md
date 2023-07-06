@@ -1,5 +1,9 @@
 ## Deployment Release Notes
 
+* ##### v5.13.0 - 2023-07-06
+
+  * Replaced elasticsearch with opensearch [#193](https://github.com/YangCatalog/deployment/issues/193)
+
 * ##### v5.12.0 - 2023-05-31
 
   * Replaced api-receiver with celery-worker [#195](https://github.com/YangCatalog/deployment/issues/195)
