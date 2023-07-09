@@ -4,23 +4,23 @@
 
 This repository contains configurations and scripts that tie all the individual components of YANG Catalog together. The components themselves are included as git submodules.
 
-You can find official YANG Catalog website [here](https://yangcatalog.org).
+You can find the official YANG Catalog website [here](https://yangcatalog.org).
 
-For accessing YANG Catalog's API directly, you can use [ycclient](https://github.com/earies/ycclient).
+For accessing some endpoints of YANG Catalog's API directly, you can use [ycclient](https://github.com/earies/ycclient).
 
 # Deployment
-Main repository to start up all the pieces of YANG Catalog
+The main repository to start up all the pieces of YANG Catalog
 
 ## Requirements
 
 * Docker, including docker-compose
 * IPv4 Internet connectivity (Docker Hub doesn't do IPv6 yet)
 * Sufficient space for container images (approx 10 GB)
-* Sufficient space for all the modules data
+* Sufficient space for all the module data
   - approx 45 GB for local development
   - up to 250 GB for production
 * Sufficient RAM
-  - approx 8 GB for local development
+  - approx 10 GB for local development
   - up to 24 GB for production
 
 ### External requirements
@@ -30,6 +30,7 @@ distributed by third parties, e.g. via DockerHub
 
 * OpenSearch
 * RabbitMQ
+* Redis
 * NGINX (as the base image of the frontend container, which includes static content)
 
 ## Basic Usage
@@ -43,50 +44,37 @@ docker-compose build # not strictly necessary
 docker-compose up
 ```
 
-The `docker-compose build` should build container images for the
+The `docker-compose build` command will build container images for the
 various components of the YANG Catalog.
 
 The `docker-compose up` will start containers from these images, as
-well as from some third-party container images (e.g. RabbitMQ,
-Redis) and combine them into a functional local deployment
-of the YANG Catalog, which should be accessible on
+well as the neccessary third-party images and combine them into a functional local deployment
+of the YANG Catalog, which should be accessible at
 http://localhost
 
-Make sure that you will start the OpenSearch Dockerfile as well
-since in production environment this is not used and an AWS OpenSearch
-instance is used instead
-
-## Status
+All containers have access to a shared volume at `/var/yang`, which is also mapped to the same directory on the host.
 
 ### OpenSearch
 
-OpenSearch instance can be started in two different ways. Locally
-you can set "os-aws" in your yangcatalog.conf file to `False` and start
- OpenSearch manually using `docker run` command. Also, os-host
-has to be set to the OpenSearch's instance IP (k8s setup) or
-`yc-opensearch` (docker-compose setup) and port to `9200`. We use AWS's OpenSearch service in production.
-This instance runs on different server and is connected to the YANG Catalog server. For this the "os-aws" option needs to be
-set to `True` and os-host set to whatever URL AWS provides for OpenSearch.
-In AWS make sure that this URL is not opened for internet but is opened for
-the other instance that is running yangcatalog.org
+For development, OpenSearch is run directly in the local environment as a docker container.
+The `opensearch-aws` option needs to be set to `False`, `opensearch-host`,
+which is the hostname containers will use to try and connect to OpenSearch,
+needs to be set to `yc-opensearch`, and `opensearch-port` to `9200`.
+
+In the production environment, we use [Amazon's OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html).
+Here `opensearch-aws` needs to be set to `True`, `opensearch-host` and `opensearch-port` must be configured
+according to the information provided in the AWS console.
+
 
 ### Logging
 
-All the logging is done to different files that should be located in
-one directory which is specified in yangcatalog.conf config file.
-Normally you would find this in /var/yang/logs. This directory is
-a volume shared with host system. All the logs can be checked and
-filtered using YANG Catalog admin UI if you have access to that.
+All logs are stored in a directory configured in yangcatalog.conf, by default `/var/yang/logs`.
+Logs can also be read and filtered through YANG Catalog's admin UI.
 
 ### ConfD
 
-The YANG Catalog requires ConfD, which is not open source and cannot
-be included here in the same way as the other components. In order
-for YANG Catalog to be working you need to acquire confd since this
-is a beating heart of YANG Catalog and contains all the metadata
-about each module. Confd binary is copied to resources and each
-docker service that will need this will install it in its own
-container.
+YANG Catalog requires ConfD, which is proprietary software and can not be freely distributed.
+ConfD can be aquired from [Tail-F Systems](https://www.tail-f.com).
 
 ### Kubernetes support
 
@@ -101,13 +89,11 @@ under the assumption that they _will_ run as root.
 
 ## Structure of the Repository
 
-Various open-source components of the YANG Catalog are imported as
+Various open-source components of YANG Catalog are imported as
 submodules:
 
-* [backend](https://github.com/YangCatalog/backend) - the YANG Catalog
+* [backend](https://github.com/YangCatalog/backend) - YANG Catalog
   API server
-* [search](https://github.com/YangCatalog/search) - the YANG search
-  Web application - repo DISCONTINUED
 * [frontend](https://github.com/YangCatalog/frontend) - Angular applications for 
   YANG Catalog frontend and admin UI together with some static content
 * [yangre-gui](https://github.com/plewyllie/yangre-gui) - Peter
@@ -118,32 +104,31 @@ submodules:
   to analyze and validate YANG files
 
 `docker-compose.yml` is the actual "orchestration" that attempts to
-describe a complete (modulo ConfD) deployment of the YANG Catalog.
+describe a complete (modulo ConfD) deployment of YANG Catalog.
 
 The `conf` directory contains a few files that are passed to the
 containers using bind mounts.
 
 ### .env variables
 
-Some of the following variables if changed here has to corespond with yangcatalog.conf file
+Some of the variables here have to correspond with the yancatalog.conf file.
 
-`COMPOSE_PROJECT_NAME=yc` - When running a docker-compose up command it will create
-a docker containers that have some specific name (like backend, frontend...).
-This will add a prefix to these names so in this example we would have yc-backend, yc-frontend...
+`COMPOSE_PROJECT_NAME=yc` - The prefix docker-compose will add to container names bellonging to this project.
+For example, `yc` will result in containers names `yc-backend`, `yc-frontend`, etc..
 
 `REDIS_VOLUME` - Directory where redis will store its `dump.rdb` file.
 
 `RABBITMQ_USER=<RABBITMQ_USER>` - rabbitmq username.
 
-`RABBITMQ_PASSWORD=<RABBITMQ PASSWORD>`  - rabbitmq username.
+`RABBITMQ_PASSWORD=<RABBITMQ PASSWORD>`  - rabbitmq password.
 
 `OPENSEARCH_DATA=/var/lib/opensearch` - If local OpenSearch is used this
 variable is used to specify where OpenSearch indexed data should be saved
 
-`OPENSEARCH_LOG=/var/log/opensearch`  - If local OpenSearch is used this
+`OPENSEARCH_LOG=/var/logs/opensearch`  - If local OpenSearch is used this
 variable is used to specify where OpenSearch logs should be saved
 
-`NGINX_LOG=/var/log/nginx` - Where do we save nginx logs
+`NGINX_LOG=/var/logs/nginx` - Where do we save nginx logs
 
 `KEY_FILE=/home/yang/deployment/resources/yangcatalog.org.key` - certificate key file for HTTPS protocol.
 If None exists just use any path
@@ -154,7 +139,7 @@ If None exists just use any path
 `CA_CERT_FILE=/home/yang/deployment/resources/yangcatalog.org.crt` - ca_certificate file for HTTPS protocol.
 If None exists just use any path
 
-`OPENSEARCH_ID=1001` - If local OpenSearch is used this
+`OPENSEARCH_ID=1016` - If local OpenSearch is used this
 variable is used to set permissions to specific user ID. It`s safe to use same ID as YANG_ID
 
 `OPENSEARCH_GID=1001` - If local OpenSearch is used this
@@ -162,9 +147,9 @@ variable is used to set permissions to specific group ID. It`s safe to use same 
 
 `YANG_ID=1016` - ID created for yang user
 
-`YANG_GID=1016` - GID created for yang user
+`YANG_GID=1001` - GID created for yang user
 
-`YANG_RESOURCES=/var/yang` - specify path where all the yangcatalog data will be saved.
+`YANG_RESOURCES=/var/yang` - specify path where all shared YANG Catalog data will be saved.
 
 `NGINX_FILES=yangcatalog-nginx*.conf` - NGINX config files used for NGINX. There is testing config file
 or production one with HTTPS. Read [documentation](./setup/README.md) file to find out how to use this variable
