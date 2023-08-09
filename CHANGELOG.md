@@ -1,5 +1,9 @@
 ## Deployment Release Notes
 
+* ##### v5.14.0 - 2023-08-09
+
+  * Corrected errors in documentation [#204](https://github.com/YangCatalog/deployment/pull/204)
+
 * ##### v5.13.0 - 2023-07-06
 
   * Replaced elasticsearch with opensearch [#193](https://github.com/YangCatalog/deployment/issues/193)
