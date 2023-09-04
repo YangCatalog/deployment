@@ -11,9 +11,12 @@ COPY thesaurus.conf /usr/share/opensearch/config/
 COPY jvm.options /usr/share/opensearch/config/
 
 USER root:root
-RUN usermod -u ${OPENSEARCH_ID} opensearch
-RUN groupmod -g ${OPENSEARCH_GID} opensearch
-RUN chown -R opensearch:root /usr/share/opensearch/config/
+RUN usermod -u ${OPENSEARCH_ID} opensearch \
+    && groupmod -g ${OPENSEARCH_GID} opensearch \
+    && chown ${OPENSEARCH_ID}:${OPENSEARCH_GID} /usr/share/opensearch/config \
+    && chown ${OPENSEARCH_ID}:${OPENSEARCH_GID} /usr/share/opensearch/opensearch-docker-entrypoint.sh \
+    && chmod +x /usr/share/opensearch/opensearch-docker-entrypoint.sh
+
 # Support arbitrary UIDs as per OpenShift guidelines
 USER ${OPENSEARCH_ID}:${OPENSEARCH_GID}
 
