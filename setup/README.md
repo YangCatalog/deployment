@@ -20,7 +20,7 @@ IDs and paths can be changed according to your directory tree structure.
 4. Copy following files/directories from the ```IETF``` server (or just ask for them from another YANG Catalog developer):<br>
    - ```/home/yang/deployment/resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin``` into the [deployment/resources](../resources) directory.<br>
    **NOTE: confd installer needs to be an executable file so run ```$ chmod +x resources/confd-<CONFD_VERSION>.linux.x86_64.installer.bin```**
-   - ```/home/yang/deployment/yangcatalog-ui/tmp``` into the [deployment/frontend/yangcatalog-ui](../frontend/yangcatalog-ui) directory.
+   - ```/home/yang/deployment/yangcatalog-ui/tmp/pt-topology-0.1.0.tgz``` into the ```deployment/frontend/yangcatalog-ui/tmp``` directory.
 
 5. Download yumapro-client for the latest ubuntu version (registration needed) from https://www.yumaworks.com/support/download-yumapro-client/yumapro-client-downloads/ into the [deployment/resources](../resources) directory.
 <br>**NOTE: Alternatively, you can ask another developer to provide this file.**
