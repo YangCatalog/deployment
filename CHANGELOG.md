@@ -1,5 +1,10 @@
 ## Deployment Release Notes
 
+* ##### v5.15.0 - 2023-10-04
+
+  * changed Dockerfile for Opensearch [#205](https://github.com/YangCatalog/deployment/pull/205)
+  * yanglint updated to 2.1.111
+
 * ##### v5.14.0 - 2023-08-09
 
   * Corrected errors in documentation [#204](https://github.com/YangCatalog/deployment/pull/204)
