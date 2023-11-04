@@ -34,28 +34,28 @@ redis-port=6379
 
 [Secrets-Section]
 
-; Django secret key
-yangvalidator-secret-key="@...@"
+; Django SECRET_KEY env variable value
+yangvalidator-secret-key=DJANG0S3CR3T
 ; Flask secret key
-flask-secret-key=@...@
+flask-secret-key=FLASKS3CR3T
 ; yang-catalog admin Github user token for automatic pushing
-admin-token=@...@
+admin-token=ADM1NG1THUBT0K3N
 ; yang-catalog Github user token for automatic pushing
-yang-catalog-token=@...@
+yang-catalog-token=G1THUBT0K3N
 ; Github secret key used to signing
-secret-key=@...@
+secret-key=S3CR3T
 ; token for Webex Teams
-webex-access-token=@...@
+webex-access-token=W3B3XT0K3N
 ; secret for RabbitMQ
 rabbitmq-password=rabbitmq
 ; credentials to ConfD
 confd-credentials="admin admin"
 ; password for opensearch
 opensearch-secret="admin admin"
-; oidc client ID
-client-id=@...@
-; oidc client secret
-client-secret=@...@
+; OIDC client ID
+client-id=123456789
+; OIDC client secret
+client-secret=01S3CR3T
 
 [General-Section]
 

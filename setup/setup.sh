@@ -47,13 +47,14 @@ curl -X GET https://raw.githubusercontent.com/YangModels/yang/main/experimental/
 # Store file to the cache/redis-json to be able to load it at the start of yc-api-recovery
 cd $cur_dir
 cp yang-catalog.json $YANG_RESOURCES/cache/redis-json/$(date +"%Y-%m-%d_00:00:00-UTC.json")
-
+cp ../conf/redis_databases.json $YANG_RESOURCES/redis/redis_databases.json
+cp ../conf/yangcatalog.conf.sample $YANG_RESOURCES/conf/yangcatalog.conf
 # Add yang user -> whole $YANG_RESOURCES tree structure needs to belong to user 'yang'
 groupadd -g 1001 -r yang
 useradd -r -g yang -u 1016 yang
 chown -R yang:yang $YANG_RESOURCES
 
-# Pull RFCs and Draft files needed for sdo-analysis (this might take some time)
+# Pull RFCs and Draft files needed for module-compilation (this might take some time)
 cd $YANG_RESOURCES/ietf
 rsync -avz --include 'draft-*.txt' --include 'draft-*.xml' --exclude '*' --delete rsync.ietf.org::internet-drafts my-id-mirror
 # rsync -avz --include 'draft-*.txt' --include 'draft-*.xml' --exclude '*' --delete rsync.ietf.org::id-archive my-id-archive-mirror

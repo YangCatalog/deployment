@@ -48,7 +48,7 @@ The `docker-compose build` command will build container images for the
 various components of the YANG Catalog.
 
 The `docker-compose up` will start containers from these images, as
-well as the neccessary third-party images and combine them into a functional local deployment
+well as the necessary third-party images and combine them into a functional local deployment
 of the YANG Catalog, which should be accessible at
 http://localhost
 
@@ -111,9 +111,9 @@ containers using bind mounts.
 
 ### .env variables
 
-Some of the variables here have to correspond with the yancatalog.conf file.
+Some of the variables here have to correspond with the yangcatalog.conf file.
 
-`COMPOSE_PROJECT_NAME=yc` - The prefix docker-compose will add to container names bellonging to this project.
+`COMPOSE_PROJECT_NAME=yc` - The prefix docker-compose will add to container names belonging to this project.
 For example, `yc` will result in containers names `yc-backend`, `yc-frontend`, etc..
 
 `REDIS_VOLUME` - Directory where redis will store its `dump.rdb` file.
@@ -151,11 +151,11 @@ variable is used to set permissions to specific group ID. It`s safe to use same 
 
 `YANG_RESOURCES=/var/yang` - specify path where all shared YANG Catalog data will be saved.
 
-`NGINX_FILES=yangcatalog-nginx*.conf` - NGINX config files used for NGINX. There is testing config file
+`NGINX_FILES=nginx-testing.conf` - NGINX config files used for NGINX. There is testing config file
 or production one with HTTPS. Read [documentation](./setup/README.md) file to find out how to use this variable
 
 `GIT_USER_NAME=foo` - yangcatalog is pushing some data to GitHub repository, and it needs to
-set usename before any commit is done.
+set username before any commit is done.
 
 `GIT_USER_EMAIL=bar@foo.com` - yangcatalog is pushing some data to GitHub repository, and it needs to
 set email address before any commit is done.
@@ -163,14 +163,16 @@ set email address before any commit is done.
 `CRON_MAIL_TO=bar@foo.com` - comma separated list of emails which are used
 with cron jobs. If any cron job will fail it will send it to this comma separated list of email addresses.
 
-`YANGCATALOG_CONFIG_FILE` - Path to global config file used by all YANG Catalog components.
+`YANGCATALOG_CONFIG_PATH=/etc/yangcatalog/yangcatalog.conf` - Path to global config file used by all YANG Catalog components.
 
-`CONFD_VERSION` - Version of [ConfD](https://www.tail-f.com/management-agent/) to be used.
+`CONFD_VERSION=8.0` - Version of [ConfD](https://www.tail-f.com/management-agent/) to be used.
 
 `CONFD_PASSWORD` - Password for ConfD database.
 
 `CONFD_PASSWORD_HASH` - Hashed password for ConfD admin in format `$1$<salt>$<hash>` or `$0$<password>`.
 
-`CONFD_LOG` - Directory where ConfD will store log files.
+`CONFD_LOG=/var/yang/logs/confd` - Directory where ConfD will store log files.
 
-`YANGLINT_VERSION` - Version of [yanglint](https://github.com/CESNET/libyang) to be used.
+`YANGLINT_VERSION=v2.1.111` - Version of [yanglint](https://github.com/CESNET/libyang) to be used.
+
+`XYM_VERSION=0.7.0` - Version of [xym](https://github.com/xym-tool/xym) to be used.

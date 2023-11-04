@@ -3,7 +3,11 @@ This file describes all the needed steps to properly set up and configure the YA
 
 ## Set up the project for the first time
 
-1. Run [setup.sh](setup.sh) script as root to create the basic tree structure needed for running YANG Catalog using: ```$ /bin/bash setup.sh```
+1. Run [setup.sh](setup.sh) script as root from this directory to create the basic tree structure needed for running YANG Catalog using: 
+    ```sh
+    sudo su
+    /bin/bash setup.sh
+    ```
 
 2. Go to the [conf](../conf) directory and copy the [yangcatalog.conf.sample](../conf/yangcatalog.conf.sample) file into the same directory with the name ```yangcatalog.conf``` and then move it to the ```<YANG_RESOURCES>/conf``` directory.
 The simple command line command from the [deployment](..) directory for this step will be: ```$ cp conf/yangcatalog.conf.sample <YANG_RESOURCES>/yangcatalog.conf```.
@@ -32,7 +36,7 @@ IDs and paths can be changed according to your directory tree structure.
 <br>**NOTE: Do NOT run docker and docker-compose command as sudo, see this post-install notes: https://docs.docker.com/engine/install/linux-postinstall/**
 
 8. Set ```max_map_count``` kernel setting using ```$ sudo sysctl -w vm.max_map_count=262144``` because OpenSearch will fail otherwise.
-Containers share the same kernel as the host OS, so this needs to be done on host machine and not inside the docker container, this also needs to be done everytime host machine is restarted.
+Containers share the same kernel as the host OS, so this needs to be done on host machine and not inside the docker container, this also needs to be done every time host machine is restarted.
 
 9. Run the yangcatalog: ```$ docker-compose up -d```
 While loading all the applications some of them might fail and restart a couple of times - this is due to some of them being dependent on others.
