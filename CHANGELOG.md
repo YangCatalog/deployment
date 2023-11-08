@@ -1,5 +1,9 @@
 ## Deployment Release Notes
 
+* ##### v5.16.0 - 2023-11-08
+
+  * Improved projects setup process
+
 * ##### v5.15.0 - 2023-10-04
 
   * changed Dockerfile for Opensearch [#205](https://github.com/YangCatalog/deployment/pull/205)
