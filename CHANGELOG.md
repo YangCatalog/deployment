@@ -1,5 +1,13 @@
 ## Deployment Release Notes
 
+* ##### v5.17.0 - 2023-12-11
+
+  * No changes - released with other [deployment submodules](https://github.com/YangCatalog/deployment)
+
+* ##### v5.17.0 - 2023-12-11
+
+  * No changes - released with other [deployment submodules](https://github.com/YangCatalog/deployment)
+
 * ##### v5.16.0 - 2023-11-08
 
   * Improved projects setup process
