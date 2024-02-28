@@ -94,8 +94,7 @@ services:
     container_name: yc-celery-worker
     image: catalog_backend_api:latest
     restart: always
-    user: '${YANG_ID}:${YANG_GID}'
-    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; celery -A jobs.celery:celery_app worker -l INFO"
+    command: bash -c "chown -R yang:yang /var/run/yang; service postfix start; su yang -c 'celery -A jobs.celery:celery_app -P threads worker -l INFO'"
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
