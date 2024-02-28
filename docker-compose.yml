@@ -57,11 +57,6 @@ services:
       - frontend
       - redis
       - matomo
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8008/api/healthcheck"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
     restart: always
     depends_on:
       - confd
