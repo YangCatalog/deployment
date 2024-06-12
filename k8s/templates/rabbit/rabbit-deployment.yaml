@@ -18,6 +18,7 @@ spec:
     metadata:
       annotations:
         NAME: rabbitmq1
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         kompose.cmd: kompose convert -c
         kompose.version: 1.21.0 (992df58d8)
       labels:
