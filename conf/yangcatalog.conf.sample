@@ -202,6 +202,10 @@ ietf-archive-drafts=${ietf-directory}/my-id-archive-mirror
 ietf-rfcs=${ietf-directory}/rfc
 ; symlink to all important directories with SDO yang files
 modules-directory=${var}/yang/modules
+; modules of different organizations that are present in vendors directories and have some semantic changes
+vendors-changed-modules=${var}/vendors_changed_modules
+; directory of modules in normalized form
+normalized-modules=${var}/normalized_modules
 
 [Tool-Section]
 
