@@ -201,6 +201,9 @@ services:
         - CONFD_VERSION=${CONFD_VERSION}
         - YANGLINT_VERSION=${YANGLINT_VERSION}
         - XYM_VERSION=${XYM_VERSION}
+        - VALIDATOR_JDK_VERSION=${VALIDATOR_JDK_VERSION}
+        - MAVEN_VERSION=${MAVEN_VERSION}
+        - LYV_VERSION=${LYV_VERSION}
     volumes:
       - ${YANG_RESOURCES}/conf/yangcatalog.conf:/etc/yangcatalog/yangcatalog.conf:ro
       - ${YANG_RESOURCES}:/var/yang:rw
